@@ -7,7 +7,7 @@
     "frontendDistPaths" : ["css", "js", "images"]
   },
   "store": {
-    "rootPath": "/ext/wd4/storage/fotos/Bastelei",
+    "rootPath": "/ext/wd4/storage/fotos",
     "thumbnailPath": "/ext/wd4/storage/gallery"
   },
   "frontend": {
