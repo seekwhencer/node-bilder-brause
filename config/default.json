@@ -1,0 +1,16 @@
+{
+  "server": {
+    "host": "zentrale",
+    "port": 3050
+  },
+  "store": {
+    "rootPath": "/ext/wd4/storage/fotos/Bastelei",
+    "thumbnailPath": "/ext/wd4/storage/gallery"
+  },
+  "frontend": {
+    "staticsPath": "../../public",
+    "viewsPath": "./views",
+    "urlRoot": "/.",
+    "title": "Bilder"
+  }
+}
