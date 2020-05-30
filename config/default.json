@@ -2,7 +2,9 @@
   "server": {
     "host": "zentrale",
     "port": 3050,
-    "rootURLPath": "v1"
+    "rootURLPath": "v1",
+    "frontendPath" : "frontend",
+    "frontendDistPaths" : ["css", "js", "images"]
   },
   "store": {
     "rootPath": "/ext/wd4/storage/fotos/Bastelei",
