@@ -1,7 +1,8 @@
 {
   "server": {
     "host": "zentrale",
-    "port": 3050
+    "port": 3050,
+    "rootURLPath": "v1"
   },
   "store": {
     "rootPath": "/ext/wd4/storage/fotos/Bastelei",
