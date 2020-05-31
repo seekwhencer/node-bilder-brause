@@ -4,6 +4,7 @@ Image gallery for browsing image folder. Developed on a Raspberry Pi 4b
 
 ![alt text](../master/docs/storage-interior.jpg?raw=true "Storage Interior #1")
 
+
 ## Installation
 > prerequisites
 ```bash
@@ -31,10 +32,12 @@ cd node-bilder-brause
 npm install
 ```
 
+
 ## Run
 ```bash
 npm start
 ```
+
 
 ## Configuration
 The file is located in `config/default.json` and wired in the `package.json`
@@ -45,7 +48,8 @@ The file is located in `config/default.json` and wired in the `package.json`
 
 Change the `NODE_ENV` variable to use your customized configuration file.
 
-## the configuration file
+
+## The configuration file
 
 - **server.host**  
 The hostname or ip address of the host. Unused.  
@@ -101,3 +105,23 @@ Array with file extensions
 
 - **media.sizes**  
 Array with thumbnail definitions
+
+
+## Routes
+All routes, but not the frontend stuff, are api endpoints. Any endpoint sends `json` responses.
+
+- **the main entry route**  
+http://localhost:3050/v1/folder
+
+- **a folder**  
+http://localhost:3050/v1/folder/:foldername/:foldername
+
+- **an image**  
+http://localhost:3050/v1/image/:foldername/:foldername/:imagename.jpg
+
+- **an image with different resolution**  
+http://localhost:3050/v1/image/:foldername/:foldername/:imagename_sizename.jpg
+    > `sizename` is the `media.sizes[i].name`  
+
+
+...
