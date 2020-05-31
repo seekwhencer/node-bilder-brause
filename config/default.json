@@ -12,7 +12,9 @@
     },
     "store": {
         "rootPath": "/ext/wd4/storage/fotos",
-        "thumbnailPath": "/ext/wd4/storage/gallery"
+        "thumbnailPath": "/ext/wd4/storage/gallery",
+        "thumbnailPathSplitDigits": 3,
+        "thumbnailPathSplitCount": 3
     },
     "frontend": {
         "staticsPath": "../../public",
