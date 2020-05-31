@@ -1,16 +1,21 @@
-const
-    ConfigClass = require('./config.js'),
-    StyleLintPlugin = require('stylelint-webpack-plugin');
+import StyleLintPlugin from 'stylelint-webpack-plugin';
+import path from 'path';
 
-module.exports = class extends ConfigClass {
+export default class {
     constructor() {
-        super();
+        //
+        this.appPath = `${path.resolve(process.env.PWD)}/frontend`;
 
+        //
         this.config = {
+            entry: {
+                app: './frontend/src/app.js'
+            },
+            target: 'web',
             mode: 'development',
             output: {
                 filename: './js/[name].js',
-                path: `${this.appPath}/dist/dev`,
+                path: `${this.appPath}/frontend/dist`,
                 hotUpdateChunkFilename: `../../.hot/hot-update.js`,
                 hotUpdateMainFilename: `../../.hot/hot-update.json`
             },
@@ -47,7 +52,7 @@ module.exports = class extends ConfigClass {
                                 loader: 'file-loader',
                                 options: {
                                     name: '[name].css',
-                                    outputPath: '../../dist/dev/css/'
+                                    outputPath: '../../dist/css/'
                                 }
                             },
                             'extract-loader',
@@ -73,7 +78,7 @@ module.exports = class extends ConfigClass {
             ],
 
             devServer: {
-                contentBase: ['public', 'dist/dev'],
+                contentBase: ['public', 'frontend/dist'],
                 publicPath: '/',
                 compress: false,
                 host: '0.0.0.0',
@@ -92,6 +97,8 @@ module.exports = class extends ConfigClass {
                 watchContentBase: true
             }
         };
-        return this.mergeConfig();
-    };
-};
+
+        //
+        return this.config;
+    }
+}

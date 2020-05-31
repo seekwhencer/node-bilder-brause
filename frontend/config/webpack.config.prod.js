@@ -1,24 +1,28 @@
-const
-    fs = require('fs-extra'),
-    ConfigClass = require('./config.js'),
-    spawn = require('child_process').spawn,
-    Crypto = require('crypto');
+import path from "path";
+import Crypto from 'crypto';
+import {spawn} from 'child_process';
+import fs from 'fs-extra';
 
-module.exports = class extends ConfigClass {
+export default class {
     constructor() {
-        super();
+        //
+        this.appPath = `${path.resolve(process.env.PWD)}/frontend`;
 
+        //
         this.salt = 'rambazamba';
+
+        //
         this.hash = Crypto.createHash('md5').update(this.salt).digest("hex");
 
+        //
         this.config = {
             mode: 'production',
             entry: {
-                app: './src/app.js',
+                app: './frontend/src/app.js',
             },
             output: {
                 filename: './js/[name].js',
-                path: `${this.appPath}/dist/prod/`,
+                path: `${this.appPath}/dist`,
             },
 
             module: {
@@ -47,7 +51,7 @@ module.exports = class extends ConfigClass {
                                 loader: 'file-loader',
                                 options: {
                                     name: '[name].css',
-                                    outputPath: '../../dist/prod/css/'
+                                    outputPath: '../dist/css/'
                                 }
                             },
                             'extract-loader',
@@ -72,23 +76,25 @@ module.exports = class extends ConfigClass {
                 {
                     apply: (compiler) => {
                         compiler.hooks.afterEmit.tap('Complete', (compilation) => {
-                            fs.copySync(`${this.appPath}/public/`, `${this.appPath}/dist/prod`);
-                            fs.copySync(`${this.appPath}/dist/prod`, `${this.appPath}/docs`);
+                            fs.copySync(`${this.appPath}/../public/`, `${this.appPath}/dist`);
 
-                            sedReplace('/css', '/drone-boat-dashboard/css', `${this.appPath}/docs/css/app.css`);
-                            //sedReplace('/images', '/drone-boat-dashboard/images', `${this.appPath}/docs/css/app.css`);
-                            sedReplace('?hash', `?${this.hash}`, `${this.appPath}/docs/index.html`);
-                            sedReplace('debug: true', 'debug: false', `${this.appPath}/docs/index.html`);
+                            //sedReplace('/css', '/.../css', `${this.appPath}/docs/css/app.css`);
+                            //sedReplace('/images', '/.../images', `${this.appPath}/docs/css/app.css`);
+
+                            sedReplace('?hash', `?${this.hash}`, `${this.appPath}/dist/index.html`);
+                            sedReplace('debug: true', 'debug: false', `${this.appPath}/dist/index.html`);
                         });
                     }
                 }
             ]
         };
-        return this.mergeConfig();
-    };
-};
 
-const sedReplace = (replaceFrom, replaceTo, replaceFile) => {
+        //
+        return this.config;
+    }
+}
+
+const sedReplace = function (replaceFrom, replaceTo, replaceFile) {
     const replaceCommand = `s#${replaceFrom}#${replaceTo}#g`;
     const spawnOptions = [
         '-i',
