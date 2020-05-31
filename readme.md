@@ -1,6 +1,6 @@
 # node-bilder-brause
 
-Image gallery for browsing image folder. Developed a Raspberry Pi 4b
+Image gallery for browsing image folder. Developed on a Raspberry Pi 4b
 
 ![alt text](../master/docs/storage-interior.jpg?raw=true "Storage Interior #1")
 
