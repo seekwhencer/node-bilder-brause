@@ -13,6 +13,21 @@
     "dateformat": "^3.0.3",
     "express": "^4.16.2",
     "fs-extra": "^9.0.0",
-    "ramda": "^0.27.0"
+    "ramda": "^0.27.0",
+    "css-loader": "^3.4.0",
+    "es6-templates": "^0.2.3",
+    "eslint": "^6.8.0",
+    "eslint-loader": "^3.0.3",
+    "extract-loader": "^3.1.0",
+    "file-loader": "^4.3.0",
+    "node-sass": "^4.13.0",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.1.1",
+    "stylelint": "^12.0.0",
+    "stylelint-webpack-plugin": "^1.1.2",
+    "template-literals-loader": "^1.1.2",
+    "webpack": "^4.41.4",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
   }
 }
