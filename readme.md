@@ -73,11 +73,11 @@ How much digits (used from the file or folder hash) are used for one folder.
 
 - **store.thumbnailPathSplitCount**  
 How much subfolder should be created.  
-    > for example: the hash like `a5fb152dd38c95fd2a155830d5f2705a` generates the subfolder:
-    `{store.thumbnailPath}/a5f/b15/2dd` and place the files in it:
-    `{store.thumbnailPath}/a5f/b15/2dd/a5fb152dd38c95fd2a155830d5f2705a.jpg`
+    > for example: the hash like `a5fb152dd38c95fd2a155830d5f2705a` generates the subfolder:  
+    `{store.thumbnailPath}/a5f/b15/2dd` and place the files in it:  
+    `{store.thumbnailPath}/a5f/b15/2dd/a5fb152dd38c95fd2a155830d5f2705a.jpg`  
     here three subfolder with three digits - thats all !
-                                                                                >
+
 - **frontend.staticsPath**  
 This folder contains all the frontend stuff who comes via webpack.
 
