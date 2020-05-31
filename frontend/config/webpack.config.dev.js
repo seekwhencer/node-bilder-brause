@@ -15,7 +15,7 @@ export default class {
             mode: 'development',
             output: {
                 filename: './js/[name].js',
-                path: `${this.appPath}/frontend/dist`,
+                path: `${this.appPath}/dist`,
                 hotUpdateChunkFilename: `../../.hot/hot-update.js`,
                 hotUpdateMainFilename: `../../.hot/hot-update.json`
             },
@@ -52,7 +52,7 @@ export default class {
                                 loader: 'file-loader',
                                 options: {
                                     name: '[name].css',
-                                    outputPath: '../../dist/css/'
+                                    outputPath: '../dist/css/'
                                 }
                             },
                             'extract-loader',
