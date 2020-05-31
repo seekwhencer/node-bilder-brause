@@ -108,19 +108,19 @@ Array with thumbnail definitions
 
 
 ## Routes
-All routes, but not the frontend stuff, are api endpoints. Any endpoint sends `json` responses.
+All routes, but not the frontend stuff, are api endpoints. Any endpoint sends a `json` response.
 
 - **the main entry route**  
-http://localhost:3050/v1/folder
+http://localhost:3050 **/v1/folder**
 
 - **a folder**  
-http://localhost:3050/v1/folder/:foldername/:foldername
+http://localhost:3050/v1/folder **/:foldername/:foldername**  
 
 - **an image**  
-http://localhost:3050/v1/image/:foldername/:foldername/:imagename.jpg
+http://localhost:3050/v1/image/:foldername/:foldername **/:imagename.jpg**
 
 - **an image with different resolution**  
-http://localhost:3050/v1/image/:foldername/:foldername/:imagename_sizename.jpg
+http://localhost:3050/v1/image/:foldername/:foldername **/:imagename_sizename.jpg**
     > `sizename` is the `media.sizes[i].name`  
 
 

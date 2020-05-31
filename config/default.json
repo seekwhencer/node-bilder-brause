@@ -11,6 +11,7 @@
         ]
     },
     "store": {
+        "loadTreeOnStartup" : false,
         "rootPath": "/ext/wd4/storage/fotos",
         "thumbnailPath": "/ext/wd4/storage/gallery",
         "thumbnailPathSplitDigits": 3,
