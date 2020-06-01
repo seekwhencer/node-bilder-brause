@@ -13,6 +13,7 @@ export default class {
             },
             target: 'web',
             mode: 'development',
+            devtool: 'inline-source-map',
             output: {
                 filename: './js/[name].js',
                 path: `${this.appPath}/dist`,

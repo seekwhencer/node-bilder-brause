@@ -2,6 +2,7 @@ import path from "path";
 import Crypto from 'crypto';
 import {spawn} from 'child_process';
 import fs from 'fs-extra';
+import TerserPlugin from 'terser-webpack-plugin';
 
 export default class {
     constructor() {
@@ -21,8 +22,26 @@ export default class {
                 app: './frontend/src/app.js',
             },
             output: {
-                filename: './js/[name].js',
+                filename: './js/app.min.js',
                 path: `${this.appPath}/dist`,
+            },
+
+            optimization: {
+                minimize: true,
+                minimizer: [
+                    new TerserPlugin({
+                        cache: false,
+                        parallel: true,
+                        sourceMap: false,
+                        extractComments: false,
+                        terserOptions: {
+                            mangle: true,
+                            compress: true,
+                            comments: false
+                            // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+                        }
+                    }),
+                ],
             },
 
             module: {
@@ -50,7 +69,7 @@ export default class {
                             {
                                 loader: 'file-loader',
                                 options: {
-                                    name: '[name].css',
+                                    name: '[name].min.css',
                                     outputPath: '../dist/css/'
                                 }
                             },
