@@ -124,4 +124,29 @@ http://localhost:3050/v1/image/:foldername/:foldername **/:imagename_sizename.jp
     > `sizename` is the `media.sizes[i].name`  
 
 
-...
+## Development
+There are two things:
+
+- the server app
+- the frontend app
+
+#### Server app
+
+- located in the main folder
+- written in ES6
+- without database
+- aggregate file system, nested
+- api
+- generates thumbnails with imagemagick
+- runs on a Raspberry Pi (4)
+- read exif data from images
+
+#### Frontend app
+
+- located in the `frontend` folder
+- written in ES6, class pattern ;)
+- using ES6 webpack configs (webpack & dev server as node app)
+- sass
+- js template literals (the purest way for templating)
+- eslint & stylelint in the dev build pipeline
+- no babel (the app needs the newest browser)
