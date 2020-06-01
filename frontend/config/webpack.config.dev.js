@@ -95,7 +95,11 @@ export default class {
                 watchOptions: {
                     poll: true
                 },
-                watchContentBase: true
+                watchContentBase: true,
+                proxy: {
+                    context: () => true,
+                    target: 'http://zentrale:3050'
+                }
             }
         };
 

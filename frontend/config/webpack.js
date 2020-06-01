@@ -11,7 +11,7 @@ const config = new Configs[env]();
 
 if (env === 'dev') {
     const server = new WebpackDevServer(webpack(config), config.devServer);
-    server.listen(config.devServer.port, 'localhost', err => {
+    server.listen(config.devServer.port,  config.devServer.host, err => {
         err ? console.log(err) : null;
         console.log('WebpackDevServer listening at:', config.devServer.host, ':', config.devServer.port);
     });

@@ -100,6 +100,8 @@ export default class {
                             //sedReplace('/css', '/.../css', `${this.appPath}/docs/css/app.css`);
                             //sedReplace('/images', '/.../images', `${this.appPath}/docs/css/app.css`);
 
+                            sedReplace('.js', `.min.js`, `${this.appPath}/dist/index.html`);
+                            sedReplace('.css', `.min.css`, `${this.appPath}/dist/index.html`);
                             sedReplace('?hash', `?${this.hash}`, `${this.appPath}/dist/index.html`);
                             sedReplace('debug: true', 'debug: false', `${this.appPath}/dist/index.html`);
                         });
