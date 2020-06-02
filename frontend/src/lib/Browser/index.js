@@ -1,5 +1,4 @@
 import BrowserTemplate from './Templates/Browser.html';
-
 import Folder from './Folder.js';
 
 export default class Browser extends NBBMODULECLASS {
@@ -29,11 +28,11 @@ export default class Browser extends NBBMODULECLASS {
 
     getLocationHash() {
         const locationURL = new URL(document.location);
-        this.locationHash = locationURL.hash.replace(/#/,'');
+        this.locationHash = locationURL.hash.replace(/#/, '');
         console.log(this.label, 'GOT LOCATION HASH', this.locationHash, this.locationExtracted);
     }
 
-    setLocationHash(path){
+    setLocationHash(path) {
         window.location.hash = `#${path}`;
     }
 

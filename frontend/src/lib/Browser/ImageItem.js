@@ -8,7 +8,7 @@ export default class ImageItem extends NBBMODULECLASS {
             this.options = options;
 
             this.thumbnailSizeKey = 'a';
-            this.imageUrl = `${this.parent.urlImageBase}/${this.options.pathExtracted}`;
+            this.imageDataUrl = `${this.parent.urlImageBase}/${this.options.pathExtracted}`;
             this.thumbnailUrl = `${this.parent.urlMediaBase}/${this.thumbnailSizeKey}/${this.options.hash}.jpg`;
 
             this.target = this.toDOM(ImageItemTemplate({
