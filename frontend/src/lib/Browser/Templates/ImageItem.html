@@ -2,8 +2,8 @@
     <div class="nbb-folder__image-item__name">${name}</div>
     <div class="nbb-folder__image-item__image">
         <picture>
-            <source srcset="${thumbnailUrl}" media="(min-width: 600px)">
-            <img src="${thumbnailUrl}">
+            ${thumbnails.map(t => `<source srcset="${t.url}" media="${t.media}">`).join('')}
+            <img src="">
         </picture>
     </div>
 </div>
