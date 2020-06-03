@@ -39,7 +39,7 @@ export default class ImageItem extends NBBMODULECLASS {
         this.thumbnails = [];
         ThumbnailSizes.forEach(s => {
             this.thumbnails.push({
-                url: `${this.parent.urlMediaBase}/${s.name}/${this.options.pathExtracted}`,
+                url: encodeURI(`${this.parent.urlMediaBase}/${s.name}/${this.options.pathExtracted}`),
                 media: s.media
             });
         });
