@@ -35,7 +35,12 @@ export default class Folder extends NBBMODULECLASS {
 
     get() {
         let urlPath = this.parent.locationExtracted.join('/');
+
+        // @TODO bug some folders where detected as file with extension....
         const extension = (this.parent.locationExtracted[this.parent.locationExtracted.length - 1].match(/\.([^.]*?)(?=\?|#|$)/) || [])[1];
+
+        console.log('!!! WTF >', extension);
+
         let url;
 
         if (!extension) { // if it is no file
@@ -81,17 +86,21 @@ export default class Folder extends NBBMODULECLASS {
         console.log(this.label, 'FILES', images.length);
 
         // first the folders
+        this.folders = [];
         if (folders.length > 0)
             folders.forEach(folderData => {
                 const folderItem = new FolderItem(this, folderData);
                 this.items.push(folderItem);
+                this.folders.push(folderItem);
             });
 
         // second the files
+        this.images = [];
         if (images.length > 0)
             images.forEach(fileData => {
                 const imageItem = new ImageItem(this, fileData);
                 this.items.push(imageItem);
+                this.images.push(imageItem);
             });
     }
 

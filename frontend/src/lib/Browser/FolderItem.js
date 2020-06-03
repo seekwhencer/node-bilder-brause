@@ -23,6 +23,6 @@ export default class FolderItem extends NBBMODULECLASS {
     }
 
     select(e) {
-        this.parent.parent.setLocationHash(this.options.pathExtracted)
+        this.parent.parent.setLocationHash(encodeURI(this.options.pathExtracted))
     }
 }
