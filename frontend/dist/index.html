@@ -11,15 +11,24 @@
 <body>
 <script src=.min.js/app.min.js?f7ce6b522c950fece8712735c05e910f"></script>
 <script type="module">
-    const options = {
+
+    // set the options to global, to enable debugging
+    // use const instead of window to turn console.log() off
+    // or set the global window.NBBOPTIONS.debug to false
+    window.NBBOPTIONS = {
         debug: false,
-        target: document.querySelector('body')
+        target: document.querySelector('body'),
+        urlFolderBase : `http://zentrale:3050/v1/folder`,
+        urlImageBase : `http://zentrale:3050/v1/image`,
+        urlMediaBase : `http://zentrale:3050/v1/media`,
     };
 
-    new NBB(options).then(nbb => {
+    // create the brause and run it
+    new NBB(NBBOPTIONS).then(nbb => {
         window.NBB = nbb;
         console.log('>>> ZACK FEDDICH. node-bilder-brause READY');
     });
+
 </script>
 </body>
 </html>

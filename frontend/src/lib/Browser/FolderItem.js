@@ -8,6 +8,9 @@ export default class FolderItem extends NBBMODULECLASS {
             this.label = 'FOLDERITEM';
             this.options = options;
 
+            this.folders = this.options.childs.filter(c => c.type === 'folder');
+            this.images = this.options.childs.filter(c => c.type === 'image');
+
             this.target = this.toDOM(FolderItemTemplate({
                 scope: {
                     name: this.options.folderName
@@ -24,5 +27,13 @@ export default class FolderItem extends NBBMODULECLASS {
 
     select(e) {
         this.parent.parent.setLocationHash(encodeURI(this.options.pathExtracted))
+    }
+
+    exposeThumbnails() {
+        this.thumbnails = [];
+        console.log('>>> CHILD', this.options.folderName);
+        this.options.childs.forEach(c => {
+            console.log('>>> CHILD', c.folderName, c);
+        });
     }
 }

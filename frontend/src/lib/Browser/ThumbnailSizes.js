@@ -58,11 +58,11 @@ export default [
         "name": "k",
         "size": 1000,
         "media": ""
-    },*/
+    },
     {
         "name": "l",
         "size": 1200,
         "media": "(min-width: 2000px)"
-    }
+    }*/
 ]
 
