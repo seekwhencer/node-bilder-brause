@@ -72,7 +72,7 @@ export default class Store extends MODULECLASS {
     // grab a single file
     grab(itemPath) {
         return new Promise((resolve, reject) => {
-             const collection = [];
+            const collection = [];
             const xstat = fs.statSync(itemPath);
             const xstatItem = {
                 atime: 'at' + xstat.atime.getTime(),

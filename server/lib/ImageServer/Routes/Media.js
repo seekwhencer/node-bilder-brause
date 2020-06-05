@@ -40,7 +40,12 @@ export default class MediaRoutes extends Route {
                         const job = this.generator.addJob(image);
                         job.on('complete', job => res.sendFile(thumbnail));
                     }
+                })
+                .catch(() => {
+                    res.end();
                 });
+
+
         });
 
         return this.router;

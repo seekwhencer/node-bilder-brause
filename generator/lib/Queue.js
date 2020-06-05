@@ -1,24 +1,27 @@
+import ModuleClass from './ModuleClass.js';
 import Job from './QueueJob.js';
 
-export default class Queue extends MODULECLASS {
+export default class Queue extends ModuleClass {
     constructor(parent, options) {
         super(parent, options);
 
         this.jobs = [];
 
         this.on('job-added', job => {
-            LOG('>>> JOB ADDED', job.hash, this.jobs.length);
+            console.log('>>> JOB ADDED', job.hash, this.jobs.length);
             if (this.jobs.length === 1) // only on the first call
                 this.run();
 
         });
 
         this.on('job-complete', job => {
+            this.parent.emit('job-complete', job);
             job.remove();
             this.run();
         });
 
     }
+
     // called from the route controller
     add(image) {
         const exists = this.jobs.filter(j => j.hash === image.hash);

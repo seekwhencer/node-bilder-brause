@@ -90,7 +90,7 @@ export default class {
                     "Access-Control-Allow-Origin": "*",
                 },
                 hot: true,
-                index: '../public/index.html',
+                index: `${this.appPath}/public/index.html`,
                 writeToDisk: true,
                 watchOptions: {
                     poll: true
@@ -98,7 +98,13 @@ export default class {
                 watchContentBase: true,
                 proxy: {
                     context: () => true,
-                    target: 'http://zentrale:3050'
+                    target: 'http://zentrale:3050',
+                    bypass: function(req, res, proxyOptions) {
+                        if (req.headers.accept.indexOf('html') !== -1) {
+                            console.log('Skipping proxy for browser request.');
+                            return '/index.html';
+                        }
+                    }
                 }
             }
         };

@@ -1,39 +1,43 @@
+import ModuleClass from './ModuleClass.js';
 import ImageMagick from 'imagemagick-stream';
 import fs from 'fs-extra';
+import MediaSizes from './MediaSizes.js';
 
-export default class QueueJob extends MODULECLASS {
+
+export default class QueueJob extends ModuleClass {
     constructor(parent, options) {
         super(parent, options);
 
         this.options = options;
         this.hash = this.options.hash;
 
-        this.sizes = this.app.config.media.sizes;
+        this.sizes = MediaSizes;
         this.sizeData = this.sizes.filter(s => s.name === this.options.size)[0];
         this.imagemagickSizeString = `${this.sizeData.size}x${this.sizeData.size}`;
 
         this.quality = 90;
 
         this.on('complete', () => {
-            LOG('>>> JOB COMPLETE', this.hash, this.options.size, this.imagemagickSizeString);
+            console.log('>>> JOB COMPLETE', this.hash, this.options.size, this.imagemagickSizeString);
             this.parent.emit('job-complete', this);
         });
     }
 
     remove() {
-        LOG('>>> JOB REMOVED', this.hash);
+        console.log('>>> JOB REMOVED', this.hash);
         this.parent.remove(this.hash); // removes this instance
     }
 
     run() {
-        LOG('>>> JOB RUN', this.hash);
+        console.log('>>> JOB RUN', this.hash);
+        //this.runThread();
         const filePath = this.options.filePath;
         const thumbnailPath = this.options.thumbnailPath;
         fs.mkdirpSync(thumbnailPath);
-        const thumbnail = `${thumbnailPath}/${this.options.hash}_${this.options.size}.jpg`;
+        this.thumbnail = `${thumbnailPath}/${this.options.hash}_${this.options.size}.jpg`;
 
         const read = fs.createReadStream(filePath);
-        const write = fs.createWriteStream(thumbnail);
+        const write = fs.createWriteStream(this.thumbnail);
 
         write.on('finish', () => this.emit('complete', this));
 
@@ -41,4 +45,15 @@ export default class QueueJob extends MODULECLASS {
         read.pipe(resize).pipe(write);
     }
 
+    aggregate() {
+        return {
+            options: this.options,
+            hash: this.hash,
+            sizes: this.sizes,
+            sizeData: this.sizeData,
+            imagemagickSizeString: this.imagemagickSizeString,
+            quality: this.quality,
+            thumbnail: this.thumbnail
+        };
+    }
 }

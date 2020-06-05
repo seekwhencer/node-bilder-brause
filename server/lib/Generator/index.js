@@ -1,4 +1,5 @@
-import Queue from "./Queue.js";
+import {Worker, isMainThread, workerData} from 'worker_threads';
+import path from 'path';
 
 export default class Generator extends MODULECLASS {
     constructor(parent, options) {
@@ -8,20 +9,49 @@ export default class Generator extends MODULECLASS {
             this.label = 'GENERATOR';
             LOG(this.label, 'INIT');
 
-            // the generator queue
-            this.queue = new Queue(this);
+            this.queue = [];
 
-            // elevate events
-            this.queue.on('added', job => this.emit('add', job));
+            this.thread = new Worker(path.resolve('../generator/index.js'), {
+                workerData: {
+                    // some inital data
+                }
+            });
+
+            this.thread.on('message', data => {
+                if (data.message === 'job-complete') {
+                    const found = this.queue.filter(q => q.hash === data.job.hash)[0];
+                    found.emit('complete', data.job);
+                }
+            });
+
+            this.thread.on('error', err => {
+                LOG(this.label, '>>> ERROR', err)
+            })
+
+            this.thread.on('exit', code => {
+                if (code != 0)
+                    LOG(this.label, `Worker stopped with exit code ${code}`);
+            })
 
             resolve(this);
         });
     }
 
     addJob(file) {
-        if (file.type === 'image')
-            return this.queue.add(file);
+        const found = this.queue.filter(q => q.hash === file.hash)[0];
+        if (found) {
+            return found;
+        } else {
+            LOG(this.label, 'ADD JOB', file.filePath);
+            this.queue.push(file);
+            this.thread.postMessage({
+                message: 'add-file',
+                file: file.aggregate()
+            });
+            return file;
+        }
     }
+
 }
 
 

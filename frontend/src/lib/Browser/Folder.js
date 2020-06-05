@@ -34,6 +34,11 @@ export default class Folder extends NBBMODULECLASS {
     }
 
     get() {
+        // @TODO - stop all loading ressources
+        if (this.target) {
+            //this.target.querySelectorAll('img').forEach(img => img.src = '');
+        }
+
         let urlPath = this.parent.locationExtracted.join('/');
 
         // @TODO bug some folders where detected as file with extension....

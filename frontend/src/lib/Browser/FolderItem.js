@@ -26,6 +26,7 @@ export default class FolderItem extends NBBMODULECLASS {
     }
 
     select(e) {
+        // stop loading of all ressources
         this.parent.parent.setLocationHash(encodeURI(this.options.pathExtracted))
     }
 
