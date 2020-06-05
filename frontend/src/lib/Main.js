@@ -13,16 +13,15 @@ export default class Main extends NBBMODULECLASS {
             this.app = this;
             this.options = options;
 
-            this.urlFolderBase = this.options.urlFolderBase;
-            this.urlImageBase = this.options.urlImageBase;
-            this.urlMediaBase = this.options.urlMediaBase;
-
-            if (this.options.debug) {
+            if (!this.options.debug) {
+                this.urlFolderBase = this.options.urlFolderBase;
+                this.urlImageBase = this.options.urlImageBase;
+                this.urlMediaBase = this.options.urlMediaBase;
+            } else {
                 this.urlFolderBase = `http://localhost:9000/v1/folder`;
                 this.urlImageBase = `http://localhost:9000/v1/image`;
                 this.urlMediaBase = `http://localhost:9000/v1/media`;
             }
-
             this.rootElement = this.options.target;
             this.target = this.rootElement;
 

@@ -5,32 +5,17 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "start": "export NODE_DEBUG=true && export NODE_ENV=default && node --experimental-modules --experimental-json-modules index.js",
-        "dev": "export ENV=dev && node --experimental-modules --experimental-json-modules frontend/config/webpack.js",
-        "build": "export ENV=prod && node --experimental-modules --experimental-json-modules frontend/config/webpack.js"
+        "start": "npm run",
+        "server": "cd server && npm start",
+        "dev": "cd frontend && npm run dev",
+        "build": "cd frontend && npm run build",
+        "install:server": "cd server && npm install",
+        "install:generator": "cd generator && npm install",
+        "install:frontend": "cd frontend && npm install",
+        "fix": "npm audit fix && cd server && npm audit fix && cd ../generator && npm audit fix && cd ../frontend && npm audit fix",
+        "postinstall": "cd server && npm install"
     },
     "author": "",
     "license": "ISC",
-    "dependencies": {
-        "css-loader": "^3.4.0",
-        "dateformat": "^3.0.3",
-        "es6-templates": "^0.2.3",
-        "eslint": "^6.8.0",
-        "eslint-loader": "^3.0.3",
-        "exif": "^0.6.0",
-        "express": "^4.16.2",
-        "extract-loader": "^3.1.0",
-        "file-loader": "^4.3.0",
-        "fs-extra": "^9.0.0",
-        "node-sass": "^4.13.0",
-        "ramda": "^0.27.0",
-        "sass-loader": "^8.0.0",
-        "style-loader": "^1.1.1",
-        "stylelint": "^12.0.0",
-        "stylelint-webpack-plugin": "^1.1.2",
-        "template-literals-loader": "^1.1.2",
-        "webpack": "^4.41.4",
-        "webpack-cli": "^3.3.10",
-        "webpack-dev-server": "^3.10.1"
-    }
+    "dependencies": {}
 }

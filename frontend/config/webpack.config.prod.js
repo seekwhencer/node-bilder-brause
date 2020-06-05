@@ -6,25 +6,25 @@ import TerserPlugin from 'terser-webpack-plugin';
 
 export default class {
     constructor() {
-        //
-        this.appPath = `${path.resolve(process.env.PWD)}/frontend`;
-
-        //
+        this.appPath = `${path.resolve(process.env.PWD)}`;
         this.salt = 'rambazamba';
-
-        //
         this.hash = Crypto.createHash('md5').update(this.salt).digest("hex");
 
         //
         this.config = {
             mode: 'production',
             entry: {
-                app: './frontend/src/app.js',
+                app: './src/app.js'
             },
+            target: 'web',
             output: {
                 filename: './js/app.min.js',
                 path: `${this.appPath}/dist`,
             },
+            watch: false,
+            cache: false,
+            infrastructureLogging: {level: 'warn', debug: true},
+
 
             optimization: {
                 minimize: true,
@@ -70,7 +70,7 @@ export default class {
                                 loader: 'file-loader',
                                 options: {
                                     name: '[name].min.css',
-                                    outputPath: '../dist/css/'
+                                    outputPath: './css/'
                                 }
                             },
                             'extract-loader',
@@ -97,11 +97,8 @@ export default class {
                         compiler.hooks.afterEmit.tap('Complete', (compilation) => {
                             fs.copySync(`${this.appPath}/../public/`, `${this.appPath}/dist`);
 
-                            //sedReplace('/css', '/.../css', `${this.appPath}/docs/css/app.css`);
-                            //sedReplace('/images', '/.../images', `${this.appPath}/docs/css/app.css`);
-
-                            sedReplace('.js', `.min.js`, `${this.appPath}/dist/index.html`);
-                            sedReplace('.css', `.min.css`, `${this.appPath}/dist/index.html`);
+                            sedReplace('js?', `min.js?`, `${this.appPath}/dist/index.html`);
+                            sedReplace('css?', `min.css?`, `${this.appPath}/dist/index.html`);
                             sedReplace('?hash', `?${this.hash}`, `${this.appPath}/dist/index.html`);
                             sedReplace('debug: true', 'debug: false', `${this.appPath}/dist/index.html`);
                         });

@@ -1,0 +1,15 @@
+{
+    "name": "node-bilder-brause-generator",
+    "version": "0.0.1",
+    "description": "the thumbnail generator",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "start": "",
+        "dev": "",
+        "build": ""
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {}
+}

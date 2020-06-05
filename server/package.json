@@ -1,0 +1,21 @@
+{
+    "name": "node-bilder-brause",
+    "version": "0.0.1",
+    "description": "a image gallery app with node js",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "start": "export NODE_DEBUG=true && export NODE_ENV=default && node --experimental-modules --experimental-json-modules index.js",
+        "dev": "export NODE_DEBUG=true && export NODE_ENV=default && node --experimental-modules --experimental-json-modules index.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "dateformat": "^3.0.3",
+        "exif": "^0.6.0",
+        "express": "^4.16.2",
+        "fs-extra": "^9.0.0",
+        "imagemagick-stream": "^4.1.1",
+        "ramda": "^0.27.0"
+    }
+}

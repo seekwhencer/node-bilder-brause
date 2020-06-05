@@ -4,12 +4,12 @@ import path from 'path';
 export default class {
     constructor() {
         //
-        this.appPath = `${path.resolve(process.env.PWD)}/frontend`;
+        this.appPath = `${path.resolve(process.env.PWD)}`;
 
         //
         this.config = {
             entry: {
-                app: './frontend/src/app.js'
+                app: './src/app.js'
             },
             target: 'web',
             mode: 'development',
@@ -79,7 +79,7 @@ export default class {
             ],
 
             devServer: {
-                contentBase: ['public', 'frontend/dist'],
+                contentBase: ['../public', 'dist'],
                 publicPath: '/',
                 compress: false,
                 host: '0.0.0.0',
@@ -90,7 +90,7 @@ export default class {
                     "Access-Control-Allow-Origin": "*",
                 },
                 hot: true,
-                index: 'public/index.html',
+                index: '../public/index.html',
                 writeToDisk: true,
                 watchOptions: {
                     poll: true

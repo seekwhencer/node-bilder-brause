@@ -18,7 +18,16 @@ if (env === 'dev') {
 }
 
 if (env === 'prod') {
-    const bundler = webpack(config);
-    bundler.run();
+    const bundler = webpack(config, (err, stats) => { // Stats Object
+        if (err || stats.hasErrors()) {
+            console.log('>>> ERROR: ', err, stats);
+        }
+
+    });
+    /*
+
+    console.log('>>>', bundler.options, Object.keys(bundler));
+    const compilation = bundler.run();
+    console.log('>>>', compilation);*/
 }
 
