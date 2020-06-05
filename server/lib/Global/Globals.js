@@ -2,7 +2,7 @@ import './Utils.js';
 import path from 'path';
 import Log from './Log.js';
 import Package from '../../package.json';
-import * as Express from 'express';
+import Express from 'express';
 import Ramda from 'ramda';
 import Module from './Module.js';
 
@@ -38,7 +38,7 @@ global.APP_DIR = path.resolve(process.env.PWD);
 global.PACKAGE = Package;
 global.ENV = process.env.NODE_ENV || 'default';
 
-global.EXPRESS = Express.default;
+global.EXPRESS = Express;
 global.APP = EXPRESS();
 global.R = Ramda;
 global.MODULECLASS = Module;

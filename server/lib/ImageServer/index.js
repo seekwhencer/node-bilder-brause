@@ -1,4 +1,5 @@
 import * as Routes from './Routes/index.js';
+import path from 'path';
 
 export default class ImageServer extends MODULECLASS {
     constructor(parent, options) {
@@ -11,8 +12,8 @@ export default class ImageServer extends MODULECLASS {
 
         this.on('listen', () => LOG(this.label, 'LISTEN ON PORT:', this.options.port));
 
-        this.registerFrontend();
         this.registerRoutes();
+        this.registerFrontend();
 
         // listen on the given port
         return this.start();
@@ -36,7 +37,11 @@ export default class ImageServer extends MODULECLASS {
     }
 
     registerFrontend() {
-        this.engine.use('/', EXPRESS.static(P('public')));
-        this.options.frontendDistPaths.forEach(i => this.engine.use(`/${i}`, EXPRESS.static(P(`${this.options.frontendPath}/${i}`))));
+        this.frontendPath = path.resolve('../frontend/dist');
+        this.engine.use(EXPRESS.static(this.frontendPath));
+
+        /*this.options.frontendDistPaths.forEach(p => {
+            this.engine.use(`${p}`, serveStatic(path.resolve(this.frontendPath, `${this.options.frontendPath}/${p}`)));
+        });*/
     }
 }
