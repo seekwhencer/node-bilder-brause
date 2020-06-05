@@ -35,12 +35,50 @@ npm install
 
 ## Run
 ```bash
-npm start
+npm run server
 ```
+
+## Architecture
+This is the cheese bell node project. there is something under the glass:  
+
+- the server app in `server/`
+- the frontend app in `frontend/`
+- the thumbnail generator in `/generator`
+
+## `npm run` commands:
+... from the top folder
+
+
+- **`npm start`**  
+Show the run commands
+
+- **`npm run server`**  
+Start the server
+
+- **`npm run dev`**  
+Start the frontend dev pipeline
+
+- **`npm run build`**  
+Build the frontend
+
+- **`npm run install:server`**  
+Install the server
+
+- **`npm run install:generator`**  
+Install the generator
+
+- **`npm run install:frontend`**  
+Install the frontend
+
+- **`npm run fix`**  
+Fix versions
+
+- **`npm run postinstall`**  
+Runs after installation of the "cheese bell" and installs the server and the generator.
 
 
 ## Configuration
-The file is located in `config/default.json` and wired in the `package.json`
+Is located in `server/config/default.json`
 
 ```json
 "start": "export NODE_DEBUG=true && export NODE_ENV=default && node --experimental-modules --experimental-json-modules index.js"
@@ -111,18 +149,16 @@ Array with thumbnail definitions
 All routes, but not the frontend stuff, are api endpoints. Any endpoint sends a `json` response.
 
 - **the main entry route**  
-http://localhost:3050 **/v1/folder**
+http://localhost:3050/v1/folder
 
-- **a folder**  
-http://localhost:3050/v1/folder **/:foldername/:foldername**  
+- **folder data**  
+http://localhost:3050/v1/folder/:foldername/:foldername
 
-- **an image**  
-http://localhost:3050/v1/image/:foldername/:foldername **/:imagename.jpg**
+- **image data**  
+http://localhost:3050/v1/image/:foldername/:foldername/:imagename.jpg
 
-- **an image with different resolution**  
-http://localhost:3050/v1/image/:foldername/:foldername **/:imagename_sizename.jpg**
-    > `sizename` is the `media.sizes[i].name`  
-
+- **media source data** (images)  
+http://localhost:3050/v1/media/:foldername/:foldername/:imagename.jpg
 
 ## Development
 There are two things:

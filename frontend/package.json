@@ -1,5 +1,5 @@
 {
-    "name": "node-bilder-brause",
+    "name": "node-bilder-brause-frontend",
     "version": "0.0.1",
     "description": "a image gallery app with node js",
     "main": "index.js",

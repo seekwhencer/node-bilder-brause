@@ -1,12 +1,13 @@
 {
-    "name": "node-bilder-brause",
+    "name": "node-bilder-brause-server",
     "version": "0.0.1",
     "description": "a image gallery app with node js",
     "main": "index.js",
     "type": "module",
     "scripts": {
         "start": "export NODE_DEBUG=true && export NODE_ENV=default && node --experimental-modules --experimental-json-modules index.js",
-        "dev": "export NODE_DEBUG=true && export NODE_ENV=default && node --experimental-modules --experimental-json-modules index.js"
+        "dev": "export NODE_DEBUG=true && export NODE_ENV=default && node --experimental-modules --experimental-json-modules index.js",
+        "postinstall": "cd ../generator && npm install"
     },
     "author": "",
     "license": "ISC",

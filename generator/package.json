@@ -6,8 +6,7 @@
     "type": "module",
     "scripts": {
         "start": "",
-        "dev": "",
-        "build": ""
+        "dev": ""
     },
     "author": "",
     "license": "ISC",
