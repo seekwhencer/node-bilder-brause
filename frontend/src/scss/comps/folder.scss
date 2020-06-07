@@ -1,18 +1,59 @@
 .nbb-folder {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-gap: 15px;
+    width: calc(100% - 20px);
+    margin: auto;
+
+    .nbb-folder-folders {
+        columns: 4;
+        column-gap: 15px;
+        margin: 10px 0;
+
+        @include media-tablet {
+            columns: 2;
+        }
+
+        @include media-smartphone {
+            columns: 1;
+            column-gap: 2px;
+        }
+    }
+
+    .nbb-folder-files {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-gap: 15px;
+        width: calc(100% - 2px);
+
+        @include media-tablet {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        @include media-smartphone {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+    }
 
     &__folder-item {
         width: 100%;
-        height: 50px;
         border: 1px solid #333333;
         vertical-align: middle;
+        display: block;
+        overflow: hidden;
+        margin-bottom: 7px;
+
+        @include media-smartphone {
+            margin-bottom: 3px;
+        }
 
         &__name {
             padding: 5px;
             line-height: 20px;
             height: 100%;
+
+            @include media-smartphone {
+                font-size: 0.8em;
+                line-height: 1em;
+            }
         }
 
         &__counts {
@@ -23,6 +64,7 @@
         &:hover {
             cursor: pointer;
             background-color: #333333;
+            border-color: $color-cloud;
         }
     }
 
@@ -32,6 +74,8 @@
         height: 100%;
         position: relative;
         border: 1px solid #333333;
+        min-height: 100px;
+
 
         &:hover {
             cursor: pointer;
@@ -61,6 +105,7 @@
                 width: 100%;
                 height: 100%;
                 object-fit: contain;
+                display: block;
             }
 
         }

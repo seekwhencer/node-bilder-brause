@@ -19,7 +19,7 @@ export default class FolderItem extends NBBMODULECLASS {
 
             this.target.onclick = e => this.select(e);
 
-            this.parent.target.append(this.target);
+            this.parent.foldersElement.append(this.target);
 
             resolve();
         });

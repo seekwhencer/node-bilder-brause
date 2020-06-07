@@ -1,5 +1,7 @@
 import BrowserTemplate from './Templates/Browser.html';
 import Folder from './Folder.js';
+import PageTitle from './PageTitle.js';
+import Breadcrump from './Breadcrump.js';
 
 export default class Browser extends NBBMODULECLASS {
     constructor(parent, options) {
@@ -12,14 +14,29 @@ export default class Browser extends NBBMODULECLASS {
             // listen on the location hash
             window.addEventListener("hashchange", () => this.getLocationHash(), false);
 
+            // if some dota comes
+            this.on('data', data => {
+                console.log('>>> GOT DATA', data.data.type, data.data.id);
+                this.pageTitle.set(data.data.folderName);
+                this.breadcrump.set(data.data);
+            });
+
             // add the template container
             this.target = this.toDOM(BrowserTemplate({
                 scope: {}
             }));
             this.parent.target.append(this.target);
 
+            // page title
+            this.pageTitle = new PageTitle(this);
+
+
+            // breadcrump
+            this.breadcrump = new Breadcrump(this);
+
             // create the folder class
             this.folder = new Folder(this);
+
 
             resolve();
         });

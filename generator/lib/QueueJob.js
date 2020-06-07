@@ -30,7 +30,6 @@ export default class QueueJob extends ModuleClass {
 
     run() {
         console.log('>>> JOB RUN', this.hash);
-        //this.runThread();
         const filePath = this.options.filePath;
         const thumbnailPath = this.options.thumbnailPath;
         fs.mkdirpSync(thumbnailPath);

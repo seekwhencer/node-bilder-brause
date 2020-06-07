@@ -12,7 +12,7 @@ export default class Store extends MODULECLASS {
             this.options = this.app.config.store;
             this.rootPath = P(`${this.options.rootPath}`);
             this.thumbnailPath = P(`${this.options.thumbnailPath}`);
-            this.includes = ['jpg', 'JPG', 'jpeg', 'JPEG'];
+            this.includes = ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG'];
 
             LOG(this.label, 'INIT');
 

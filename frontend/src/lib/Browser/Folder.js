@@ -7,28 +7,28 @@ export default class Folder extends NBBMODULECLASS {
     constructor(parent, options) {
         super(parent, options);
 
-        return new Promise((resolve, reject) => {
-            this.label = 'FOLDER';
-            this.options = options;
 
-            this.urlFolderBase = this.app.urlFolderBase;
-            this.urlImageBase = this.app.urlImageBase;
-            this.urlMediaBase = this.app.urlMediaBase;
+        this.label = 'FOLDER';
+        this.options = options;
 
-            this.includes = {
-                images: ['jpg', 'JPG', 'JPEG', 'jpeg']
-            }
+        this.urlFolderBase = this.app.urlFolderBase;
+        this.urlImageBase = this.app.urlImageBase;
+        this.urlMediaBase = this.app.urlMediaBase;
 
-            // fetch the entry url when the app is ready
-            this.app.on('ready', () => this.parent.getLocationHash());
+        this.includes = {
+            images: ['jpg', 'JPG', 'JPEG', 'jpeg', 'png', 'PNG']
+        }
 
-            // fetch the specified folder on a hash change
-            this.parent.on('hashchange', () => this.get());
+        // fetch the entry url when the app is ready
+        this.app.on('ready', () => this.parent.getLocationHash());
 
-            //
-            this.on('data', data => this.draw(data));
+        // fetch the specified folder on a hash change
+        this.parent.on('hashchange', () => this.get());
 
-            resolve();
+        // elevate event
+        this.on('data', data => {
+            this.parent.emit('data', data);
+            this.draw(data);
         });
 
     }
@@ -36,15 +36,14 @@ export default class Folder extends NBBMODULECLASS {
     get() {
         // @TODO - stop all loading ressources
         if (this.target) {
-            //this.target.querySelectorAll('img').forEach(img => img.src = '');
+            //this.items = [];
+            //this.filesElement.remove();
         }
 
         let urlPath = this.parent.locationExtracted.join('/');
 
         // @TODO bug some folders where detected as file with extension....
         const extension = (this.parent.locationExtracted[this.parent.locationExtracted.length - 1].match(/\.([^.]*?)(?=\?|#|$)/) || [])[1];
-
-        console.log('!!! WTF >', extension);
 
         let url;
 
@@ -83,6 +82,10 @@ export default class Folder extends NBBMODULECLASS {
             scope: {}
         }));
         this.parent.target.append(this.target);
+
+        //
+        this.foldersElement = this.target.querySelector('[data-folders]');
+        this.filesElement = this.target.querySelector('[data-files]');
 
         const folders = data.data.childs.filter(c => c.type === 'folder');
         const images = data.data.childs.filter(c => c.type === 'image');

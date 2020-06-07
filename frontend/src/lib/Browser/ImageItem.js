@@ -24,7 +24,7 @@ export default class ImageItem extends NBBMODULECLASS {
 
             this.target.onclick = e => this.select(e);
 
-            this.parent.target.append(this.target);
+            this.parent.filesElement.append(this.target);
 
             resolve();
         });

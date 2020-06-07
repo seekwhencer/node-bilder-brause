@@ -4,15 +4,15 @@
  */
 
 export default [
-    {
+    /*{
         "name": "a",
         "size": 50,
-        "media": "(max-width: 700px)"
-    },/*
+        "media": "(max-width: 500px)"
+    },
     {
         "name": "b",
         "size": 100,
-        "media": ""
+        "media": "(max-width: 500px)"
     },*/
     {
         "name": "c",
@@ -33,23 +33,23 @@ export default [
         "name": "f",
         "size": 400,
         "media": "(min-width: 600px)"
-    },*/
+    },
     {
         "name": "g",
         "size": 500,
         "media": "(min-width: 1400px)"
-    },/*
+    },
     {
         "name": "h",
         "size": 600,
         "media": ""
-    },
+    },*/
     {
         "name": "i",
         "size": 700,
-        "media": ""
+        "media": "(min-width: 1400px)"
     },
-    {
+    /*{
         "name": "j",
         "size": 800,
         "media": ""
