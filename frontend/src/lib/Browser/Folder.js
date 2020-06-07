@@ -36,13 +36,18 @@ export default class Folder extends NBBMODULECLASS {
     get() {
         // @TODO - stop all loading ressources
         if (this.target) {
-            //this.items = [];
-            //this.filesElement.remove();
+            this.filesElement.querySelectorAll('picture').forEach(pic => {
+                pic.srcset = false;
+                pic.querySelector('img').src = '';
+                pic.remove();
+            });
+            this.items = [];
         }
 
         let urlPath = this.parent.locationExtracted.join('/');
 
         // @TODO bug some folders where detected as file with extension....
+        // @TODO mache einen call auf ein und diesele url
         const extension = (this.parent.locationExtracted[this.parent.locationExtracted.length - 1].match(/\.([^.]*?)(?=\?|#|$)/) || [])[1];
 
         let url;

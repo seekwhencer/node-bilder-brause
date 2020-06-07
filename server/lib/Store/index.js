@@ -101,6 +101,23 @@ export default class Store extends MODULECLASS {
         });
     }
 
+    stat(itemPath) {
+        return new Promise((resolve, reject) => {
+            if (!fs.existsSync(itemPath)) {
+                reject('Not Found');
+            } else {
+                const xstat = fs.statSync(itemPath);
+                const xstatItem = {
+                    type: xstat.isDirectory() ? 'folder' : 'file',
+                    atime: 'at' + xstat.atime.getTime(),
+                    mtime: 'mt' + xstat.mtime.getTime(),
+                    ctime: 'ct' + xstat.ctime.getTime()
+                };
+                resolve(xstatItem);
+            }
+        });
+    }
+
     // walk thru the existing tree to the given folder
     // @TODO - die quelle dynamisch machen, nicht nur "this.data" - aber von der sache ist diese funktion obsolete
     getFolder(folder) {

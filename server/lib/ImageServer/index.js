@@ -39,9 +39,5 @@ export default class ImageServer extends MODULECLASS {
     registerFrontend() {
         this.frontendPath = path.resolve('../frontend/dist');
         this.engine.use(EXPRESS.static(this.frontendPath));
-
-        /*this.options.frontendDistPaths.forEach(p => {
-            this.engine.use(`${p}`, serveStatic(path.resolve(this.frontendPath, `${this.options.frontendPath}/${p}`)));
-        });*/
     }
 }
