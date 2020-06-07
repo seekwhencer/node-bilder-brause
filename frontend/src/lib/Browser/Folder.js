@@ -7,10 +7,10 @@ export default class Folder extends NBBMODULECLASS {
     constructor(parent, options) {
         super(parent, options);
 
-
         this.label = 'FOLDER';
         this.options = options;
 
+        this.urlBase = this.app.urlBase;
         this.urlFolderBase = this.app.urlFolderBase;
         this.urlImageBase = this.app.urlImageBase;
         this.urlMediaBase = this.app.urlMediaBase;
@@ -23,6 +23,7 @@ export default class Folder extends NBBMODULECLASS {
         this.app.on('ready', () => this.parent.getLocationHash());
 
         // fetch the specified folder on a hash change
+        // @TODO elevate loading logic to the upper main object, because: not every call is a folder
         this.parent.on('hashchange', () => this.get());
 
         // elevate event
@@ -35,34 +36,17 @@ export default class Folder extends NBBMODULECLASS {
 
     get() {
         // @TODO - stop all loading ressources
-        if (this.target) {
+        /*if (this.target) {
             this.filesElement.querySelectorAll('picture').forEach(pic => {
                 pic.srcset = false;
                 pic.querySelector('img').src = '';
                 pic.remove();
             });
             this.items = [];
-        }
+        }*/
 
         let urlPath = this.parent.locationExtracted.join('/');
-
-        // @TODO bug some folders where detected as file with extension....
-        // @TODO mache einen call auf ein und diesele url
-        const extension = (this.parent.locationExtracted[this.parent.locationExtracted.length - 1].match(/\.([^.]*?)(?=\?|#|$)/) || [])[1];
-
-        let url;
-
-        if (!extension) { // if it is no file
-            if (!urlPath) { // if it is the root path
-                url = `${this.urlFolderBase}`;
-            } else {
-                url = `${this.urlFolderBase}/${urlPath}`;
-            }
-        } else { // if a extension exists, it is a file
-            if (this.includes.images.includes(extension)) {
-                url = `${this.urlImageBase}/${urlPath}`;
-            }
-        }
+        const url = `${this.urlBase}/funnel/${urlPath}`;
 
         this
             .fetch(url)
@@ -73,7 +57,8 @@ export default class Folder extends NBBMODULECLASS {
         const file = data.file;
 
         // draw this folder, if it is no file
-        !file ? this.drawFolder(data) : null;
+        //!file ? this.drawFolder(data) : null;
+        this.drawFolder(data);
 
         // draw this image
         file ? file.type === 'image' ? this.drawImage(data) : null : null;
@@ -118,6 +103,7 @@ export default class Folder extends NBBMODULECLASS {
     }
 
     drawImage(data) {
+        console.log('>>> DRAW IMAGE');
     }
 
 

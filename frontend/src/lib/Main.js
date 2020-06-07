@@ -14,10 +14,12 @@ export default class Main extends NBBMODULECLASS {
             this.options = options;
 
             if (!this.options.debug) {
+                this.urlBase = this.options.urlBase;
                 this.urlFolderBase = this.options.urlFolderBase;
                 this.urlImageBase = this.options.urlImageBase;
                 this.urlMediaBase = this.options.urlMediaBase;
             } else {
+                this.urlBase = `http://localhost:9000/v1`;
                 this.urlFolderBase = `http://localhost:9000/v1/folder`;
                 this.urlImageBase = `http://localhost:9000/v1/image`;
                 this.urlMediaBase = `http://localhost:9000/v1/media`;

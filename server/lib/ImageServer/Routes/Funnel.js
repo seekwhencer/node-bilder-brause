@@ -9,6 +9,12 @@ export default class FunnelRoute extends Route {
         this.store = this.app.store;
         this.generator = this.app.generator;
 
+        this.router.get('/funnel', (req, res) => {
+            const redirectUrl = `/${this.parent.options.rootURLPath}/folder`;
+            res.redirect(301, redirectUrl);
+        });
+
+
         this.router.get(/(.+\/)?funnel\/(.+)/i, (req, res) => {
             const nicePath = this.nicePath(req.path);
             let extractedPath = this.extractPath(nicePath, 'funnel/');
@@ -16,6 +22,9 @@ export default class FunnelRoute extends Route {
 
             const itemPath = path.resolve(this.store.rootPath, extractedPath);
             let endpoint = '';
+
+            LOG('>>> ITEM PATH', itemPath);
+
             this.store
                 .stat(itemPath)
                 .then(itemStats => {
