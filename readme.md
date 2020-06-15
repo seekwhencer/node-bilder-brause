@@ -161,28 +161,35 @@ http://localhost:3050/v1/image/:foldername/:foldername/:imagename.jpg
 http://localhost:3050/v1/media/:foldername/:foldername/:imagename.jpg
 
 ## Development
-There are two things:
 
-- the server app
-- the frontend app
+## Specs
 
 #### Server app
 
-- located in the main folder
+- located in the folder: `server/`
 - written in ES6
 - without database
 - aggregate file system, nested
 - api
-- generates thumbnails with imagemagick
 - runs on a Raspberry Pi (4)
 - read exif data from images
 
 #### Frontend app
 
-- located in the `frontend` folder
+- located in the `frontend/` folder
 - written in ES6, class pattern ;)
 - using ES6 webpack configs (webpack & dev server as node app)
 - sass
 - js template literals (the purest way for templating)
 - eslint & stylelint in the dev build pipeline
 - no babel (the app needs the newest browser)
+
+#### Generator
+
+- located in `generator/`
+- written in ES6
+- is the worker (thread)
+- manage a job queue
+- generates thumbnails with imagemagick (snap at next)
+- runs as worker, launched by the server app
+- runs stand alone over the network ***(is in progress)***
