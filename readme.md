@@ -148,6 +148,12 @@ Array with thumbnail definitions
 ## Routes
 All routes, but not the frontend stuff, are api endpoints. Any endpoint sends a `json` response.
 
+- **the funnel endpoint**  
+http://localhost:3050/v1/funnel/:foldername/:foldername  
+or  
+http://localhost:3050/v1/funnel/:foldername/:foldername/:imagename.jpg  
+    > check if it is a folder or a file and redirect to the folder data or image data endpoint.
+
 - **the main entry route**  
 http://localhost:3050/v1/folder
 
@@ -157,8 +163,10 @@ http://localhost:3050/v1/folder/:foldername/:foldername
 - **image data**  
 http://localhost:3050/v1/image/:foldername/:foldername/:imagename.jpg
 
-- **media source data** (images)  
-http://localhost:3050/v1/media/:foldername/:foldername/:imagename.jpg
+- **media** (the thumbnail image)  
+http://localhost:3050/v1/media/:size/:foldername/:foldername/:imagename.jpg
+    > **size** means a key, defined in `generator/lib/MediaSizes.js`  
+    this endpoint returns the image data - or simple: the thumbnail image. 
 
 ## Development
 
