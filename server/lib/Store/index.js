@@ -12,7 +12,7 @@ export default class Store extends MODULECLASS {
             this.options = this.app.config.store;
             this.rootPath = P(`${this.options.rootPath}`);
             this.thumbnailPath = P(`${this.options.thumbnailPath}`);
-            this.includes = ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG'];
+            this.includes = this.app.config.media.extensions.images;
 
             LOG(this.label, 'INIT');
 
@@ -86,7 +86,8 @@ export default class Store extends MODULECLASS {
                 const fileName = path.basename(itemPath).replace(path.extname(itemPath), '');
                 const extension = path.extname(itemPath).replace('.', '');
 
-                if (this.includes.includes(extension)) {
+                const regexExtensions = new RegExp(this.includes.join("|"), "i");
+                if (regexExtensions.test(extension)) {
                     item = new Image(this, {
                         id: fileName,
                         filePath: itemPath,
@@ -180,8 +181,8 @@ export default class Store extends MODULECLASS {
                                 let fileName = path.basename(itemPath).replace(path.extname(itemPath), '');
                                 let extension = path.extname(itemPath).replace('.', '');
 
-                                if (includes.includes(extension)) {
-
+                                const regexExtensions = new RegExp(includes.join("|"), "i");
+                                if (regexExtensions.test(extension)) {
                                     item = new Image(this, {
                                         id: fileName,
                                         filePath: itemPath,

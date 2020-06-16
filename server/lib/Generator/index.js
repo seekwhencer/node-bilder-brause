@@ -29,7 +29,7 @@ export default class Generator extends MODULECLASS {
             })
 
             this.thread.on('exit', code => {
-                if (code != 0)
+                if (code !== 0)
                     LOG(this.label, `Worker stopped with exit code ${code}`);
             })
 

@@ -1,8 +1,7 @@
 import ModuleClass from './ModuleClass.js';
 import ImageMagick from 'imagemagick-stream';
 import fs from 'fs-extra';
-import MediaSizes from './MediaSizes.js';
-
+import MediaSizes from '../../shared/lib/MediaSizes.js';
 
 export default class QueueJob extends ModuleClass {
     constructor(parent, options) {
@@ -14,8 +13,6 @@ export default class QueueJob extends ModuleClass {
         this.sizes = MediaSizes;
         this.sizeData = this.sizes.filter(s => s.name === this.options.size)[0];
         this.imagemagickSizeString = `${this.sizeData.size}x${this.sizeData.size}`;
-
-        this.quality = 90;
 
         this.on('complete', () => {
             console.log('>>> JOB COMPLETE', this.hash, this.options.size, this.imagemagickSizeString);
@@ -40,7 +37,7 @@ export default class QueueJob extends ModuleClass {
 
         write.on('finish', () => this.emit('complete', this));
 
-        const resize = ImageMagick().resize(this.imagemagickSizeString).quality(this.quality);
+        const resize = ImageMagick().resize(this.imagemagickSizeString).quality(this.sizeData.quality);
         read.pipe(resize).pipe(write);
     }
 
@@ -51,7 +48,7 @@ export default class QueueJob extends ModuleClass {
             sizes: this.sizes,
             sizeData: this.sizeData,
             imagemagickSizeString: this.imagemagickSizeString,
-            quality: this.quality,
+            quality: this.sizeData.quality,
             thumbnail: this.thumbnail
         };
     }

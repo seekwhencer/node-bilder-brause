@@ -22,9 +22,8 @@
         "extensions": {
             "images": [
                 "jpg",
-                "JPG",
                 "jpeg",
-                "JPEG"
+                "png"
             ],
             "videos": [
                 "avi",

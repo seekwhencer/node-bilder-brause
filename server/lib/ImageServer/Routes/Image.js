@@ -5,6 +5,7 @@ export default class ImageRoutes extends Route {
         super(parent, options);
 
         this.store = this.app.store;
+        this.includes = this.app.config.media.extensions.images;
 
         this.router.get('/image', (req, res) => {
             const nicePath = this.nicePath(req.path);
@@ -26,7 +27,7 @@ export default class ImageRoutes extends Route {
             const folder = `${this.store.rootPath}/${extractedPath}`;
 
             this.store
-                .collect(folder, true, ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG'], true, 1)
+                .collect(folder, true, this.includes, true, 1)
                 .then(data => {
                     if (data) {
                         const aggregated = data.aggregate();

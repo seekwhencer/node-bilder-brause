@@ -5,6 +5,7 @@ export default class FolderRoutes extends Route {
         super(parent, options);
 
         this.store = this.app.store;
+        this.includes = this.app.config.media.extensions.images;
 
         this.router.get('/folder', (req, res) => {
             const nicePath = this.nicePath(req.path);
@@ -12,7 +13,7 @@ export default class FolderRoutes extends Route {
             const folder = `${this.store.rootPath}`;
 
             this.store
-                .collect(folder, true, ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG'], true, 2) // this is the root folder
+                .collect(folder, true, this.includes, true, 2) // this is the root folder
                 .then(data => {
                     if (data) {
                         res.json({
@@ -38,7 +39,7 @@ export default class FolderRoutes extends Route {
             const folder = `${this.store.rootPath}/${extractedPath}`;
 
             this.store
-                .collect(folder, true, ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG'], true, 2)
+                .collect(folder, true, this.includes, true, 2)
                 .then(data => {
                     if (data) {
                         res.json({

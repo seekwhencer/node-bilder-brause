@@ -6,7 +6,7 @@ export default class ImageServer extends MODULECLASS {
         super(parent, options);
         this.options = this.app.config.server;
         this.engine = APP;
-        this.label = 'IMAGESERVER';
+        this.label = 'IMAGE SERVER';
 
         LOG(this.label, 'INIT');
 
