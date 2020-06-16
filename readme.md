@@ -43,7 +43,7 @@ This is the cheese bell node project. there is something under the glass:
 
 - the server app in `server/`
 - the frontend app in `frontend/`
-- the thumbnail generator in `/generator`
+- the thumbnail generator in `generator/`
 
 ## `npm run` commands:
 ... from the top folder
@@ -100,9 +100,6 @@ The first url path element like `v1` or `api` - or `api/v1`
 
 - **server.frontendPath**  
 The absolute or relative path for the static frontend builds, served by the app.
-
-- **server.frontendDistPaths**  
-Some static folder for the frontend on the top level like `/css`, `/js` and `/images`.
 
 - **store.rootPath**  
 This is the holy and absolute foto root path on your disk.
@@ -169,6 +166,24 @@ http://localhost:3050/v1/media/:size/:foldername/:foldername/:imagename.jpg
     this endpoint returns the image data - or simple: the thumbnail image. 
 
 ## Development
+
+There are two, okay three apps to work on it. The Server, the Generator and the Frontend.
+
+#### Frontend
+- builds a distribution package, stored in: `frontend/dist/`
+- a `index.html`, a `app.min.js` and a `app.min.css` will be generated
+- the production bundle build will be served by the server app
+- change in the frontend folder. a `npm run dev` starts the webpack dev server
+- or leave in the main folder and enter also: `npm run dev`
+- all webpack configs stored in `frontend/config/`
+- `npm run build` creates the production bundle
+- a `npm install` on the main cheese bell folder, installs the server and the generator: but not the frontend.
+  change into the frontend folder and run `npm install`
+- or on the cheese bell level: `npm run install:frontend`
+
+#### Server
+- runnable on a raspberry pi 4b
+- 
 
 ## Specs
 

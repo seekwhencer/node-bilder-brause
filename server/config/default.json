@@ -3,12 +3,7 @@
         "host": "zentrale",
         "port": 3050,
         "rootURLPath": "v1",
-        "frontendPath": "frontend/dist",
-        "frontendDistPaths": [
-            "css",
-            "js",
-            "images"
-        ]
+        "frontendPath": "frontend/dist"
     },
     "store": {
         "loadTreeOnStartup" : false,
