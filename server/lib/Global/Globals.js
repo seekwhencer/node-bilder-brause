@@ -1,10 +1,11 @@
-import './Utils.js';
 import path from 'path';
-import Log from './Log.js';
-import Package from '../../package.json';
-import Express from 'express';
 import Ramda from 'ramda';
-import Module from './Module.js';
+import Express from 'express';
+
+import '../../../shared/lib/Utils.js';
+import Module from '../../../shared/lib/Module.js';
+import Log from '../../../shared/lib/Log.js';
+import Package from '../../package.json';
 
 global.DEBUG = process.env.NODE_DEBUG || true;
 DEBUG === 'true' ? global.DEBUG = true : null;

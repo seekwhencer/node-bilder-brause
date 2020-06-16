@@ -8,7 +8,7 @@ export default class Queue extends ModuleClass {
         this.jobs = [];
 
         this.on('job-added', job => {
-            console.log('>>> JOB ADDED', job.hash, this.jobs.length);
+            LOG('>>> JOB ADDED', job.hash, this.jobs.length);
             if (this.jobs.length === 1) // only on the first call
                 this.run();
 

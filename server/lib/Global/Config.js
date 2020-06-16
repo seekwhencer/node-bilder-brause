@@ -1,4 +1,4 @@
-import Module from '../Global/Module.js';
+import Module from '../../../shared/lib/Module.js';
 import fs from 'fs-extra';
 
 export default class Config extends Module {

@@ -1,7 +1,7 @@
 import ModuleClass from './ModuleClass.js';
 import ImageMagick from 'imagemagick-stream';
 import fs from 'fs-extra';
-import MediaSizes from '../../shared/lib/MediaSizes.js';
+import MediaSizes from '../../shared/MediaSizes.js';
 
 export default class QueueJob extends ModuleClass {
     constructor(parent, options) {
@@ -15,18 +15,18 @@ export default class QueueJob extends ModuleClass {
         this.imagemagickSizeString = `${this.sizeData.size}x${this.sizeData.size}`;
 
         this.on('complete', () => {
-            console.log('>>> JOB COMPLETE', this.hash, this.options.size, this.imagemagickSizeString);
+            LOG('>>> JOB COMPLETE', this.hash, this.options.size, this.imagemagickSizeString);
             this.parent.emit('job-complete', this);
         });
     }
 
     remove() {
-        console.log('>>> JOB REMOVED', this.hash);
+        LOG('>>> JOB REMOVED', this.hash);
         this.parent.remove(this.hash); // removes this instance
     }
 
     run() {
-        console.log('>>> JOB RUN', this.hash);
+        LOG('>>> JOB RUN', this.hash);
         const filePath = this.options.filePath;
         const thumbnailPath = this.options.thumbnailPath;
         fs.mkdirpSync(thumbnailPath);

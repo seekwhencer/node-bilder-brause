@@ -14,11 +14,11 @@ export default class Generator extends ModuleClass {
         this.parentPort = parentPort;
 
         this.label = 'GENERATOR';
-        console.log(this.label, 'INIT');
+        LOG(this.label, 'INIT');
 
         // elevating events
         this.on('job-complete', job => {
-            //console.log('>>> JOB COMPLETE', job);
+            //LOG('>>> JOB COMPLETE', job);
 
             this.parentPort.postMessage({
                 message: 'job-complete',
@@ -28,7 +28,7 @@ export default class Generator extends ModuleClass {
 
         // receive message from the main app
         this.parentPort.on('message', data => {
-            console.log(this.label, 'MESSAGE:', data.message);
+            LOG(this.label, 'MESSAGE:', data.message);
 
             if (data.message === 'add-file') {
                 this.addJob(data.file);
