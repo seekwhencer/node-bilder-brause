@@ -1,11 +1,7 @@
 import {workerData, parentPort} from 'worker_threads';
-
 import Queue from "./Queue.js";
-import ModuleClass from './ModuleClass.js';
 
-global.MODULECLASS = ModuleClass;
-
-export default class Generator extends ModuleClass {
+export default class Generator extends MODULECLASS {
     constructor() {
         super();
 

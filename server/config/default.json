@@ -27,13 +27,9 @@
             ],
             "videos": [
                 "avi",
-                "AVI",
                 "mp4",
-                "MP4",
                 "mpg",
-                "MPG",
-                "mpeg",
-                "MPEG"
+                "mpeg"
             ]
         },
         "sizes": [

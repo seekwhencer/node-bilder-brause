@@ -8,9 +8,7 @@ import {Worker, isMainThread, workerData} from 'worker_threads';
 import path from 'path';
 import WebSocket from 'ws';
 
-import ModuleClass from './ModuleClass.js';
-
-export default class Generator extends ModuleClass {
+export default class Generator extends MODULECLASS {
     constructor(options) {
         super(options);
 

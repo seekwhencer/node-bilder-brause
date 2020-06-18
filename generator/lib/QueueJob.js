@@ -1,9 +1,8 @@
-import ModuleClass from './ModuleClass.js';
 import ImageMagick from 'imagemagick-stream';
 import fs from 'fs-extra';
 import MediaSizes from '../../shared/MediaSizes.js';
 
-export default class QueueJob extends ModuleClass {
+export default class QueueJob extends MODULECLASS {
     constructor(parent, options) {
         super(parent, options);
 

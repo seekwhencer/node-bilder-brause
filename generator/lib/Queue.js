@@ -1,7 +1,6 @@
-import ModuleClass from './ModuleClass.js';
 import Job from './QueueJob.js';
 
-export default class Queue extends ModuleClass {
+export default class Queue extends MODULECLASS {
     constructor(parent, options) {
         super(parent, options);
 
