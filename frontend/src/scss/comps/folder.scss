@@ -75,16 +75,50 @@
         position: relative;
         border: 1px solid #333333;
         min-height: 100px;
-
+        z-index: inherit;
+        transition-property: transform;
+        transition-duration: 0.15s;
+        transition-timing-function: ease-in-out;
 
         &:hover {
             cursor: pointer;
             background-color: #333333;
 
+            transform: scale(1.5);
+            z-index: 1000;
+
             .nbb-folder__image-item__name {
                 background: rgba(0, 0, 0, 0.5);
             }
         }
+
+
+        &:nth-child(8n+1) {
+            &:nth-last-child(-n+8) {
+                transform-origin: bottom left;
+
+                ~ div {
+                    transform-origin: bottom;
+                }
+            }
+        }
+
+
+        // this is the last of a row
+        &:nth-child(8n) {
+            transform-origin: right;
+        }
+
+        // the first of a row
+        &:nth-child(8n+1) {
+            transform-origin: left;
+        }
+
+        // the first row
+        &:nth-child(-n+8) {
+            transform-origin: top;
+        }
+
 
         &__name {
             position: absolute;

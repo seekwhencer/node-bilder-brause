@@ -59,7 +59,7 @@ export default class Browser extends NBBMODULECLASS {
     }
 
     get() {
-        // @TODO - stop all loading ressources
+        this.stopLoadingAllResources();
         let urlPath = this.locationExtracted.join('/');
         const url = `${this.urlBase}/funnel/${urlPath}`;
 
@@ -76,6 +76,10 @@ export default class Browser extends NBBMODULECLASS {
 
     setLocationHash(path) {
         window.location.hash = `#${path}`;
+    }
+
+    stopLoadingAllResources(){
+        // @TODO - stop all loading resources
     }
 
     get locationHash() {
