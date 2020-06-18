@@ -13,7 +13,7 @@ export default class FolderRoutes extends Route {
             const folder = `${this.store.rootPath}`;
 
             this.store
-                .collect(folder, true, this.includes, true, 2) // this is the root folder
+                .collect(folder, false, this.includes, true, 1) // this is the root folder
                 .then(data => {
                     if (data) {
                         res.json({
@@ -39,7 +39,7 @@ export default class FolderRoutes extends Route {
             const folder = `${this.store.rootPath}/${extractedPath}`;
 
             this.store
-                .collect(folder, true, this.includes, true, 2)
+                .collect(folder, false, this.includes, true, 1)
                 .then(data => {
                     if (data) {
                         res.json({

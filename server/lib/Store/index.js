@@ -133,12 +133,7 @@ export default class Store extends MODULECLASS {
 
     // walk thru the disk tree and fetch it
     readFolder(folder, recursive, includes, withDirs, depth) {
-        let depthCounter = 0;
-
-        const walk = (folder, recursive) => {
-            if (depthCounter >= depth && depth > 0)
-                return [];
-
+        const walk = (folder, recursive, level) => {
             let collection = [];
 
             if (fs.existsSync(folder)) {
@@ -171,8 +166,9 @@ export default class Store extends MODULECLASS {
                                         ...xstatItem
                                     });
 
-                                    if (recursive === true) {
-                                        item.childs = walk(itemPath, recursive);
+                                    if (recursive === true || level < depth) {
+                                        console.log('>>>>>>>>>LEVEL', level);
+                                        item.childs = walk(itemPath, recursive, level + 1);
                                     }
 
                                     collection.push(item);
@@ -201,11 +197,11 @@ export default class Store extends MODULECLASS {
 
                         } catch (err) {
                             LOG('NOT READABLE', itemPath, err);
-                            collection = walk(itemPath, recursive);
+                            collection = walk(itemPath, recursive, level + 1);
                         }
                     } else {
                         LOG('NOT EXISTS', itemPath);
-                        collection = walk(itemPath, recursive);
+                        collection = walk(itemPath, recursive, level + 1);
                     }
 
 
@@ -214,11 +210,10 @@ export default class Store extends MODULECLASS {
                 LOG('NOT EXISTS ', folder);
             }
 
-            depthCounter = depthCounter + 1;
             return collection;
         };
 
-        return walk(folder, recursive);
+        return walk(folder, recursive, 0);
     };
 
     aggregateIncludes() {

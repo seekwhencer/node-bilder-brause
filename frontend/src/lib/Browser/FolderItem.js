@@ -1,28 +1,25 @@
 import FolderItemTemplate from './Templates/FolderItem.html';
+import FolderImageItem from './FolderImageItem.js';
 
 export default class FolderItem extends NBBMODULECLASS {
     constructor(parent, options) {
         super(parent, options);
+        this.label = 'FOLDERITEM';
 
-        return new Promise((resolve, reject) => {
-            this.label = 'FOLDERITEM';
-            this.options = options;
+        this.options = options;
 
-            this.folders = this.options.childs.filter(c => c.type === 'folder');
-            this.images = this.options.childs.filter(c => c.type === 'image');
+        this.folders = this.options.childs.filter(c => c.type === 'folder');
+        this.images = this.options.childs.filter(c => c.type === 'image');
 
-            this.target = this.toDOM(FolderItemTemplate({
-                scope: {
-                    name: this.options.folderName
-                }
-            }));
+        this.target = this.toDOM(FolderItemTemplate({
+            scope: {
+                name: this.options.folderName
+            }
+        }));
 
-            this.target.onclick = e => this.select(e);
-
-            this.parent.foldersElement.append(this.target);
-
-            resolve();
-        });
+        this.target.onclick = e => this.select(e);
+        this.parent.foldersElement.append(this.target);
+        this.exposeThumbnail();
     }
 
     select(e) {
@@ -30,11 +27,12 @@ export default class FolderItem extends NBBMODULECLASS {
         this.parent.parent.setLocationHash(encodeURI(this.options.pathExtracted))
     }
 
-    exposeThumbnails() {
-        this.thumbnails = [];
-        console.log('>>> CHILD', this.options.folderName);
-        this.options.childs.forEach(c => {
-            console.log('>>> CHILD', c.folderName, c);
-        });
+    exposeThumbnail() {
+        this.images = this.options.childs.filter(c => c.type === 'image');
+        if (this.images.length === 0) {
+            return;
+        }
+        console.log('??? CHILDS', this.options.folderName);
+        this.image = new FolderImageItem(this, this.images[0]);
     }
 }
