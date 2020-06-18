@@ -18,54 +18,25 @@ export default class Folder extends NBBMODULECLASS {
         this.includes = {
             images: ['jpg', 'JPG', 'JPEG', 'jpeg', 'png', 'PNG']
         }
-
-        // fetch the entry url when the app is ready
-        this.app.on('ready', () => this.parent.getLocationHash());
-
-        // fetch the specified folder on a hash change
-        // @TODO elevate loading logic to the upper main object, because: not every call is a folder
-        this.parent.on('hashchange', () => this.get());
-
-        // elevate event
-        this.on('data', data => {
-            this.parent.emit('data', data);
-            this.draw(data);
-        });
-
     }
 
-    get() {
-        // @TODO - stop all loading ressources
-        /*if (this.target) {
-            this.filesElement.querySelectorAll('picture').forEach(pic => {
-                pic.srcset = false;
-                pic.querySelector('img').src = '';
-                pic.remove();
-            });
-            this.items = [];
-        }*/
-
-        let urlPath = this.parent.locationExtracted.join('/');
-        const url = `${this.urlBase}/funnel/${urlPath}`;
-
-        this
-            .fetch(url)
-            .then(data => this.emit('data', data));
+    set(data) {
+        this.data = data;
+        this.draw();
     }
 
-    draw(data) {
-        const file = data.file;
-
-        // draw this folder, if it is no file
-        //!file ? this.drawFolder(data) : null;
-        this.drawFolder(data);
-
-        // draw this image
-        file ? file.type === 'image' ? this.drawImage(data) : null : null;
+    draw() {
+        const file = this.data.file;
+        if (file) {
+            !this.target ? this.drawFolder() : null;
+            file.type === 'image' ? this.drawImage() : null;
+        } else {
+            this.drawFolder();
+        }
     }
 
 
-    drawFolder(data) {
+    drawFolder() {
         this.remove();
 
         this.target = this.toDOM(FolderTemplate({
@@ -77,8 +48,8 @@ export default class Folder extends NBBMODULECLASS {
         this.foldersElement = this.target.querySelector('[data-folders]');
         this.filesElement = this.target.querySelector('[data-files]');
 
-        const folders = data.data.childs.filter(c => c.type === 'folder');
-        const images = data.data.childs.filter(c => c.type === 'image');
+        const folders = this.data.data.childs.filter(c => c.type === 'folder');
+        const images = this.data.data.childs.filter(c => c.type === 'image');
 
         console.log(this.label, 'FOLDERS', folders.length);
         console.log(this.label, 'FILES', images.length);
@@ -102,7 +73,7 @@ export default class Folder extends NBBMODULECLASS {
             });
     }
 
-    drawImage(data) {
+    drawImage() {
         console.log('>>> DRAW IMAGE');
     }
 

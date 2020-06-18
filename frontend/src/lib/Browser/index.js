@@ -2,6 +2,7 @@ import BrowserTemplate from './Templates/Browser.html';
 import Folder from './Folder.js';
 import PageTitle from './PageTitle.js';
 import Breadcrump from './Breadcrump.js';
+import ImageViewer from './ImageViewer.js';
 
 export default class Browser extends NBBMODULECLASS {
     constructor(parent, options) {
@@ -11,14 +12,27 @@ export default class Browser extends NBBMODULECLASS {
             this.label = 'BROWSER';
             this.options = options;
 
+            this.urlBase = this.app.urlBase;
+            this.urlFolderBase = this.app.urlFolderBase;
+            this.urlImageBase = this.app.urlImageBase;
+            this.urlMediaBase = this.app.urlMediaBase;
+
             // listen on the location hash
             window.addEventListener("hashchange", () => this.getLocationHash(), false);
 
-            // if some dota comes
+            // fetch the entry url when the app is ready
+            this.app.on('ready', () => this.getLocationHash());
+
+            // fetch the specified folder on a hash change
+            this.on('hashchange', () => this.get());
+
+            // work with the json response
             this.on('data', data => {
                 console.log('>>> GOT DATA', data.data.type, data.data.id);
+
                 this.pageTitle.set(data.data.folderName);
                 this.breadcrump.set(data.data);
+                this.folder.set(data);
             });
 
             // add the template container
@@ -30,17 +44,28 @@ export default class Browser extends NBBMODULECLASS {
             // page title
             this.pageTitle = new PageTitle(this);
 
-
             // breadcrump
             this.breadcrump = new Breadcrump(this);
 
             // create the folder class
             this.folder = new Folder(this);
 
+            // create the large view
+            this.imageViewer = new ImageViewer(this);
 
             resolve();
         });
 
+    }
+
+    get() {
+        // @TODO - stop all loading ressources
+        let urlPath = this.locationExtracted.join('/');
+        const url = `${this.urlBase}/funnel/${urlPath}`;
+
+        this
+            .fetch(url)
+            .then(data => this.emit('data', data));
     }
 
     getLocationHash() {
