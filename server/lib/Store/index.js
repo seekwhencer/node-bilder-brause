@@ -77,7 +77,8 @@ export default class Store extends MODULECLASS {
             const xstatItem = {
                 atime: 'at' + xstat.atime.getTime(),
                 mtime: 'mt' + xstat.mtime.getTime(),
-                ctime: 'ct' + xstat.ctime.getTime()
+                ctime: 'ct' + xstat.ctime.getTime(),
+                btime: `bt${xstat.birthtime.getTime()}`
             };
             let item = false;
 
@@ -112,7 +113,8 @@ export default class Store extends MODULECLASS {
                     type: xstat.isDirectory() ? 'folder' : 'file',
                     atime: 'at' + xstat.atime.getTime(),
                     mtime: 'mt' + xstat.mtime.getTime(),
-                    ctime: 'ct' + xstat.ctime.getTime()
+                    ctime: 'ct' + xstat.ctime.getTime(),
+                    btime: `bt${xstat.birthtime.getTime()}`
                 };
                 resolve(xstatItem);
             }
@@ -152,7 +154,8 @@ export default class Store extends MODULECLASS {
                             const xstatItem = {
                                 atime: 'at' + xstat.atime.getTime(),
                                 mtime: 'mt' + xstat.mtime.getTime(),
-                                ctime: 'ct' + xstat.ctime.getTime()
+                                ctime: 'ct' + xstat.ctime.getTime(),
+                                btime: `bt${xstat.birthtime.getTime()}`
                             };
                             let item = false;
 

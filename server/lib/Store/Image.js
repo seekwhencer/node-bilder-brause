@@ -4,7 +4,7 @@ import Exif from "./Exif.js";
 export default class Image extends Item {
     constructor(parent, options) {
         super(parent, options);
-
+        this.options = options;
         this.type = 'image';
         this.id = options.id;
         this.filePath = options.filePath;
@@ -49,7 +49,12 @@ export default class Image extends Item {
             thumbnailPathsCrumped: this.thumbnailPathsCrumped,
             thumbnailPath: this.thumbnailPath,
 
-            uri: this.uri
+            uri: this.uri,
+
+            atime: this.options.atime,
+            btime: this.options.btime,
+            ctime: this.options.ctime,
+            mtime: this.options.mtime
         }
     }
 

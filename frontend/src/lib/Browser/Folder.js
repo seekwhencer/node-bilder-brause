@@ -48,8 +48,12 @@ export default class Folder extends NBBMODULECLASS {
         this.foldersElement = this.target.querySelector('[data-folders]');
         this.filesElement = this.target.querySelector('[data-files]');
 
-        const folders = this.data.data.childs.filter(c => c.type === 'folder');
-        const images = this.data.data.childs.filter(c => c.type === 'image');
+        let folders = this.data.data.childs.filter(c => c.type === 'folder');
+        let images = this.data.data.childs.filter(c => c.type === 'image');
+
+        folders = ksortObjArray(folders, 'folderName');
+        images = ksortObjArray(images, 'btime');
+        images.reverse();
 
         console.log(this.label, 'FOLDERS', folders.length);
         console.log(this.label, 'FILES', images.length);

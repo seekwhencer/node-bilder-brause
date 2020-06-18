@@ -4,7 +4,10 @@ export default class Item extends MODULECLASS {
     constructor(parent, options) {
         super(parent, options);
 
+        this.options = options;
+
         this.atime = options.atime;
+        this.btime = options.btime;
         this.mtime = options.mtime;
         this.ctime = options.ctime;
     }
