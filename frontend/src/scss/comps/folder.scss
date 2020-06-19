@@ -133,7 +133,7 @@
 
             // bottom left corner
             &:nth-last-child(-n+8) {
-                transform-origin: bottom left;
+                transform-origin: bottom left !important;
 
                 // bottom side
                 ~ div {
@@ -146,6 +146,11 @@
         // right side
         &:nth-child(8n) {
             transform-origin: right;
+
+            &:nth-last-child(-n+8) {
+                transform-origin: right bottom !important;
+            }
+
         }
 
         // first row
@@ -153,8 +158,8 @@
             transform-origin: top;
 
             // top right corner
-            &:nth-last-child(8n-2) {
-                transform-origin: top right;
+            &:nth-last-child(8n+1) {
+                transform-origin: top right !important;
             }
 
             // top left corner
