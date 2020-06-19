@@ -148,23 +148,23 @@
             transform-origin: right;
 
             &:nth-last-child(-n+8) {
-                transform-origin: right bottom !important;
+                transform-origin: bottom right !important;
             }
 
         }
 
         // first row
         &:nth-child(-n+8) {
-            transform-origin: top;
+            transform-origin: top !important;
 
             // top right corner
-            &:nth-last-child(8n+1) {
+            &:nth-last-child(8n-2) {
                 transform-origin: top right !important;
             }
 
             // top left corner
             &:nth-child(8n+1) {
-                transform-origin: top left;
+                transform-origin: top left !important;
             }
         }
 
