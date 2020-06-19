@@ -2,6 +2,6 @@
     <div class="nbb-folder__folder-item__name">
         ${name}
         <span class="nbb-folder__folder-item__imagescount">${count.images}</span>
-        <span class="nbb-folder__folder-item__folderscount">${count.folders}</span>
+        ${count.folders > 0 ? `<span class="nbb-folder__folder-item__folderscount">${count.folders}</span>` : ''}
     </div>
 </div>
