@@ -34,6 +34,7 @@ export default class Browser extends NBBMODULECLASS {
                 this.breadcrump.set(data.data);
 
                 this.folder.set(data);
+                this.imageViewer.set(data);
             });
 
             // add the template container

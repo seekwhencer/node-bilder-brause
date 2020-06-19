@@ -16,6 +16,22 @@ export default class MediaRoutes extends Route {
             });
         });
 
+        this.router.get(/(.+\/)?media\/original\/(.+)/i, (req, res) => {
+            const nicePath = this.nicePath(req.path);
+            let extractedPath = this.extractPath(nicePath, 'media/');
+            const size = extractedPath[0];
+            const fileName = extractedPath[extractedPath.length - 1];
+            extractedPath = extractedPath.filter((p, i) => i > 0).filter((p, i) => i < extractedPath.length - 2).join('/');
+            const folder = `${this.store.rootPath}/${extractedPath}`;
+            const filePath = `${folder}/${fileName}`;
+
+            if (fs.existsSync(filePath)) {
+                res.sendFile(filePath);
+            } else {
+                res.end();
+            }
+        });
+
         this.router.get(/(.+\/)?media\/(.+)/i, (req, res) => {
             const nicePath = this.nicePath(req.path);
             let extractedPath = this.extractPath(nicePath, 'media/');

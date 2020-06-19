@@ -58,5 +58,25 @@ export default [
         "name": "l",
         "size": 1200,
         "quality": 90
+    },
+    {
+        "name": "m",
+        "size": 1400,
+        "quality": 90
+    },
+    {
+        "name": "n",
+        "size": 1800,
+        "quality": 90
+    },
+    {
+        "name": "o",
+        "size": 2200,
+        "quality": 90
+    },
+    {
+        "name": "p",
+        "size": 2800,
+        "quality": 90
     }
 ];
