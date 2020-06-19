@@ -18,7 +18,6 @@ export default class FolderImageItem extends NBBMODULECLASS {
 
     }
 
-
     exposeThumbnails() {
         this.thumbnails = [];
         ThumbnailSizes.forEach(s => {

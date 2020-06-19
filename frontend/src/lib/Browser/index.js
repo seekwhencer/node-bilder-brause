@@ -32,6 +32,7 @@ export default class Browser extends NBBMODULECLASS {
 
                 this.pageTitle.set(data.data.folderName);
                 this.breadcrump.set(data.data);
+
                 this.folder.set(data);
             });
 

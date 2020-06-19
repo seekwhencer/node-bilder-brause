@@ -15,6 +15,7 @@ export default class Folder extends NBBMODULECLASS {
         this.urlImageBase = this.app.urlImageBase;
         this.urlMediaBase = this.app.urlMediaBase;
 
+        // @TODO - not used?
         this.includes = {
             images: ['jpg', 'JPG', 'JPEG', 'jpeg', 'png', 'PNG']
         }
@@ -26,12 +27,10 @@ export default class Folder extends NBBMODULECLASS {
     }
 
     draw() {
-        const file = this.data.file;
-        if (file) {
-            !this.target ? this.drawFolder() : null;
-            file.type === 'image' ? this.drawImage() : null;
+        if (this.data.file) {
+            !this.target ? this.drawFolder() : null; // if the folder was loaded
         } else {
-            this.drawFolder();
+            this.drawFolder(); // on a full deep link
         }
     }
 
