@@ -79,16 +79,11 @@ export default class ImageViewer extends NBBMODULECLASS {
         // remove the previous displayed image
         this.previousImage ? this.previousImage.remove() : null;
 
-        // duplicate the actual image
-        this.image ? this.previousImage = Object.assign(this.image, {}) : null; // copy the image
-
-        if (this.previousImage) {
-            this.previousImage ? this.previousImage.draw() : null;
-            this.previousImage.target.classList.add('previous');
-        }
-
         // remove the actual image
-        this.image ? this.image.remove() : null;
+        if (this.image) {
+            this.image.forget();
+            this.previousImage = Object.assign(this.image, {});
+        }
 
         this.image = new ImageViewerItem(this, this.data.file);
         this.findImageIndex();

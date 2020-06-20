@@ -18,7 +18,7 @@ export default class ImageViewerItem extends NBBMODULECLASS {
                 thumbnails: this.thumbnails
             }
         }));
-        this.parent.target.append(this.target);
+        this.parent.target.prepend(this.target);
 
         this.imageElement = this.target.querySelector('img');
         this.target.classList.add('loading');
@@ -44,5 +44,9 @@ export default class ImageViewerItem extends NBBMODULECLASS {
 
     remove() {
         this.target ? this.target.remove() : null;
+    }
+
+    forget() {
+        this.target.classList.add('previous');
     }
 }
