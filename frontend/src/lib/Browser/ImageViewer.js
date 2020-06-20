@@ -11,6 +11,7 @@ export default class ImageViewer extends NBBMODULECLASS {
         this.urlFolderBase = this.app.urlFolderBase;
         this.urlImageBase = this.app.urlImageBase;
         this.urlMediaBase = this.app.urlMediaBase;
+
     }
 
     set(data) {
@@ -42,8 +43,24 @@ export default class ImageViewer extends NBBMODULECLASS {
                 }
             }));
             this.parent.target.prepend(this.target);
+
+            this.prevElement = this.target.querySelector('[data-prev]');
+            this.prevElement.onclick = () => this.prev();
+
+            this.nextElement = this.target.querySelector('[data-next]');
+            this.nextElement.onclick = () => this.next();
+
+            this.prevElement.show = this.nextElement.show = function(){
+                this.classList.remove('hidden');
+            }
+            this.prevElement.hide = this.nextElement.hide = function(){
+                this.classList.add('hidden');
+            }
+
+            this.images = this.parent.folder.images;
         }
         document.querySelector('body').style.overflow = 'hidden';
+
         this.show();
     }
 
@@ -58,7 +75,39 @@ export default class ImageViewer extends NBBMODULECLASS {
     }
 
     show() {
+        this.image ? this.image.remove() : null;
         this.image = new ImageViewerItem(this, this.data.file);
+        this.findImageIndex();
     }
 
+    prev() {
+        let previousImagePath;
+        if (this.images[this.imageIndex - 1]) {
+            previousImagePath = this.images[this.imageIndex - 1].options.pathExtracted;
+        } else {
+            previousImagePath = this.images[0].options.pathExtracted;
+        }
+        this.parent.setLocationHash(previousImagePath);
+    }
+
+    next() {
+        let nextImagePath;
+        if (this.images[this.imageIndex + 1]) {
+            nextImagePath = this.images[this.imageIndex + 1].options.pathExtracted;
+        } else {
+            nextImagePath = this.images[this.images.length - 1].options.pathExtracted;
+        }
+
+        this.parent.setLocationHash(nextImagePath);
+    }
+
+    findImageIndex() {
+        this.imageIndex = this.images.findIndex(i => i.options.filePath === this.image.options.filePath);
+        this.checkPrevNext();
+    }
+
+    checkPrevNext() {
+        !this.images[this.imageIndex - 1] ? this.prevElement.hide(): this.prevElement.show();
+        !this.images[this.imageIndex + 1] ? this.nextElement.hide(): this.nextElement.show();
+    }
 }

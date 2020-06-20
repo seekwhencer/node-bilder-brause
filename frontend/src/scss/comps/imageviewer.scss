@@ -2,14 +2,45 @@
     position: fixed;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.9);
     z-index: 2000;
 
+    button {
+        background: #666666;
+        border: rgba(0, 0, 0, 0.4);
+        font-size: $fs-xl;
+        line-height: $fs-xxl;
+        cursor: pointer;
+        position: absolute;
+        top: 49vh;
+        z-index: 2000;
+
+        &:hover {
+            background: white;
+        }
+
+        &.hidden {
+            display: none;
+        }
+    }
+
+    &__prev {
+        left: 0;
+
+        svg {
+            transform: rotate(180deg);
+        }
+    }
+
+    &__next {
+        right: 0;
+    }
 
     &__image-item {
         width: 100%;
         height: 100%;
         display: block;
+        position: relative;
 
         &__image {
             position: absolute;
@@ -26,7 +57,15 @@
 
         &__name {
             position: absolute;
+            text-align: center;
+            display: block;
+            width: 100%;
+            z-index: 2000;
+            line-height: $fs-xxl;
+            background-color: rgba(0, 0, 0, 0.2);
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
         }
+
     }
 
 }

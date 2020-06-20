@@ -14,14 +14,8 @@ export default class ImageViewerItem extends NBBMODULECLASS {
                 thumbnails: this.thumbnails
             }
         }));
-        this.target.onclick = e => this.select(e);
         this.parent.target.append(this.target);
     }
-
-    select(e) {
-        this.parent.parent.setLocationHash(this.options.pathExtracted);
-    }
-
 
     exposeThumbnails() {
         this.thumbnails = [];
@@ -31,6 +25,9 @@ export default class ImageViewerItem extends NBBMODULECLASS {
                 media: s.media
             });
         });
-        console.log('>>> THUMBS', this.thumbnails);
+    }
+
+    remove() {
+        this.target ? this.target.remove() : null;
     }
 }
