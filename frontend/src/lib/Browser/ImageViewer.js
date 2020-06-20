@@ -50,6 +50,9 @@ export default class ImageViewer extends NBBMODULECLASS {
             this.nextElement = this.target.querySelector('[data-next]');
             this.nextElement.onclick = () => this.next();
 
+            this.closeElement = this.target.querySelector('[data-close]');
+            this.closeElement.onclick = () => this.close();
+
             this.prevElement.show = this.nextElement.show = function(){
                 this.classList.remove('hidden');
             }
