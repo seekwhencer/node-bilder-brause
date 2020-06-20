@@ -2,7 +2,7 @@ import BrowserTemplate from './Templates/Browser.html';
 import Folder from './Folder.js';
 import PageTitle from './PageTitle.js';
 import Breadcrump from './Breadcrump.js';
-import ImageViewer from './ImageViewer.js';
+import ImageViewer from './ImageViewer/index.js';
 
 export default class Browser extends NBBMODULECLASS {
     constructor(parent, options) {

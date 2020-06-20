@@ -1,5 +1,5 @@
 import ImageViewerTemplate from './Templates/ImageViewer.html';
-import ImageViewerItem from './ImageViewerItem.js';
+import ImageViewerItem from './Item.js';
 
 
 export default class ImageViewer extends NBBMODULECLASS {
@@ -11,7 +11,6 @@ export default class ImageViewer extends NBBMODULECLASS {
         this.urlFolderBase = this.app.urlFolderBase;
         this.urlImageBase = this.app.urlImageBase;
         this.urlMediaBase = this.app.urlMediaBase;
-
     }
 
     set(data) {

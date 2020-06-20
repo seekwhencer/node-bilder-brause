@@ -1,5 +1,5 @@
-import ImageViewerItemTemplate from './Templates/ImageViewerItem.html';
-import ThumbnailSizes from './ThumbnailSizes/Detail.js';
+import ItemTemplate from './Templates/Item.html';
+import ThumbnailSizes from '../ThumbnailSizes/Detail.js';
 
 export default class ImageViewerItem extends NBBMODULECLASS {
     constructor(parent, options) {
@@ -8,7 +8,7 @@ export default class ImageViewerItem extends NBBMODULECLASS {
 
         this.imageDataUrl = `${this.parent.urlImageBase}/${this.options.pathExtracted}`;
         this.exposeThumbnails();
-        this.target = this.toDOM(ImageViewerItemTemplate({
+        this.target = this.toDOM(ItemTemplate({
             scope: {
                 name: this.options.fileName,
                 thumbnails: this.thumbnails
