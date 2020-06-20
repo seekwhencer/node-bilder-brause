@@ -120,7 +120,7 @@
             background-color: #111111;
             transform: scale(1.5);
             z-index: 1000;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 1);
+            box-shadow: 0 0 100px 40px rgba(0, 0, 0, 1);
 
             .nbb-folder__image-item__name {
                 background: rgba(0, 0, 0, 0.5);
@@ -168,6 +168,43 @@
             }
         }
 
+        &.loading {
+            @keyframes rotator {
+                0% {
+                    transform: rotate(0deg);
+                    opacity: 0.5;
+                }
+
+                50% {
+                    transform: rotate(180deg) scale(1.4);
+                    opacity: 1;
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                    opacity: 0.5;
+                }
+            }
+
+            &:before {
+                width: 20px;
+                height: 20px;
+                background: rgba(255, 255, 255, 0.3);
+                content: '';
+                position: absolute;
+                display: block;
+                overflow: hidden;
+                left: calc(50% - 10px);
+                top: calc(50% - 10px);
+                z-index: 1000;
+                animation: rotator 2s infinite;
+                animation-timing-function: linear;
+            }
+        }
+
+        &.loaded {
+            //..
+        }
 
         &__name {
             position: absolute;
@@ -177,12 +214,14 @@
             width: 100%;
             background: rgba(0, 0, 0, 0.2);
             padding: 10px 0;
+            z-index: 100;
         }
 
         &__image {
             width: 100%;
             height: 100%;
             display: block;
+            position: relative;
 
             img {
                 width: 100%;
@@ -190,7 +229,6 @@
                 object-fit: contain;
                 display: block;
             }
-
         }
     }
 }

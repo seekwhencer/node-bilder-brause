@@ -1,5 +1,5 @@
 import FolderItemTemplate from './Templates/FolderItem.html';
-import FolderImageItem from './FolderImageItem.js';
+import FolderImageItem from './FolderImage.js';
 
 export default class FolderItem extends NBBMODULECLASS {
     constructor(parent, options) {

@@ -1,5 +1,5 @@
 import ImageItemTemplate from './Templates/ImageItem.html';
-import ThumbnailSizes from './ThumbnailSizes.js';
+import ThumbnailSizes from '../ThumbnailSizes/Images.js';
 
 export default class ImageItem extends NBBMODULECLASS {
     constructor(parent, options, silent) {
@@ -16,6 +16,12 @@ export default class ImageItem extends NBBMODULECLASS {
         }));
         this.target.onclick = e => this.select(e);
         this.parent.filesElement.append(this.target);
+        this.image = this.target.querySelector('img');
+        this.target.classList.add('loading');
+        this.image.onload = e => {
+            this.target.classList.remove('loading');
+            this.target.classList.add('loaded');
+        }
 
     }
 

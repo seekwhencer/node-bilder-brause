@@ -52,17 +52,16 @@ export default class ImageViewer extends NBBMODULECLASS {
             this.closeElement = this.target.querySelector('[data-close]');
             this.closeElement.onclick = () => this.close();
 
-            this.prevElement.show = this.nextElement.show = function(){
+            this.prevElement.show = this.nextElement.show = function () {
                 this.classList.remove('hidden');
             }
-            this.prevElement.hide = this.nextElement.hide = function(){
+            this.prevElement.hide = this.nextElement.hide = function () {
                 this.classList.add('hidden');
             }
 
             this.images = this.parent.folder.images;
         }
         document.querySelector('body').style.overflow = 'hidden';
-
         this.show();
     }
 
@@ -77,7 +76,20 @@ export default class ImageViewer extends NBBMODULECLASS {
     }
 
     show() {
+        // remove the previous displayed image
+        this.previousImage ? this.previousImage.remove() : null;
+
+        // duplicate the actual image
+        this.image ? this.previousImage = Object.assign(this.image, {}) : null; // copy the image
+
+        if (this.previousImage) {
+            this.previousImage ? this.previousImage.draw() : null;
+            this.previousImage.target.classList.add('previous');
+        }
+
+        // remove the actual image
         this.image ? this.image.remove() : null;
+
         this.image = new ImageViewerItem(this, this.data.file);
         this.findImageIndex();
     }
@@ -109,7 +121,7 @@ export default class ImageViewer extends NBBMODULECLASS {
     }
 
     checkPrevNext() {
-        !this.images[this.imageIndex - 1] ? this.prevElement.hide(): this.prevElement.show();
-        !this.images[this.imageIndex + 1] ? this.nextElement.hide(): this.nextElement.show();
+        !this.images[this.imageIndex - 1] ? this.prevElement.hide() : this.prevElement.show();
+        !this.images[this.imageIndex + 1] ? this.nextElement.hide() : this.nextElement.show();
     }
 }

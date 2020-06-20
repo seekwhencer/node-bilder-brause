@@ -8,6 +8,10 @@ export default class ImageViewerItem extends NBBMODULECLASS {
 
         this.imageDataUrl = `${this.parent.urlImageBase}/${this.options.pathExtracted}`;
         this.exposeThumbnails();
+        this.draw();
+    }
+
+    draw() {
         this.target = this.toDOM(ItemTemplate({
             scope: {
                 name: this.options.fileName,
@@ -15,6 +19,17 @@ export default class ImageViewerItem extends NBBMODULECLASS {
             }
         }));
         this.parent.target.append(this.target);
+
+        this.imageElement = this.target.querySelector('img');
+        this.target.classList.add('loading');
+        this.imageElement.onload = (e) => {
+            this.target.classList.remove('loading');
+            this.target.classList.add('loaded');
+        };
+
+        this.imageElement.onerror = () => {
+
+        };
     }
 
     exposeThumbnails() {

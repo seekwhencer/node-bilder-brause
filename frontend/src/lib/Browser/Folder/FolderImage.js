@@ -1,5 +1,5 @@
 import FolderImageItemTemplate from './Templates/FolderImageItem.html';
-import ThumbnailSizes from './ThumbnailSizes.js';
+import ThumbnailSizes from '../ThumbnailSizes/Images.js';
 
 export default class FolderImageItem extends NBBMODULECLASS {
     constructor(parent, options, silent) {
