@@ -70,9 +70,6 @@ export default class Browser extends NBBMODULECLASS {
         let url = `${this.urlBase}/funnel/${urlPath}`;
         let followingRequestUrl = false;
 
-        //@TODO check hier, ob schon was da ist, oder ob das ein deep link ist
-        // wenn deeplink, dann ohne file, also den ordner
-
         if (!this.folder.target) {
             followingRequestUrl = url;
             this.locationExtracted.pop();
@@ -80,6 +77,10 @@ export default class Browser extends NBBMODULECLASS {
             url = `${this.urlBase}/funnel/${urlPathWithoutFile}`;
         }
 
+        // on a deeplink to a file, the upper folder must be requestet
+        // this happens here. if no folder contend exists, the folder will
+        // be requested at first. then, after the request is done,
+        // the image viewer request happens.
         this
             .fetch(url)
             .then(data => {
