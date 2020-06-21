@@ -23,6 +23,7 @@ export default class Folder extends NBBMODULECLASS {
 
     set(data) {
         this.data = data;
+        // @TODO hier ne Weiche ob's nen folder ist oder daten kamen. ansonsten eins zurück
         this.draw();
     }
 

@@ -3,6 +3,7 @@ import Folder from './Folder/index.js';
 import PageTitle from './PageTitle.js';
 import Breadcrump from './Breadcrump.js';
 import ImageViewer from './ImageViewer/index.js';
+import Controls from './Controls/index.js';
 
 export default class Browser extends NBBMODULECLASS {
     constructor(parent, options) {
@@ -55,6 +56,9 @@ export default class Browser extends NBBMODULECLASS {
             // create the large view
             this.imageViewer = new ImageViewer(this);
 
+            // create the controls
+            this.controls = new Controls(this);
+
             resolve();
         });
 
@@ -63,11 +67,31 @@ export default class Browser extends NBBMODULECLASS {
     get() {
         this.stopLoadingAllResources();
         let urlPath = this.locationExtracted.join('/');
-        const url = `${this.urlBase}/funnel/${urlPath}`;
+        let url = `${this.urlBase}/funnel/${urlPath}`;
+        let followingRequestUrl = false;
+
+        //@TODO check hier, ob schon was da ist, oder ob das ein deep link ist
+        // wenn deeplink, dann ohne file, also den ordner
+
+        if (!this.folder.target) {
+            followingRequestUrl = url;
+            this.locationExtracted.pop();
+            const urlPathWithoutFile = this.locationExtracted.join('/');
+            url = `${this.urlBase}/funnel/${urlPathWithoutFile}`;
+        }
 
         this
             .fetch(url)
-            .then(data => this.emit('data', data));
+            .then(data => {
+                this.emit('data', data);
+                if (followingRequestUrl) {
+                    this
+                        .fetch(followingRequestUrl)
+                        .then(data => {
+                            this.emit('data', data);
+                        });
+                }
+            });
     }
 
     getLocationHash() {
@@ -80,7 +104,7 @@ export default class Browser extends NBBMODULECLASS {
         window.location.hash = `#${path}`;
     }
 
-    stopLoadingAllResources(){
+    stopLoadingAllResources() {
         // @TODO - stop all loading resources
     }
 

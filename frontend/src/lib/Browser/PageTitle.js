@@ -15,6 +15,6 @@ export default class PageTitle extends NBBMODULECLASS {
     }
 
     set(value) {
-        this.target.innerHTML = value;
+        value ? this.target.innerHTML = value : '';
     }
 }

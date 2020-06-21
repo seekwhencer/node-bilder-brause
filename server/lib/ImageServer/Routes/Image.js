@@ -22,39 +22,30 @@ export default class ImageRoutes extends Route {
         this.router.get(/(.+\/)?image\/(.+)/i, (req, res) => {
             const nicePath = this.nicePath(req.path);
             let extractedPath = this.extractPath(req.path, 'image/');
-            const niceImage = extractedPath.join('/');
-            extractedPath = extractedPath.filter((p, i) => i < extractedPath.length - 1).join('/');
-            const folder = `${this.store.rootPath}/${extractedPath}`;
+            const fileName = extractedPath[extractedPath.length - 1];
+            extractedPath.pop();
+            const folder = `${this.store.rootPath}/${extractedPath.join('/')}`;
+            const filePath = `${folder}/${fileName}`;
 
             this.store
-                .collect(folder, true, this.includes, true, 1)
-                .then(data => {
-                    if (data) {
-                        const aggregated = data.aggregate();
-                        const image = data.childs.filter(i => i.pathExtracted === niceImage)[0];
+                .grab(filePath)
+                .then(image => {
+                    if (image) {
+                        const aggregated = image.aggregate();
 
-                        if (image) {
-                            let file = image.aggregate();
-                            if (file.type === 'image') {
-                                image.readExif().then(() => {
-                                    res.json({
-                                        nicePath: nicePath,
-                                        niceImage: niceImage,
-                                        extractedPath: extractedPath,
-                                        file: file,
-                                        exif: image.exif,
-                                        data: aggregated
-                                    });
+                        let file = image.aggregate();
+                        if (file.type === 'image') {
+                            image.readExif().then(() => {
+                                res.json({
+                                    nicePath: nicePath,
+                                    extractedPath: extractedPath,
+                                    file: file,
+                                    exif: image.exif,
+                                    data: aggregated
                                 });
-                            }
-                        } else {
-                            res.json({
-                                nicePath: nicePath,
-                                extractedPath: extractedPath,
-                                data: false,
-                                message: "jibt's wohl nicht..."
                             });
                         }
+
                     } else {
                         res.json({
                             nicePath: nicePath,
