@@ -29,7 +29,6 @@ export default class Stripe extends NBBMODULECLASS {
             const imageItem = new StripeItem(this, i.options);
             this.images.push(imageItem);
         });
-        this.calcStripWidth();
     }
 
     close() {
@@ -40,8 +39,7 @@ export default class Stripe extends NBBMODULECLASS {
         this.target ? this.target.remove() : null;
     }
 
-    calcStripWidth() {
-        const imageBox = this.images[0].target.getBoundingClientRect();
-        console.log('>>>>>>', imageBox);
+    scrollToActive(imageIndex) {
+        this.images[imageIndex].target.scrollIntoView(true);
     }
 }

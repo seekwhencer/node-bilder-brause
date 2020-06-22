@@ -46,6 +46,7 @@ export default class ImageViewer extends NBBMODULECLASS {
             }));
             this.parent.target.prepend(this.target);
 
+            // short link to the ordered images
             this.images = this.parent.folder.images;
 
             // create the controls
@@ -96,6 +97,7 @@ export default class ImageViewer extends NBBMODULECLASS {
         this.stripe ? this.stripe.remove() : null;
         this.stripe = new Stripe(this);
         this.target.classList.add('stripe');
+        this.stripe.scrollToActive(this.imageIndex);
     }
 
 }
