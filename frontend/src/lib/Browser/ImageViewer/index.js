@@ -1,6 +1,7 @@
 import ImageViewerTemplate from './Templates/ImageViewer.html';
 import ImageViewerItem from './Item.js';
-
+import Controls from './Controls.js';
+import Stripe from './Stripe.js';
 
 export default class ImageViewer extends NBBMODULECLASS {
     constructor(parent, options) {
@@ -11,6 +12,8 @@ export default class ImageViewer extends NBBMODULECLASS {
         this.urlFolderBase = this.app.urlFolderBase;
         this.urlImageBase = this.app.urlImageBase;
         this.urlMediaBase = this.app.urlMediaBase;
+
+
     }
 
     set(data) {
@@ -43,23 +46,10 @@ export default class ImageViewer extends NBBMODULECLASS {
             }));
             this.parent.target.prepend(this.target);
 
-            this.prevElement = this.target.querySelector('[data-prev]');
-            this.prevElement.onclick = () => this.prev();
-
-            this.nextElement = this.target.querySelector('[data-next]');
-            this.nextElement.onclick = () => this.next();
-
-            this.closeElement = this.target.querySelector('[data-close]');
-            this.closeElement.onclick = () => this.close();
-
-            this.prevElement.show = this.nextElement.show = function () {
-                this.classList.remove('hidden');
-            }
-            this.prevElement.hide = this.nextElement.hide = function () {
-                this.classList.add('hidden');
-            }
-
             this.images = this.parent.folder.images;
+
+            // create the controls
+            this.controls = new Controls(this);
         }
         document.querySelector('body').style.overflow = 'hidden';
         this.show();
@@ -90,33 +80,22 @@ export default class ImageViewer extends NBBMODULECLASS {
     }
 
     prev() {
-        let previousImagePath;
-        if (this.images[this.imageIndex - 1]) {
-            previousImagePath = this.images[this.imageIndex - 1].options.pathExtracted;
-        } else {
-            previousImagePath = this.images[0].options.pathExtracted;
-        }
-        this.parent.setLocationHash(previousImagePath);
+        this.controls.prev();
     }
 
     next() {
-        let nextImagePath;
-        if (this.images[this.imageIndex + 1]) {
-            nextImagePath = this.images[this.imageIndex + 1].options.pathExtracted;
-        } else {
-            nextImagePath = this.images[this.images.length - 1].options.pathExtracted;
-        }
-
-        this.parent.setLocationHash(nextImagePath);
+        this.controls.next();
     }
 
     findImageIndex() {
         this.imageIndex = this.images.findIndex(i => i.options.filePath === this.image.options.filePath);
-        this.checkPrevNext();
+        this.controls.checkPrevNext();
     }
 
-    checkPrevNext() {
-        !this.images[this.imageIndex - 1] ? this.prevElement.hide() : this.prevElement.show();
-        !this.images[this.imageIndex + 1] ? this.nextElement.hide() : this.nextElement.show();
+    showStripe() {
+        this.stripe ? this.stripe.remove() : null;
+        this.stripe = new Stripe(this);
+        this.target.classList.add('stripe');
     }
+
 }

@@ -1,0 +1,82 @@
+.nbb-imageviewer {
+    &__controls {
+        button {
+            background: #666666;
+            border: rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            position: absolute;
+            z-index: 10000;
+            margin: 0;
+
+            &:hover {
+                background: white;
+            }
+
+            &.hidden {
+                display: none;
+            }
+        }
+
+        &__prev {
+            left: 0;
+            top: 49vh;
+            font-size: $fs-xl;
+            line-height: $fs-xxl;
+            padding: 0 10px;
+
+            svg {
+                transform: rotate(180deg);
+            }
+        }
+
+        &__next {
+            top: 49vh;
+            right: 0;
+            font-size: $fs-xl;
+            line-height: $fs-xxl;
+            padding: 0 10px;
+        }
+
+        &__close {
+            top: 0;
+            right: 0;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            padding: 15px;
+
+            svg {
+                transform: scale(0.2);
+                transform-origin: top left;
+            }
+        }
+
+        &__layout {
+            &.up {
+                bottom: 0;
+                right: 0;
+                width: 50px;
+                height: 50px;
+                text-align: center;
+                padding: 15px;
+
+                svg {
+                    transform: rotate(-90deg);
+                }
+            }
+
+            &.down {
+                bottom: 0;
+                right: 0;
+                width: 50px;
+                height: 50px;
+                text-align: center;
+                padding: 15px;
+
+                svg {
+                    transform: rotate(90deg);
+                }
+            }
+        }
+    }
+}

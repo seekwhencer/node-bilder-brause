@@ -3,7 +3,6 @@ import Folder from './Folder/index.js';
 import PageTitle from './PageTitle.js';
 import Breadcrump from './Breadcrump.js';
 import ImageViewer from './ImageViewer/index.js';
-import Controls from './Controls/index.js';
 
 export default class Browser extends NBBMODULECLASS {
     constructor(parent, options) {
@@ -55,9 +54,6 @@ export default class Browser extends NBBMODULECLASS {
 
             // create the large view
             this.imageViewer = new ImageViewer(this);
-
-            // create the controls
-            this.controls = new Controls(this);
 
             resolve();
         });

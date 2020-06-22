@@ -1,0 +1,8 @@
+<div class="nbb-imageviewer__stripe__stripe-item">
+    <div class="nbb-imageviewer__stripe__stripe-item__image">
+        <picture>
+            ${thumbnails.map(t => `<source srcset="${t.url}" media="${t.media}">`).join('')}
+            <img src="">
+        </picture>
+    </div>
+</div>

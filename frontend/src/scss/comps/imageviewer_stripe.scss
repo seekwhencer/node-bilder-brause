@@ -1,0 +1,15 @@
+@import 'imageviewer_stripeitem';
+
+.nbb-imageviewer {
+    &__stripe {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20vw;
+        overflow-y: auto;
+        height: 100%;
+        z-index: 11000;
+        background-color: #111111;
+    }
+}

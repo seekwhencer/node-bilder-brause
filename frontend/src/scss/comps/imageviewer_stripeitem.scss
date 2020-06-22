@@ -1,0 +1,68 @@
+.nbb-imageviewer__stripe {
+    &__stripe-item {
+        display: inline-block;
+        overflow: hidden;
+        width: 100%;
+        position: relative;
+        z-index: 1000;
+        transition-property: transform;
+        transition-duration: 0.15s;
+        transition-timing-function: ease-in-out;
+
+        &:hover {
+            cursor: pointer;
+            background-color: #111111;
+            filter: brightness(150%);
+            z-index: 1001;
+            box-shadow: 0 0 100px 40px rgba(0, 0, 0, 1);
+            transform-origin: bottom;
+            border-color: $color-cloud;
+
+        }
+
+        &.loading {
+            &:before {
+                width: 20px;
+                height: 20px;
+                background: rgba(255, 255, 255, 0.3);
+                content: '';
+                position: absolute;
+                display: block;
+                overflow: hidden;
+                left: calc(50% - 10px);
+                top: calc(50% - 10px);
+                z-index: 1000;
+            }
+        }
+
+        &.loaded {
+            //..
+        }
+
+        &__name {
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px 0;
+            z-index: 100;
+            font-size: $fs-s;
+        }
+
+        &__image {
+            width: 80%;
+            height: 80%;
+            display: block;
+            position: relative;
+            margin: 10%;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                display: block;
+            }
+        }
+    }
+}
