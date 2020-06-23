@@ -10,10 +10,11 @@
     z-index: 2000;
 
     &.stripe {
-        .nbb-imageviewer__image-item {
+        .nbb-imageviewer__image-item, .nbb-imageviewer__controls {
             width: calc(100% - 20vw);
             transform-origin: right;
             right: 0;
+            position: absolute;
         }
     }
 }

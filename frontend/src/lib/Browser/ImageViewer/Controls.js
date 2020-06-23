@@ -66,6 +66,14 @@ export default class Controls extends NBBMODULECLASS {
     }
 
     toggleLayout() {
-        this.parent.showStripe();
+        if(this.parent.stripe){
+            this.parent.closeStripe();
+            this.layoutElement.classList.remove('down');
+            this.layoutElement.classList.add('up');
+        } else {
+            this.parent.openStripe();
+            this.layoutElement.classList.remove('up');
+            this.layoutElement.classList.add('down');
+        }
     }
 }

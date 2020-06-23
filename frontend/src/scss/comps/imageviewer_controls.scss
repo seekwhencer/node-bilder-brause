@@ -1,5 +1,7 @@
 .nbb-imageviewer {
     &__controls {
+        height: 100%;
+
         button {
             background: #666666;
             border: rgba(0, 0, 0, 0.4);
@@ -54,7 +56,7 @@
         &__layout {
             &.up {
                 bottom: 0;
-                right: 0;
+                left: 0;
                 width: 50px;
                 height: 50px;
                 text-align: center;
@@ -67,7 +69,7 @@
 
             &.down {
                 bottom: 0;
-                right: 0;
+                left: 0;
                 width: 50px;
                 height: 50px;
                 text-align: center;

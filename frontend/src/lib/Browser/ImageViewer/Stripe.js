@@ -29,6 +29,11 @@ export default class Stripe extends NBBMODULECLASS {
             const imageItem = new StripeItem(this, i.options);
             this.images.push(imageItem);
         });
+        //@TODO - nicht warten: reagieren! (bis "alle" bilder - bis zum besagten - geladen wurden, nicht alle)
+        setTimeout(() => {
+            this.scrollToActive();
+        }, 1000);
+
     }
 
     close() {
@@ -39,7 +44,20 @@ export default class Stripe extends NBBMODULECLASS {
         this.target ? this.target.remove() : null;
     }
 
-    scrollToActive(imageIndex) {
-        this.images[imageIndex].target.scrollIntoView(true);
+    scrollToActive() {
+        let scrollTarget = this.images[this.parent.imageIndex - 1].target;
+        !scrollTarget ? scrollTarget = this.images[this.parent.imageIndex].target : null;
+
+        this.target.scrollTo({
+            top: scrollTarget.offsetTop,
+            left: 0,
+            behavior: 'smooth'
+        });
+        this.unselectAll();
+        this.images[this.parent.imageIndex].target.classList.add('active');
+    }
+
+    unselectAll() {
+        this.images.forEach(i => i.target.classList.remove('active'));
     }
 }

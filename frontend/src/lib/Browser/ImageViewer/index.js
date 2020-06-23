@@ -57,13 +57,17 @@ export default class ImageViewer extends NBBMODULECLASS {
     }
 
     close() {
+        this.closeStripe();
         this.remove();
     }
 
     remove() {
-        this.target ? this.target.remove() : null;
+        if (this.target) {
+            this.target.remove();
+            delete this.target;
+            this.closeStripe();
+        }
         document.querySelector('body').style.overflow = 'auto';
-        delete this.target;
     }
 
     show() {
@@ -91,13 +95,21 @@ export default class ImageViewer extends NBBMODULECLASS {
     findImageIndex() {
         this.imageIndex = this.images.findIndex(i => i.options.filePath === this.image.options.filePath);
         this.controls.checkPrevNext();
+        this.stripe ? this.stripe.scrollToActive() : null;
     }
 
-    showStripe() {
+    openStripe() {
         this.stripe ? this.stripe.remove() : null;
         this.stripe = new Stripe(this);
         this.target.classList.add('stripe');
-        this.stripe.scrollToActive(this.imageIndex);
+    }
+
+    closeStripe() {
+        if (this.stripe) {
+            this.stripe.remove();
+            delete this.stripe;
+        }
+        this.target ? this.target.classList.remove('stripe') : null;
     }
 
 }

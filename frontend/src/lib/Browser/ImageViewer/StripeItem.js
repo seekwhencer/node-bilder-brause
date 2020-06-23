@@ -38,4 +38,5 @@ export default class StripeItem extends NBBMODULECLASS {
             });
         });
     }
+
 }
