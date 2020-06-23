@@ -56,7 +56,7 @@
             position: absolute;
             background-color: rgba(0, 0, 0, 0.8);
             display: inline-block;
-            font-size: $fs-m;
+            font-size: $fs-xl;
             z-index: 2;
 
             @include media-smartphone {
