@@ -75,7 +75,7 @@ export default class WebsocketServer extends MODULECLASS {
         //LOG(this.label, 'THE QUEUE', this.parent.queue);
 
         if (data.message === 'job-complete') {
-            LOG(this.label, '>>> JOB COMPLETE IN WEBSOCKET SERVER', data);
+            //LOG(this.label, '>>> JOB COMPLETE IN WEBSOCKET SERVER', data);
             //const image = this.parent.queue.filter(q => q.hash === data.data.hash)[0];
             //image.emit('complete'); // await from media server route controller
         }

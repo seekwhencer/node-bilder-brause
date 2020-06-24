@@ -13,7 +13,6 @@ export default class UploadRoute extends Route {
             const form = new formidable.IncomingForm();
 
             form.parse(req, (err, fields, files) => {
-                console.log('fields:', fields);
                 fields.size ? this.size = fields.size : null;
                 fields.hash ? this.hash = fields.hash : null;
                 files ? this.files = files : null;
@@ -35,15 +34,14 @@ export default class UploadRoute extends Route {
                         if (err) {
                             ERROR(this.label, err);
                         } else {
-                            LOG(this.label, 'UPLOAD COPIED');
-
-                            //@TODO trigger hier queue job complete
                             const image = this.app.generator.queue.filter(q => q.hash === this.hash)[0];
                             image.emit('complete');
-
+                            res.end();
                         }
                     });
                 });
+            } else {
+                res.end();
             }
         });
 

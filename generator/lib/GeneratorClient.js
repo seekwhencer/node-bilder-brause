@@ -59,7 +59,7 @@ export default class GeneratorClient extends NBBMODULECLASS {
             });
 
             this.on('upload-complete', job => {
-                LOG(this.label, 'UPLOAD COMPLETE', job);
+                LOG(this.label, 'UPLOAD COMPLETE', job.hash, job.options.pathExtracted);
                 this.send({
                     message: 'job-complete',
                     data: job
