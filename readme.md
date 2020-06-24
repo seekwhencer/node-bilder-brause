@@ -216,3 +216,71 @@ There are two, okay three apps to work on it. The Server, the Generator and the 
 - generates thumbnails with imagemagick (snap at next)
 - runs as worker, launched by the server app
 - runs stand alone over the network ***(is in progress)***
+
+
+## The Network Generator Client
+Two ways exists to let the thumbnails generated. At first, per worker thread with the server app.
+Okay. This is the basic way. This can take some time on a raspberry pi. To let your desktop machine do this job,
+just download the repo on your empowered machine, configure and run it.
+  
+#### How it works?
+The **server app** and the **generator client** are using the same worker thread and queue mechanic. or the same code.
+The server app opens a websocket server, the client connect to it. Then happens:
+
+- an image request for a not existing file, triggers a
+- websocket message from the server to the client to start with a new image,
+- by downloading the original from the api: `media/original` (client)
+- store it locally (client)
+- and add a new queue job with the downloaded original file (client)
+- then the job will be processed and on complete (client)
+- the client app uploads the generated thumbnail to the server app at: `upload/:size`
+- the server app receive the image upload and
+- after the upload was complete, the requested image (from the first step of this list) emits the event: `complete`
+- because the requested image is stored in the `app.generator.queue` as object and can do this ... ;)
+- the event, to finish the image request from the browser, was set in the route controller: `server/lib/ImageServer/Routes/Media.js`
+
+#### Configure the generator server
+Open the file: `server/config/default.json`:
+
+```json
+"generator": {
+    "protocol": "ws",
+    "host": "zentrale",
+    "port": 3055,
+    "reconnectIdle": 2000
+},
+```
+
+#### Configure the generator client
+Open the file, at the moment, `generator/standalone.js` and change it at your needs:
+
+```javascript
+const generatorOptions = {
+    protocol: 'ws',
+    host: 'zentrale',
+    port: 3055,
+    reconnectIdle: 2000,
+
+    imageSourceBaseURL: 'http://zentrale:3050/v1/media/original',
+    uploadBaseUrl: 'http://zentrale:3050/v1/upload',
+};
+```
+
+- **imageSourceBaseURL**  
+Is the URL base from where the original images will be downloaded.
+
+- **uploadBaseUrl**  
+Is the URL base to upload the generated thumbnail image
+
+> will be refactored, it looks ugly
+
+#### Run it
+```bash
+# from the top folder
+npm run generator
+
+#from the generator folder
+npm start
+```
+
+
