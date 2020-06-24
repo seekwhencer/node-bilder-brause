@@ -54,7 +54,9 @@ export default class MediaRoutes extends Route {
                         res.sendFile(thumbnail);
                     } else {
                         const job = this.generator.addJob(image);
-                        job.on('complete', () => res.sendFile(thumbnail));
+                        job.on('complete', () => {
+                            res.sendFile(thumbnail);
+                        });
                     }
                 })
                 .catch(() => {

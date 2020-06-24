@@ -18,16 +18,18 @@ export default class UploadRoute extends Route {
                 files ? this.files = files : null;
             });
 
-            if (this.files) {
-                form
-                    .on('aborted', () => {
-                        ERROR('THUMBNAIL UPLOAD ABORTED')
-                    })
-                    .on('error', (err) => {
-                        ERROR('THUMBNAIL RECEIVING ERROR:', err)
-                    });
+            form
+                .on('aborted', () => {
+                    ERROR('THUMBNAIL UPLOAD ABORTED');
+                    res.end();
+                })
+                .on('error', (err) => {
+                    ERROR('THUMBNAIL RECEIVING ERROR:', err);
+                    res.end();
+                });
 
-                form.on('end', () => {
+            form.on('end', () => {
+                if (this.files) {
                     const temp_path = form.openedFiles[0].path;
                     fs.ensureDirSync(this.thumbnailPath);
                     fs.copy(temp_path, this.filePath, err => {
@@ -39,10 +41,10 @@ export default class UploadRoute extends Route {
                             res.end();
                         }
                     });
-                });
-            } else {
-                res.end();
-            }
+                } else {
+                    res.end();
+                }
+            });
         });
 
         return this.router;
@@ -62,7 +64,6 @@ export default class UploadRoute extends Route {
         this.thumbnailPathsCrumped = this.extractThumbnailPaths(this.app.config.store.thumbnailPathSplitDigits, this.app.config.store.thumbnailPathSplitCount);
         this.thumbnailPath = `${this.app.store.thumbnailPath}/${this.thumbnailPathsCrumped.join('/')}`;
         this.filePath = `${this.thumbnailPath}/${this.hash}_${this.size}.jpg`;
-        LOG('>>>?!?', this.thumbnailPath, this.filePath);
         fs.ensureDirSync(this.thumbnailPath);
     }
 
