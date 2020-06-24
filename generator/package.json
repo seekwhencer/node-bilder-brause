@@ -11,7 +11,11 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "dateformat": "^3.0.3",
+        "form-data": "^3.0.0",
         "fs-extra": "^9.0.1",
+        "got": "^11.3.0",
+        "imagemagick-stream": "^4.1.1",
         "ws": "^7.3.0"
     }
 }

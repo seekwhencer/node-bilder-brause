@@ -2,10 +2,10 @@ import ImageMagick from 'imagemagick-stream';
 import fs from 'fs-extra';
 import MediaSizes from '../../shared/MediaSizes.js';
 
-export default class QueueJob extends MODULECLASS {
+export default class QueueJob extends NBBMODULECLASS {
     constructor(parent, options) {
         super(parent, options);
-
+        this.label = 'JOB';
         this.options = options;
         this.hash = this.options.hash;
 
@@ -14,18 +14,18 @@ export default class QueueJob extends MODULECLASS {
         this.imagemagickSizeString = `${this.sizeData.size}x${this.sizeData.size}`;
 
         this.on('complete', () => {
-            LOG('>>> JOB COMPLETE', this.hash, this.options.size, this.imagemagickSizeString);
+            LOG(this.label, 'JOB COMPLETE', this.hash, this.options.size, this.imagemagickSizeString);
             this.parent.emit('job-complete', this);
         });
     }
 
     remove() {
-        LOG('>>> JOB REMOVED', this.hash);
+        LOG(this.label, 'JOB REMOVED', this.hash);
         this.parent.remove(this.hash); // removes this instance
     }
 
     run() {
-        LOG('>>> JOB RUN', this.hash);
+        LOG(this.label, 'JOB RUNNING', this.hash);
         const filePath = this.options.filePath;
         const thumbnailPath = this.options.thumbnailPath;
         fs.mkdirpSync(thumbnailPath);

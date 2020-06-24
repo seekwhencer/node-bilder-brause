@@ -47,10 +47,18 @@ export default class Generator extends MODULECLASS {
         } else {
             LOG(this.label, 'ADD JOB', file.filePath);
             this.queue.push(file);
-            this.thread.postMessage({
+
+            const postMessage = {
                 message: 'add-file',
                 file: file.aggregate()
-            });
+            };
+
+            // this on the same machine
+            this.thread.postMessage(postMessage);
+
+            // this on remote machines
+            //this.websocketServer.sendAll(postMessage);
+
             return file;
         }
     }

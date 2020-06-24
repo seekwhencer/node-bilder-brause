@@ -1,5 +1,5 @@
-import Module from '../../shared/lib/Module.js';
-global.MODULECLASS = Module;
+import ModuleClass from '../../shared/lib/Module.js';
+global.NBBMODULECLASS = ModuleClass;
 
 import Log from '../../shared/lib/Log.js';
 new Log();

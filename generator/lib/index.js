@@ -1,7 +1,7 @@
 import {workerData, parentPort} from 'worker_threads';
 import Queue from "./Queue.js";
 
-export default class Generator extends MODULECLASS {
+export default class Generator extends NBBMODULECLASS {
     constructor() {
         super();
 
@@ -9,7 +9,7 @@ export default class Generator extends MODULECLASS {
         this.workerData = workerData;
         this.parentPort = parentPort;
 
-        this.label = 'GENERATOR';
+        this.label = 'GENERATOR WORKER';
         LOG(this.label, 'INIT');
 
         // elevating events

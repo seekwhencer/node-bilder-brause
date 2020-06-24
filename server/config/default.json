@@ -6,11 +6,17 @@
         "frontendPath": "frontend/dist"
     },
     "store": {
-        "loadTreeOnStartup" : false,
+        "loadTreeOnStartup": false,
         "rootPath": "/ext/wd4/storage/fotos",
         "thumbnailPath": "/ext/wd4/storage/gallery",
         "thumbnailPathSplitDigits": 3,
         "thumbnailPathSplitCount": 3
+    },
+    "generator": {
+        "protocol": "ws",
+        "host": "zentrale",
+        "port": 3055,
+        "reconnectIdle": 2000
     },
     "frontend": {
         "staticsPath": "../../public",

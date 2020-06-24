@@ -1,13 +1,13 @@
 import Job from './QueueJob.js';
 
-export default class Queue extends MODULECLASS {
+export default class Queue extends NBBMODULECLASS {
     constructor(parent, options) {
         super(parent, options);
-
+        this.label = 'QUEUE'
         this.jobs = [];
 
         this.on('job-added', job => {
-            LOG('>>> JOB ADDED', job.hash, this.jobs.length);
+            LOG(this.label, 'JOB ADDED', job.hash, this.jobs.length);
             if (this.jobs.length === 1) // only on the first call
                 this.run();
 
