@@ -7,6 +7,9 @@ export default class Image extends Item {
         this.options = options;
         this.type = 'image';
         this.id = options.id;
+
+        this.generateHash();
+
         this.filePath = options.filePath;
         this.fileName = options.fileName;
         this.extension = options.extension;

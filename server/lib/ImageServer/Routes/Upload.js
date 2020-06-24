@@ -10,35 +10,41 @@ export default class UploadRoute extends Route {
 
             //@TODO empfange das thubnail und speichere es weg
 
-            const form = new formidable
-                .IncomingForm()
-                .parse(req, (err, fields) => {
-                    console.log('fields:', fields);
-                    fields.size ? this.size = fields.size : null;
-                    fields.hash ? this.hash = fields.hash : null;
-                });
+            const form = new formidable.IncomingForm();
 
-            form
-                .on('fileBegin', (name, file) => {
-                    //const thumbnailPath = this.thumbnailPath;
-                    LOG('>>> FILE BEGIN', this.filePath);
-                    file.path = this.filePath;
-                })
-                .on('file', (name, file) => {
-                    //LOG('THUMBNAIL RECEIVED');
-                })
-                .on('aborted', () => {
-                    ERROR('THUMBNAIL UPLOAD ABORTED')
-                })
-                .on('error', (err) => {
-                    ERROR('THUMBNAIL RECEIVING ERROR:', err)
-                    throw err
-                })
-                .on('end', () => {
-                    res.json({
-                        message: this.nicePath(req.path)
+            form.parse(req, (err, fields, files) => {
+                console.log('fields:', fields);
+                fields.size ? this.size = fields.size : null;
+                fields.hash ? this.hash = fields.hash : null;
+                files ? this.files = files : null;
+            });
+
+            if (this.files) {
+                form
+                    .on('aborted', () => {
+                        ERROR('THUMBNAIL UPLOAD ABORTED')
+                    })
+                    .on('error', (err) => {
+                        ERROR('THUMBNAIL RECEIVING ERROR:', err)
+                    });
+
+                form.on('end', () => {
+                    const temp_path = form.openedFiles[0].path;
+                    fs.ensureDirSync(this.thumbnailPath);
+                    fs.copy(temp_path, this.filePath, err => {
+                        if (err) {
+                            ERROR(this.label, err);
+                        } else {
+                            LOG(this.label, 'UPLOAD COPIED');
+
+                            //@TODO trigger hier queue job complete
+                            const image = this.app.generator.queue.filter(q => q.hash === this.hash)[0];
+                            image.emit('complete');
+
+                        }
                     });
                 });
+            }
         });
 
         return this.router;
@@ -58,11 +64,11 @@ export default class UploadRoute extends Route {
         this.thumbnailPathsCrumped = this.extractThumbnailPaths(this.app.config.store.thumbnailPathSplitDigits, this.app.config.store.thumbnailPathSplitCount);
         this.thumbnailPath = `${this.app.store.thumbnailPath}/${this.thumbnailPathsCrumped.join('/')}`;
         this.filePath = `${this.thumbnailPath}/${this.hash}_${this.size}.jpg`;
-        fs.mkdirpSync(this.thumbnailPath);
-        LOG('>>>?!?', this.filePath);
+        LOG('>>>?!?', this.thumbnailPath, this.filePath);
+        fs.ensureDirSync(this.thumbnailPath);
     }
 
-    get hash(){
+    get hash() {
         return this._hash;
     }
 

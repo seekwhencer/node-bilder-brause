@@ -12,11 +12,19 @@ export default class Item extends MODULECLASS {
         this.ctime = options.ctime;
     }
 
-    get hash() {
+    generateHash() {
         if (this.type === 'image') {
-            return Crypto.createHash('md5').update(`${this.ctime}${this.size}${this.id}`).digest("hex");
+            this.hash = Crypto.createHash('md5').update(`${this.ctime}${this.size}${this.id}`).digest("hex");
         } else {
-            return Crypto.createHash('md5').update(`${this.ctime}${this.id}`).digest("hex");
+            this.hash = Crypto.createHash('md5').update(`${this.ctime}${this.id}`).digest("hex");
         }
+    }
+
+    get hash() {
+        return this._hash;
+    }
+
+    set hash(value) {
+        this._hash = value;
     }
 };

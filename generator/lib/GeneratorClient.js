@@ -59,6 +59,7 @@ export default class GeneratorClient extends NBBMODULECLASS {
             });
 
             this.on('upload-complete', job => {
+                LOG(this.label, 'UPLOAD COMPLETE', job);
                 this.send({
                     message: 'job-complete',
                     data: job
@@ -182,16 +183,13 @@ export default class GeneratorClient extends NBBMODULECLASS {
                     LOG(this.label, 'UPLOAD ERROR', err);
                     resolve(job);
                 } else {
-                    LOG(this.label, 'UPLOAD COMPLETE', job.job.options.hash);
                     res.resume();
-                    this.emit('upload-complete', job);
+                    this.emit('upload-complete', job.job);
                     resolve(job);
                 }
             });
         });
-
     }
-
 }
 
 

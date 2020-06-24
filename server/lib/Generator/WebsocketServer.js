@@ -3,6 +3,7 @@ import WebSocket from 'ws';
 export default class WebsocketServer extends MODULECLASS {
     constructor(parent, options) {
         super(parent, options);
+
         this.options = this.app.config.generator;
         this.label = 'WEBSOCKET SERVER';
         LOG(this.label, 'INIT');
@@ -31,12 +32,14 @@ export default class WebsocketServer extends MODULECLASS {
         });
 
         this.engine.on('connection', ws => {
+            // here comes something from the server
             ws.on('message', message => this.onMessage(message));
 
             ws.on('close', () => {
                 LOG(this.label, 'CLIENT DISCONNECTED');
             });
 
+            // welcome message to the client
             this.send(ws, {
                 message: 'hi',
                 data: {
@@ -60,14 +63,21 @@ export default class WebsocketServer extends MODULECLASS {
         clientConnection.send(message);
     }
 
+
+    // awaits a json object:
+    // {
+    //   "message": "text",
+    //   "data": {}
+    // }
     onMessage(message) {
         const data = JSON.parse(message);
-        LOG(this.label, 'GOT MESSAGE FROM CLIENT', data);
+        //LOG(this.label, 'GOT MESSAGE FROM CLIENT', data);
+        //LOG(this.label, 'THE QUEUE', this.parent.queue);
 
         if (data.message === 'job-complete') {
-            LOG(this.label, '>>> JOB COMPLETE IN WEBSOCKET SERVER');
-            const found = this.parent.queue.filter(q => q.hash === data.job.hash)[0];
-            found.emit('complete');
+            LOG(this.label, '>>> JOB COMPLETE IN WEBSOCKET SERVER', data);
+            //const image = this.parent.queue.filter(q => q.hash === data.data.hash)[0];
+            //image.emit('complete'); // await from media server route controller
         }
     }
 }

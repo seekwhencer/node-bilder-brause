@@ -14,18 +14,18 @@ export default class QueueJob extends NBBMODULECLASS {
         this.imagemagickSizeString = `${this.sizeData.size}x${this.sizeData.size}`;
 
         this.on('complete', () => {
-            LOG(this.label, 'JOB COMPLETE', this.hash, this.options.size, this.imagemagickSizeString);
+            LOG(this.label, 'COMPLETE', this.hash, this.options.size, this.imagemagickSizeString);
             this.parent.emit('job-complete', this);
         });
     }
 
     remove() {
-        LOG(this.label, 'JOB REMOVED', this.hash);
+        LOG(this.label, 'REMOVED', this.hash);
         this.parent.remove(this.hash); // removes this instance
     }
 
     run() {
-        LOG(this.label, 'JOB RUNNING', this.hash);
+        LOG(this.label, 'RUNNING', this.hash);
         const filePath = this.options.filePath;
         const thumbnailPath = this.options.thumbnailPath;
         fs.mkdirpSync(thumbnailPath);

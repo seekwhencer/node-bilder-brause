@@ -40,26 +40,29 @@ export default class Generator extends MODULECLASS {
         });
     }
 
-    addJob(file) {
-        const found = this.queue.filter(q => q.hash === file.hash)[0];
-        if (found) {
-            return found;
+    // called from the media route controller
+    // returns the object
+    // the the route controller, the logic awaits an event: 'complete'
+    addJob(image) {
+        const exists = this.queue.filter(q => q.hash === image.hash)[0];
+        if (exists) {
+            return exists;
         } else {
-            LOG(this.label, 'ADD JOB', file.filePath);
-            this.queue.push(file);
+            LOG(this.label, 'ADD JOB', image.filePath);
+            this.queue.push(image); // @TODO the element wieder raushauen, wenns fertig ist
 
             const postMessage = {
                 message: 'add-file',
-                file: file.aggregate()
+                file: image.aggregate()
             };
 
             // this on the same machine
-            this.thread.postMessage(postMessage);
+            //this.thread.postMessage(postMessage);
 
             // this on remote machines
-            //this.websocketServer.sendAll(postMessage);
+            this.websocketServer.sendAll(postMessage);
 
-            return file;
+            return image;
         }
     }
 
