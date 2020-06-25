@@ -1,20 +1,18 @@
 import * as Routes from './Routes/index.js';
 import path from 'path';
+import http from 'http';
 
 export default class ImageServer extends MODULECLASS {
     constructor(parent, options) {
         super(parent, options);
         this.options = this.app.config.server;
-        this.engine = APP;
         this.label = 'IMAGE SERVER';
-
         LOG(this.label, 'INIT');
 
         this.on('listen', () => LOG(this.label, 'LISTEN ON PORT:', this.options.port));
 
-        //this.engine.server.maxConnections = 20;
-        //this.engine.server.getConnections = (error, count) => console.log(count);
-
+        this.engine = APP;
+        this.server = false;
 
         this.registerRoutes();
         this.registerFrontend();
@@ -25,7 +23,8 @@ export default class ImageServer extends MODULECLASS {
 
     start() {
         return new Promise((resolve, reject) => {
-            this.engine.listen(this.options.port, () => {
+            this.server = http.Server(APP);
+            this.server.listen(this.options.port, () => {
                 resolve(this);
                 this.emit('listen');
             });

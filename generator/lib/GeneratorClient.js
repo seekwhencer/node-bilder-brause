@@ -112,7 +112,7 @@ export default class GeneratorClient extends NBBMODULECLASS {
         if (found) {
             return found;
         } else {
-            LOG(this.label, 'ADD JOB', 'INDEX', this.threadIndex, file.filePath);
+            LOG(this.label, 'ADD JOB', 'THREAD INDEX:', this.threadIndex, file.filePath);
             this.queue.push(file);
             this.postMessage({
                 message: 'add-file',
