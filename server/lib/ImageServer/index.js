@@ -12,6 +12,10 @@ export default class ImageServer extends MODULECLASS {
 
         this.on('listen', () => LOG(this.label, 'LISTEN ON PORT:', this.options.port));
 
+        //this.engine.server.maxConnections = 20;
+        //this.engine.server.getConnections = (error, count) => console.log(count);
+
+
         this.registerRoutes();
         this.registerFrontend();
 

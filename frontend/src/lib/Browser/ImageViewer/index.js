@@ -66,7 +66,15 @@ export default class ImageViewer extends NBBMODULECLASS {
             this.target.remove();
             delete this.target;
             this.closeStripe();
+
+            // go one folder up
+            const hash = this.images[this.imageIndex].options.pathExtracted;
+            let hashUpper = hash.split('/');
+            hashUpper.pop();
+            hashUpper = hashUpper.join('/');
+            this.parent.setLocationHash(hashUpper);
         }
+
         document.querySelector('body').style.overflow = 'auto';
     }
 

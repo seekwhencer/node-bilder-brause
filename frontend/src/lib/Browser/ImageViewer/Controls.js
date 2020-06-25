@@ -5,9 +5,7 @@ export default class Controls extends NBBMODULECLASS {
         super(parent, options);
 
         this.target = this.toDOM(ControlsTemplate({
-            scope: {
-
-            }
+            scope: {}
         }));
         this.parent.target.prepend(this.target);
 
@@ -61,12 +59,12 @@ export default class Controls extends NBBMODULECLASS {
         this.parent.remove();
     }
 
-    remove(){
+    remove() {
         this.target ? this.target.remove() : null;
     }
 
     toggleLayout() {
-        if(this.parent.stripe){
+        if (this.parent.stripe) {
             this.parent.closeStripe();
             this.layoutElement.classList.remove('down');
             this.layoutElement.classList.add('up');

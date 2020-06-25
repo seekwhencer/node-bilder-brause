@@ -44,6 +44,8 @@ export default class MediaRoutes extends Route {
             const niceMedia = `${extractedPath}/${fileName}`;
             const filePath = `${folder}/${fileName}`;
 
+            // for testing
+
             this.store
                 .grab(filePath)
                 .then(image => {
@@ -55,6 +57,7 @@ export default class MediaRoutes extends Route {
                     } else {
                         const job = this.generator.addJob(image);
                         job.on('complete', () => {
+                            LOG('>>> JOB COMPLETE');
                             res.sendFile(thumbnail);
                         });
                     }

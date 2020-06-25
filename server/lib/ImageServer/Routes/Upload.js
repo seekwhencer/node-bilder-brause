@@ -7,11 +7,7 @@ export default class UploadRoute extends Route {
         super(parent, options);
 
         this.router.post('/upload/:size', (req, res) => {
-
-            //@TODO empfange das thubnail und speichere es weg
-
             const form = new formidable.IncomingForm();
-
             form.parse(req, (err, fields, files) => {
                 fields.size ? this.size = fields.size : null;
                 fields.hash ? this.hash = fields.hash : null;
@@ -21,11 +17,11 @@ export default class UploadRoute extends Route {
             form
                 .on('aborted', () => {
                     ERROR('THUMBNAIL UPLOAD ABORTED');
-                    res.end();
+                    //res.end();
                 })
                 .on('error', (err) => {
                     ERROR('THUMBNAIL RECEIVING ERROR:', err);
-                    res.end();
+                    //res.end();
                 });
 
             form.on('end', () => {
@@ -37,6 +33,9 @@ export default class UploadRoute extends Route {
                             ERROR(this.label, err);
                         } else {
                             const image = this.app.generator.queue.filter(q => q.hash === this.hash)[0];
+                            // @TODO - scheinbar ist das doch noch zu früh. bei mehreren threads die entsprechend mehrere uploads abfeuern,
+                            // schicken kein bild zurück zum browser. weil sie die datei nicht laden können... das aber komisch. denn sie ist da.
+                            // vielleicht aber nicht im complete-moment.
                             image.emit('complete');
                             res.end();
                         }

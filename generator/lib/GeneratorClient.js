@@ -10,6 +10,7 @@ import WebSocket from 'ws';
 import got from 'got';
 import fs from 'fs-extra';
 import FormData from 'form-data';
+import os from 'os';
 
 export default class GeneratorClient extends NBBMODULECLASS {
     constructor(options) {
@@ -20,6 +21,10 @@ export default class GeneratorClient extends NBBMODULECLASS {
             LOG(this.label, 'INIT');
 
             this.options = options;
+            this.cpuCount = os.cpus().length;
+            this.threadIndexMax = 1;
+            this.threadIndex = 0;
+            this.threads = [];
             this.queue = [];
             this.serverSocketUrl = `${this.options.protocol}://${this.options.host}:${this.options.port}`;
 
@@ -28,31 +33,9 @@ export default class GeneratorClient extends NBBMODULECLASS {
             this.tempPath = `${APP_DIR}/temp`;
             fs.mkdirpSync(this.tempPath);
 
-            // the thread
-            this.thread = new Worker(path.resolve('./index.js'), {
-                workerData: {
-                    // some inital data
-                }
-            });
-
+            // create the threads by number of cpus
+            this.createThreads();
             this.connect();
-
-            // events
-            this.thread.on('message', data => {
-                if (data.message === 'job-complete') {
-                    const job = this.queue.filter(q => q.hash === data.job.hash)[0];
-                    this.emit('job-complete', data, job);
-                }
-            });
-
-            this.thread.on('error', err => {
-                LOG(this.label, '>>> ERROR', err)
-            });
-
-            this.thread.on('exit', code => {
-                if (code != 0)
-                    LOG(this.label, `Worker stopped with exit code ${code}`);
-            });
 
             this.on('job-complete', job => {
                 this.uploadThumbnail(job);
@@ -64,10 +47,64 @@ export default class GeneratorClient extends NBBMODULECLASS {
                     message: 'job-complete',
                     data: job
                 });
+                this.clear(job);
             });
 
             resolve(this);
         });
+    }
+
+    createThreads() {
+        for (let i = 0; i < this.threadIndexMax; i++) {
+            const thread = new Worker(path.resolve('./index.js'), {
+                workerData: {
+                    // some inital data
+                }
+            });
+
+            thread.on('message', data => {
+                if (data.message === 'job-complete') {
+                    const job = this.queue.filter(q => q.hash === data.job.hash)[0];
+                    this.emit('job-complete', data, job);
+                }
+            });
+
+            thread.on('error', err => {
+                LOG(this.label, '>>> ERROR', err)
+            });
+
+            thread.on('exit', code => {
+                if (code != 0)
+                    LOG(this.label, `Worker stopped with exit code ${code}`);
+            });
+
+            this.threads.push(thread);
+
+        }
+
+        /*// the thread
+        this.thread = new Worker(path.resolve('./index.js'), {
+            workerData: {
+                // some inital data
+            }
+        });
+
+        // events
+        this.thread.on('message', data => {
+            if (data.message === 'job-complete') {
+                const job = this.queue.filter(q => q.hash === data.job.hash)[0];
+                this.emit('job-complete', data, job);
+            }
+        });
+
+        this.thread.on('error', err => {
+            LOG(this.label, '>>> ERROR', err)
+        });
+
+        this.thread.on('exit', code => {
+            if (code != 0)
+                LOG(this.label, `Worker stopped with exit code ${code}`);
+        });*/
     }
 
     addJob(file) {
@@ -75,14 +112,20 @@ export default class GeneratorClient extends NBBMODULECLASS {
         if (found) {
             return found;
         } else {
-            LOG(this.label, 'ADD JOB', file.filePath);
+            LOG(this.label, 'ADD JOB', 'INDEX', this.threadIndex, file.filePath);
             this.queue.push(file);
-            this.thread.postMessage({
+            this.postMessage({
                 message: 'add-file',
                 file: file
             });
             return file;
         }
+    }
+
+    postMessage(data) {
+        // @TODO round robin durch alle threads
+        this.threads[this.threadIndex].postMessage(data);
+        this.threadIndex === this.threadIndexMax - 1 ? this.threadIndex = 0 : this.threadIndex = this.threadIndex + 1;
     }
 
     connect() {
@@ -134,16 +177,10 @@ export default class GeneratorClient extends NBBMODULECLASS {
         this.websocketClient.send(message);
     }
 
-    // @TODO hier eine brücke zwischen websocket messages und dem thread
-
     onMessage(data) {
         data = JSON.parse(data);
-        //LOG(this.label, 'GOT A MESSAGE FROM THE SERVER', data);
-
-        //
         if (data.message === 'add-file') {
             this.downloadImageSource(data.file);
-            //this.addJob(file);
         }
     }
 
@@ -189,6 +226,12 @@ export default class GeneratorClient extends NBBMODULECLASS {
                 }
             });
         });
+    }
+
+    clear(job) {
+        LOG(this.label, 'CLEAR JOB', 'REMOVING:', job.options.filePath, job.thumbnail);
+        fs.remove(job.options.filePath);
+        fs.remove(job.thumbnail);
     }
 }
 
