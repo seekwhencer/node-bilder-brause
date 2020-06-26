@@ -16,11 +16,22 @@ export default class StripeItem extends NBBMODULECLASS {
         }));
         this.target.onclick = e => this.select(e);
         this.parent.target.append(this.target);
-        this.image = this.target.querySelector('img');
-        this.target.classList.add('loading');
-        this.image.onload = e => {
+        this.imageElement = this.target.querySelector('img');
+
+        this.imageElement.onloadstart = e => {
+            this.target.classList.add('loading');
+        };
+
+        this.imageElement.onload = e => {
+            this.next();
             this.target.classList.remove('loading');
             this.target.classList.add('loaded');
+        }
+
+        this.imageElement.onerror = e => {
+            this.next();
+            this.target.classList.remove('loading');
+            this.target.classList.add('failed');
         }
     }
 
@@ -37,6 +48,21 @@ export default class StripeItem extends NBBMODULECLASS {
                 media: s.media
             });
         });
+    }
+
+    load() {
+        this.findIndex();
+        this.thumbnailIndex = this.thumbnails.length - 1 || 0;
+        this.imageElement.src = this.thumbnails[this.thumbnailIndex].url;
+    }
+
+    next() {
+        const nextImage = this.parent.images[this.imageIndex + 1];
+        nextImage ? nextImage.load() : null;
+    }
+
+    findIndex() {
+        this.imageIndex = this.parent.images.findIndex(i => i.options.id === this.options.id);
     }
 
 }

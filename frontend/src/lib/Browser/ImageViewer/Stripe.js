@@ -29,6 +29,10 @@ export default class Stripe extends NBBMODULECLASS {
             const imageItem = new StripeItem(this, i.options);
             this.images.push(imageItem);
         });
+
+        // start the loading chain
+        this.images[0].load();
+
         //@TODO - nicht warten: reagieren! (bis "alle" bilder - bis zum besagten - geladen wurden, nicht alle)
         setTimeout(() => {
             this.scrollToActive();
