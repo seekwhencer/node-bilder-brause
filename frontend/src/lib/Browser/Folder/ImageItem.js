@@ -16,15 +16,22 @@ export default class ImageItem extends NBBMODULECLASS {
         }));
         this.target.onclick = e => this.select(e);
         this.parent.filesElement.append(this.target);
-        this.image = this.target.querySelector('img');
+        this.imageElement = this.target.querySelector('img');
 
-        this.image.onloadstart = e => {
+        this.imageElement.onloadstart = e => {
             this.target.classList.add('loading');
         };
 
-        this.image.onload = e => {
+        this.imageElement.onload = e => {
+            this.next();
             this.target.classList.remove('loading');
             this.target.classList.add('loaded');
+        }
+
+        this.imageElement.onerror = e => {
+            this.next();
+            this.target.classList.remove('loading');
+            this.target.classList.add('failed');
         }
 
     }
@@ -42,5 +49,19 @@ export default class ImageItem extends NBBMODULECLASS {
                 media: s.media
             });
         });
+    }
+
+    load() {
+        this.findIndex();
+        this.imageElement.src = this.thumbnails[0].url;
+    }
+
+    next() {
+        const nextImage = this.parent.images[this.imageIndex + 1];
+        nextImage ? nextImage.load() : null;
+    }
+
+    findIndex() {
+        this.imageIndex = this.parent.images.findIndex(i => i.options.id === this.options.id);
     }
 }

@@ -63,18 +63,24 @@ export default class Folder extends NBBMODULECLASS {
         if (folders.length > 0)
             folders.forEach(folderData => {
                 const folderItem = new FolderItem(this, folderData);
-                this.items.push(folderItem);
+                //this.items.push(folderItem);
                 this.folders.push(folderItem);
             });
 
         // second the files
         this.images = [];
-        if (images.length > 0)
+        if (images.length > 0) {
             images.forEach(fileData => {
                 const imageItem = new ImageItem(this, fileData);
-                this.items.push(imageItem);
+                //this.items.push(imageItem);
                 this.images.push(imageItem);
             });
+
+            // start loading chain with the first image
+            // if the load is complete, the next image will be loaded...
+            this.images[0].load();
+        }
+
     }
 
     drawImage() {
