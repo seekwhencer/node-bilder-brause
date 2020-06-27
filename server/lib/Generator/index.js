@@ -2,7 +2,7 @@ import {Worker, isMainThread, workerData} from 'worker_threads';
 import path from 'path';
 import WebsocketServer from "./WebsocketServer.js";
 
-export default class Generator extends MODULECLASS {
+export default class Generator extends NBBMODULECLASS {
     constructor(parent, options) {
         super(parent, options);
 

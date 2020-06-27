@@ -1,6 +1,6 @@
 import Crypto from 'crypto';
 
-export default class Item extends MODULECLASS {
+export default class Item extends NBBMODULECLASS {
     constructor(parent, options) {
         super(parent, options);
 

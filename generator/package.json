@@ -6,12 +6,13 @@
     "type": "module",
     "scripts": {
         "start": "node  --experimental-modules --experimental-json-modules standalone.js",
-        "dev": ""
+        "digger": "export NODE_DEBUG=true && export NODE_ENV=default && node  --experimental-modules --experimental-json-modules digger.js"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
         "dateformat": "^3.0.3",
+        "exif": "^0.6.0",
         "form-data": "^3.0.0",
         "fs-extra": "^9.0.1",
         "got": "^11.3.0",

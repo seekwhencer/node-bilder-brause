@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 
-export default class WebsocketServer extends MODULECLASS {
+export default class WebsocketServer extends NBBMODULECLASS {
     constructor(parent, options) {
         super(parent, options);
 

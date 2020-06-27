@@ -2,7 +2,7 @@ import * as Routes from './Routes/index.js';
 import path from 'path';
 import http from 'http';
 
-export default class ImageServer extends MODULECLASS {
+export default class ImageServer extends NBBMODULECLASS {
     constructor(parent, options) {
         super(parent, options);
         this.options = this.app.config.server;

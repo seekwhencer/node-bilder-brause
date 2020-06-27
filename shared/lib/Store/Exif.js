@@ -2,7 +2,7 @@ import exif from 'exif';
 
 const ExifImage = exif.ExifImage;
 
-export default class Exif extends MODULECLASS {
+export default class Exif extends NBBMODULECLASS {
     constructor(parent, options) {
         super(parent, options);
 
@@ -29,7 +29,7 @@ export default class Exif extends MODULECLASS {
                 new ExifImage({
                     image: staticPath
                 }, (error, data) => {
-
+                    LOG(this.label, 'EXIF DATA:', data);
                     if (error) {
                         resolve(this.exifMap);
                     } else {

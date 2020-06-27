@@ -1,9 +1,9 @@
-import Config from './Global/Config.js';
-import Store from './Store/index.js';
+import Config from '../../shared/lib/Config.js';
+import Store from '../../shared/lib/Store/index.js';
 import ImageServer from './ImageServer/index.js';
 import Generator from './Generator/index.js';
 
-export default class App extends MODULECLASS {
+export default class App extends NBBMODULECLASS {
     constructor(parent) {
         super(parent);
 

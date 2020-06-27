@@ -78,7 +78,7 @@ Runs after installation of the "cheese bell" and installs the server and the gen
 
 
 ## Configuration
-Is located in `server/config/default.json`
+Is located in `config/default.json`
 
 ```json
 "start": "export NODE_DEBUG=true && export NODE_ENV=default && node --experimental-modules --experimental-json-modules index.js"
@@ -240,7 +240,7 @@ The server app opens a websocket server, the client connect to it. Then happens:
 - the event, to finish the image request from the browser, was set in the route controller: `server/lib/ImageServer/Routes/Media.js`
 
 #### Configure the generator server
-Open the file: `server/config/default.json`:
+Open the file: `config/default.json`:
 
 ```json
 "generator": {
@@ -282,5 +282,32 @@ npm run generator
 #from the generator folder
 npm start
 ```
+## The Digger
+This standalone app as part of the generator package:
+- runs on the raspberry pi
+- collects the whole folder tree
+- request a thumbnail from the server
+- the server will generate a thumbnail, if no exists
+
+
+#### Run the digger
+```bash
+# From the top folder
+npm run digger
+
+# From the generator folder
+npm run digger
+```
+
+#### Configure the digger
+Open `generator/digger.js` and change:
+
+```javascript
+const diggerOptions = {
+    thumbnailSizeKey: 'i'
+};
+```
+
+To request another thumbnail type for all (very all) images, change the `thumbnailSizeKey`.
 
 

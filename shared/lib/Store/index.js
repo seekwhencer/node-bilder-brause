@@ -3,7 +3,7 @@ import path from 'path';
 import Image from './Image.js';
 import Folder from './Folder.js';
 
-export default class Store extends MODULECLASS {
+export default class Store extends NBBMODULECLASS {
     constructor(parent) {
         super(parent);
 
@@ -171,7 +171,7 @@ export default class Store extends MODULECLASS {
                                     });
 
                                     if (recursive === true || level < depth) {
-                                        console.log('>>>>>>>>>LEVEL', level);
+                                        console.log('>>>>>>>>>LEVEL', level, itemPath);
                                         item.childs = walk(itemPath, recursive, level + 1);
                                     }
 

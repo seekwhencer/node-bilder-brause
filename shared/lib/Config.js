@@ -1,5 +1,6 @@
-import Module from '../../../shared/lib/Module.js';
+import Module from './Module.js';
 import fs from 'fs-extra';
+import path from 'path';
 
 export default class Config extends Module {
     constructor(parent) {
@@ -11,7 +12,7 @@ export default class Config extends Module {
 
             LOG(this.label, 'INIT');
 
-            this.path = `${APP_DIR}/config`;
+            this.path = path.resolve(`${APP_DIR}/../config`);
 
             this.loadAppConfig()
                 .then(() => {
@@ -24,7 +25,7 @@ export default class Config extends Module {
     }
 
     loadAppConfig() {
-        const appConfigFile = `${APP_DIR}/config/app.json`;
+        const appConfigFile = `${this.path}/app.json`;
         return fs.readJson(appConfigFile)
             .then(appConfig => {
                 this.appConfig = appConfig;

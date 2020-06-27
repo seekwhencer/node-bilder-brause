@@ -1,4 +1,4 @@
-export default class Route extends MODULECLASS {
+export default class Route extends NBBMODULECLASS {
     constructor(parent, options) {
         super(parent, options);
         this.router = EXPRESS.Router();

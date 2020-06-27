@@ -8,6 +8,7 @@
         "start": "npm run",
         "server": "cd server && npm start",
         "generator": "cd generator && npm start",
+        "digger": "cd generator && npm run digger",
         "dev": "cd frontend && npm run dev",
         "build": "cd frontend && npm run build",
         "install:server": "cd server && npm install",
@@ -20,6 +21,7 @@
     "license": "ISC",
     "dependencies": {
         "dateformat": "^3.0.3",
+        "exif": "^0.6.0",
         "fs-extra": "^9.0.1"
     }
 }

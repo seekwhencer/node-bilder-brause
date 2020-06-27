@@ -42,7 +42,7 @@ global.ENV = process.env.NODE_ENV || 'default';
 global.EXPRESS = Express;
 global.APP = EXPRESS();
 global.R = Ramda;
-global.MODULECLASS = Module;
+global.NBBMODULECLASS = Module;
 
 LOG('');
 LOG('//////////////////');
