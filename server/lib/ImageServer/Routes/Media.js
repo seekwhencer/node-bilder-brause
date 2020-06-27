@@ -59,7 +59,7 @@ export default class MediaRoutes extends Route {
                         res.sendFile(thumbnail);
                     } else {
                         LOG('>>> IMAGE NOT EXISTS:', thumbnail);
-                        // @TODO make here a second or thir try...
+                        // @TODO make here a second or third try...
 
                         const job = this.generator.addJob(image);
                         job.on('complete', () => {

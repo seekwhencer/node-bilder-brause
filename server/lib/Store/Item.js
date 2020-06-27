@@ -13,11 +13,13 @@ export default class Item extends MODULECLASS {
     }
 
     generateHash() {
+        let toHash;
         if (this.type === 'image') {
-            this.hash = Crypto.createHash('md5').update(`${this.ctime}${this.size}${this.id}`).digest("hex");
+            toHash = `${this.ctime}${this.size}${this.options.fileName}${this.options.extension}`;
         } else {
-            this.hash = Crypto.createHash('md5').update(`${this.ctime}${this.id}`).digest("hex");
+            toHash = `${this.ctime}${this.id}`;
         }
+        this.hash = Crypto.createHash('md5').update(toHash).digest("hex");
     }
 
     get hash() {

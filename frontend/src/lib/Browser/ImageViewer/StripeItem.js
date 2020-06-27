@@ -65,7 +65,7 @@ export default class StripeItem extends NBBMODULECLASS {
     }
 
     findIndex() {
-        this.imageIndex = this.parent.images.findIndex(i => i.options.id === this.options.id);
+        this.imageIndex = this.parent.images.findIndex(i => i.options.hash === this.options.hash);
     }
 
     findNextImage() {

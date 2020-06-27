@@ -61,15 +61,17 @@ export default class ImageItem extends NBBMODULECLASS {
     }
 
     nextImage() {
-         if (this.imageIndex >= this.parent.images.length)
+        console.log('>>> NEXT IMAGE >>>', this.parent.images.length, this.imageIndex);
+        if (this.imageIndex >= this.parent.images.length) {
             return false;
 
+        }
         const nextImage = this.findNextImage();
         nextImage ? nextImage.load() : null;
     }
 
     findIndex() {
-        this.imageIndex = this.parent.images.findIndex(i => i.options.id === this.options.id);
+        this.imageIndex = this.parent.images.findIndex(i => i.options.hash === this.options.hash);
     }
 
     findNextImage() {

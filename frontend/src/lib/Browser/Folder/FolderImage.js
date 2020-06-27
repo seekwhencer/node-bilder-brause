@@ -62,7 +62,7 @@ export default class FolderImageItem extends NBBMODULECLASS {
     }
 
     findIndex() {
-        this.imageIndex = this.parent.parent.folders.findIndex(i => i.image ? i.image.options.id === this.options.id : null);
+        this.imageIndex = this.parent.parent.folders.findIndex(i => i.image ? i.image.options.hash === this.options.hash : null);
     }
 
     findNextImage() {

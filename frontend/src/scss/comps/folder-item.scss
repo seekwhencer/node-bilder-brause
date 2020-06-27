@@ -19,7 +19,7 @@
             position: absolute;
             background-color: rgba(0, 0, 0, 0.8);
             display: inline-block;
-            font-size: $fs-xl;
+            font-size: $fs-m;
             z-index: 2;
 
             @include media-smartphone {
