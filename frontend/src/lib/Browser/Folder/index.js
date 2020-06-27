@@ -15,10 +15,8 @@ export default class Folder extends NBBMODULECLASS {
         this.urlImageBase = this.app.urlImageBase;
         this.urlMediaBase = this.app.urlMediaBase;
 
-        // @TODO - not used?
-        this.includes = {
-            images: ['jpg', 'JPG', 'JPEG', 'jpeg', 'png', 'PNG']
-        }
+        this.maxConcurrentImageRequests = 3;
+        this.concurrentImageRequests = 0;
     }
 
     set(data) {
