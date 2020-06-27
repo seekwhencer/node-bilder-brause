@@ -15,6 +15,25 @@ export default class FolderImageItem extends NBBMODULECLASS {
             }
         }));
         this.parent.target.append(this.target);
+        this.imageElement = this.target.querySelector('img');
+
+        this.imageElement.addEventListener('loadstart', e => {
+            this.target.classList.add('loading');
+        }, {once: true});
+
+        this.imageElement.addEventListener('load', () => {
+            console.log('>>>>>>>>>>>>>> FOLDER IMAGE LOADED');
+            this.target.classList.remove('loading');
+            this.target.classList.add('loaded');
+            this.nextImage();
+        }, {once: true});
+
+        this.imageElement.onerror = e => {
+            console.log('>>>>>>>>>>>>>> ERROR', e);
+            this.target.classList.remove('loading');
+            this.target.classList.add('failed');
+            this.nextImage();
+        }
 
     }
 
@@ -27,4 +46,37 @@ export default class FolderImageItem extends NBBMODULECLASS {
             });
         });
     }
+
+    load() {
+        this.findIndex();
+        this.thumbnailIndex = this.thumbnails.length - 1 || 0;
+        this.imageElement.src = this.thumbnails[this.thumbnailIndex].url;
+    }
+
+    nextImage() {
+        if (this.imageIndex >= this.parent.parent.folders.length)
+            return false;
+
+        const nextImage = this.findNextImage();
+        nextImage ? nextImage.load() : null;
+    }
+
+    findIndex() {
+        this.imageIndex = this.parent.parent.folders.findIndex(i => i.image ? i.image.options.id === this.options.id : null);
+    }
+
+    findNextImage() {
+        if (this.imageIndex + 1 >= this.parent.parent.folders.length)
+            return false;
+
+        const nextImage = this.parent.parent.folders[this.imageIndex + 1].image;
+        if (nextImage) {
+            return nextImage;
+        } else {
+            this.imageIndex++;
+            return this.findNextImage();
+        }
+    }
+
+
 }

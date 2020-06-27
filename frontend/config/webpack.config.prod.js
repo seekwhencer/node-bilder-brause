@@ -100,7 +100,7 @@ export default class {
                             sedReplace('js?', `min.js?`, `${this.appPath}/dist/index.html`);
                             sedReplace('css?', `min.css?`, `${this.appPath}/dist/index.html`);
                             sedReplace('?hash', `?${this.hash}`, `${this.appPath}/dist/index.html`);
-                            sedReplace('debug: true', 'debug: false', `${this.appPath}/dist/index.html`);
+                            //sedReplace('debug: true', 'debug: false', `${this.appPath}/dist/index.html`);
                         });
                     }
                 }

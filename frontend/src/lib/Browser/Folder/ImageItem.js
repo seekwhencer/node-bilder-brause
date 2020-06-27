@@ -1,4 +1,5 @@
 import ImageItemTemplate from './Templates/ImageItem.html';
+import ImagesLoadingStatsTemplate from './Templates/ImagesLoadingStats.html';
 import ThumbnailSizes from '../ThumbnailSizes/Images.js';
 
 export default class ImageItem extends NBBMODULECLASS {
@@ -18,22 +19,23 @@ export default class ImageItem extends NBBMODULECLASS {
         this.parent.filesElement.append(this.target);
         this.imageElement = this.target.querySelector('img');
 
-        this.imageElement.onloadstart = e => {
+        this.imageElement.addEventListener('loadstart', e => {
             this.target.classList.add('loading');
-        };
+        }, {once: true});
 
-        this.imageElement.onload = e => {
-            this.next();
+        this.imageElement.addEventListener('load', () => {
             this.target.classList.remove('loading');
             this.target.classList.add('loaded');
-        }
+            this.nextImage();
+        }, {once: true});
 
         this.imageElement.onerror = e => {
-            this.next();
+            console.log('>>>>>>>>>>>>>> ERROR', e);
+            this.nextImage();
+
             this.target.classList.remove('loading');
             this.target.classList.add('failed');
         }
-
     }
 
     select(e) {
@@ -53,15 +55,46 @@ export default class ImageItem extends NBBMODULECLASS {
 
     load() {
         this.findIndex();
-        this.imageElement.src = this.thumbnails[0].url;
+        this.updateLoadingStats();
+        this.thumbnailIndex = this.thumbnails.length - 1 || 0;
+        this.imageElement.src = this.thumbnails[this.thumbnailIndex].url;
     }
 
-    next() {
-        const nextImage = this.parent.images[this.imageIndex + 1];
+    nextImage() {
+         if (this.imageIndex >= this.parent.images.length)
+            return false;
+
+        const nextImage = this.findNextImage();
         nextImage ? nextImage.load() : null;
     }
 
     findIndex() {
         this.imageIndex = this.parent.images.findIndex(i => i.options.id === this.options.id);
+    }
+
+    findNextImage() {
+        if (this.imageIndex + 1 >= this.parent.images.length)
+            return false;
+
+        const nextImage = this.parent.images[this.imageIndex + 1];
+        if (nextImage) {
+            return nextImage;
+        } else {
+            this.imageIndex++;
+            return this.findNextImage();
+        }
+    }
+
+    updateLoadingStats() {
+        if (!this.loadingStatsElement) {
+            this.loadingStatsElement = toDOM(ImagesLoadingStatsTemplate({
+                scope: {}
+            }));
+            this.target.prepend(this.loadingStatsElement);
+            this.numberElement = this.loadingStatsElement.querySelector('[data-number]');
+            this.leftElement = this.loadingStatsElement.querySelector('[data-left]');
+            this.numberElement.innerText = `${this.imageIndex + 1} / ${this.parent.images.length}`;
+            this.leftElement.innerText = this.parent.images.length - this.imageIndex - 1;
+        }
     }
 }

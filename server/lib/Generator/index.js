@@ -46,6 +46,7 @@ export default class Generator extends MODULECLASS {
     addJob(image) {
         const exists = this.queue.filter(q => q.hash === image.hash)[0];
         if (exists) {
+            LOG(this.label, 'JOB EXISTS');
             return exists;
         } else {
             LOG(this.label, 'ADD JOB', image.filePath);

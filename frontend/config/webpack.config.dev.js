@@ -90,7 +90,7 @@ export default class {
                     "Access-Control-Allow-Origin": "*",
                 },
                 hot: true,
-                index: `${this.appPath}/public/index.html`,
+                index: `${this.appPath}/public/dev.html`,
                 writeToDisk: true,
                 watchOptions: {
                     poll: true
@@ -99,10 +99,10 @@ export default class {
                 proxy: {
                     context: () => true,
                     target: 'http://zentrale:3050',
-                    bypass: function(req, res, proxyOptions) {
-                        if (req.headers.accept.indexOf('html') !== -1) {
-                            console.log('Skipping proxy for browser request.');
-                            return '/index.html';
+                    bypass: (req, res, proxyOptions) => {
+                        if (req.path === '/') {
+                            console.log('>>>> WEBPACK PROXY SKIPPING REQUEST', req.path);
+                            return '/dev.html';
                         }
                     }
                 }

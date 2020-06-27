@@ -72,6 +72,10 @@ export default class Store extends MODULECLASS {
     // grab a single file
     grab(itemPath) {
         return new Promise((resolve, reject) => {
+            if (!fs.existsSync(itemPath)) {
+                reject(`${itemPath} NOT EXISTS`);
+            }
+
             const collection = [];
             const xstat = fs.statSync(itemPath);
             const xstatItem = {

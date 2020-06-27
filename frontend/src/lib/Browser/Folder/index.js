@@ -60,13 +60,15 @@ export default class Folder extends NBBMODULECLASS {
 
         // first the folders
         this.folders = [];
-        if (folders.length > 0)
+        if (folders.length > 0) {
             folders.forEach(folderData => {
                 const folderItem = new FolderItem(this, folderData);
                 //this.items.push(folderItem);
                 this.folders.push(folderItem);
             });
-
+            const firstFolderWithImage = this.folders.filter(f => f.image ? f : null)[0];
+            firstFolderWithImage ? firstFolderWithImage.image.load() : null;
+        }
         // second the files
         this.images = [];
         if (images.length > 0) {
@@ -78,6 +80,7 @@ export default class Folder extends NBBMODULECLASS {
 
             // start loading chain with the first image
             // if the load is complete, the next image will be loaded...
+            // first image to load
             this.images[0].load();
         }
 
@@ -90,5 +93,11 @@ export default class Folder extends NBBMODULECLASS {
 
     remove() {
         this.target ? this.target.remove() : null;
+    }
+
+    loadFolderImages() {
+        // find the first image
+        const firstImage = this.folders.filter(f => f.image)[0];
+
     }
 }
