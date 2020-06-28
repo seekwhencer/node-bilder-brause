@@ -31,18 +31,31 @@ git clone https://github.com/seekwhencer/node-bilder-brause.git
 cd node-bilder-brause
 npm install
 ```
-## Configure it!
-- Is located in `config/default.json`
-- Change: `store.rootPath` and `store.thumbnailPath` and replace all hosts to your hostname: localhost (or what ever)
+## Configure it at first!
+- is located in `config/default.json`
+- duplicate it to:`config/myconfig.json` or what you want
+- change:
+  - `store.rootPath`  
+  - `store.thumbnailPath` 
+  - and replace all hosts to your hostname: `localhost` (or what ever)
 
-## Run
+## Run (with default config, not recommended)
 ```bash
 npm run server
 ```
 
+## Run (with your config, uhh)
+```bash
+export NODE_ENV=myconfig && npm run server
+```
+
 > if `config.generator.server.network` is `true`, then start:
 ```bash
+# wwith default config
 npm run generator
+
+# with your config
+export NODE_ENV=myconfig && npm run generator
 ```
 Open now url: http://localhost:3050
 
@@ -88,6 +101,15 @@ Fix versions
 
 - **`npm run postinstall`**  
 Runs after installation of the "cheese bell" and installs the server and the generator.
+
+#### Your environment configuration
+..is placed in `config/myconfig.json`? Then enter:
+
+```
+export NODE_ENV=myconfig && npm run server
+export NODE_ENV=myconfig && npm run generator
+export NODE_ENV=myconfig && npm run digger
+```
 
 
 ## Configuration

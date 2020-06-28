@@ -5,7 +5,7 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "start": "export NODE_DEBUG=true && export NODE_ENV=default && node --experimental-modules --experimental-json-modules index.js",
+        "start": "export NODE_DEBUG=true && node --experimental-modules --experimental-json-modules index.js",
         "dev": "export NODE_DEBUG=true && export NODE_ENV=default && node --experimental-modules --experimental-json-modules index.js",
         "postinstall": "cd ../generator && npm install"
     },
