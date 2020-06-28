@@ -38,7 +38,7 @@
     "digger" : {
         "thumbnailBaseURL": "http://zentrale:3050/v1/media",
         "thumbnailSizeKey": "i",
-        "startIndex": 23000
+        "startIndex": 28000
     },
     "media": {
         "extensions": {

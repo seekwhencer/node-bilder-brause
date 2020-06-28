@@ -85,9 +85,17 @@ export default class Digger extends NBBMODULECLASS {
 
     trigger(index) {
         !index ? index = 0 : null;
-        const image = this.flattenImageTree[index];
-        LOG(this.label, 'IMAGE URL', index, image.diggerMediaURL);
+        if (index >= this.flattenImageTree.length) {
+            return;
+        }
 
+        const image = this.flattenImageTree[index];
+        if (!image) {
+            this.emit('image-complete', index);
+            return;
+        }
+
+        LOG(this.label, 'IMAGE URL', index, image.diggerMediaURL);
         got(image.diggerMediaURL)
             .then(image => {
                 this.emit('image-complete', index);
