@@ -175,8 +175,15 @@ http://localhost:3050/v1/image/:foldername/:foldername/:imagename.jpg
 
 - **media** (the thumbnail image)  
 http://localhost:3050/v1/media/:size/:foldername/:foldername/:imagename.jpg
-    > **size** means a key, defined in `generator/lib/MediaSizes.js`  
+    > **size** means a key, defined in `shared/MediaSizes.js`  
     this endpoint returns the image data - or simple: the thumbnail image. 
+
+- **media** (the original image)  
+http://localhost:3050/v1/media/original/:foldername/:foldername/:imagename.jpg
+
+- **upload** (receive the generated thumbnail from the generator client)  
+http://localhost:3050/v1/upload/:size/:foldername/:foldername/:imagename.jpg
+    > **size** means a key, defined in `shared/MediaSizes.js`  
 
 ## Development
 
