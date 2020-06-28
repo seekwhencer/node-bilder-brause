@@ -3,7 +3,7 @@
  * to speed up from a faster machine
  *
  */
-
+import Config from '../../shared/lib/Config.js';
 import {Worker, isMainThread, workerData} from 'worker_threads';
 import path from 'path';
 import WebSocket from 'ws';
@@ -16,13 +16,25 @@ export default class GeneratorClient extends NBBMODULECLASS {
     constructor(options) {
         super(options);
 
+        return new Config(this)
+            .then(config => {
+                this.config = config;
+                return this.init(options);
+            });
+    }
+
+    init(options){
         return new Promise((resolve, reject) => {
             this.label = 'CLIENT';
             LOG(this.label, 'INIT');
 
-            this.options = options;
+            this.app = this;
+            this.options = {
+                ...this.app.config.generator.client,
+                ...options
+            };
+
             this.cpuCount = os.cpus().length;
-            this.threadIndexMax = 1;
             this.threadIndex = 0;
             this.threads = [];
             this.queue = [];
@@ -32,10 +44,6 @@ export default class GeneratorClient extends NBBMODULECLASS {
 
             this.tempPath = `${APP_DIR}/temp`;
             fs.mkdirpSync(this.tempPath);
-
-            // create the threads by number of cpus
-            this.createThreads();
-            this.connect();
 
             this.on('job-complete', job => {
                 this.uploadThumbnail(job);
@@ -50,12 +58,16 @@ export default class GeneratorClient extends NBBMODULECLASS {
                 this.clear(job);
             });
 
+            // create the threads by number of cpus
+            this.createThreads();
+            this.connect();
+
             resolve(this);
         });
     }
 
     createThreads() {
-        for (let i = 0; i < this.threadIndexMax; i++) {
+        for (let i = 0; i < this.options.maxThreads; i++) {
             const thread = new Worker(path.resolve('./index.js'), {
                 workerData: {
                     // some inital data
@@ -79,32 +91,7 @@ export default class GeneratorClient extends NBBMODULECLASS {
             });
 
             this.threads.push(thread);
-
         }
-
-        /*// the thread
-        this.thread = new Worker(path.resolve('./index.js'), {
-            workerData: {
-                // some inital data
-            }
-        });
-
-        // events
-        this.thread.on('message', data => {
-            if (data.message === 'job-complete') {
-                const job = this.queue.filter(q => q.hash === data.job.hash)[0];
-                this.emit('job-complete', data, job);
-            }
-        });
-
-        this.thread.on('error', err => {
-            LOG(this.label, '>>> ERROR', err)
-        });
-
-        this.thread.on('exit', code => {
-            if (code != 0)
-                LOG(this.label, `Worker stopped with exit code ${code}`);
-        });*/
     }
 
     addJob(file) {
@@ -125,7 +112,7 @@ export default class GeneratorClient extends NBBMODULECLASS {
     postMessage(data) {
         // @TODO round robin durch alle threads
         this.threads[this.threadIndex].postMessage(data);
-        this.threadIndex === this.threadIndexMax - 1 ? this.threadIndex = 0 : this.threadIndex = this.threadIndex + 1;
+        this.threadIndex === this.options.maxThreads - 1 ? this.threadIndex = 0 : this.threadIndex = this.threadIndex + 1;
     }
 
     connect() {

@@ -5,7 +5,7 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "start": "node  --experimental-modules --experimental-json-modules standalone.js",
+        "start": "node  --experimental-modules --experimental-json-modules client.js",
         "digger": "export NODE_DEBUG=true && export NODE_ENV=default && node  --experimental-modules --experimental-json-modules digger.js"
     },
     "author": "",

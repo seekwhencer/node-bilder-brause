@@ -10,31 +10,43 @@ export default class Generator extends NBBMODULECLASS {
             this.label = 'GENERATOR';
             LOG(this.label, 'INIT');
 
+            this.options = {
+                ...this.app.config.generator.server,
+                ...options
+            };
             this.queue = [];
 
-            this.thread = new Worker(path.resolve('../generator/index.js'), {
-                workerData: {
-                    // some inital data
-                }
-            });
+            if (this.options.network) {
+                // create the websocket server
+                this.websocketServer = new WebsocketServer(this);
+            } else {
 
-            this.websocketServer = new WebsocketServer(this);
+                // create the local worker thread
+                this.thread = new Worker(path.resolve('../generator/index.js'), {
+                    workerData: {
+                        // some inital data
+                    }
+                });
 
-            this.thread.on('message', data => {
-                if (data.message === 'job-complete') {
-                    const found = this.queue.filter(q => q.hash === data.job.hash)[0];
-                    found.emit('complete', data.job);
-                }
-            });
+                // on any message from the local worker thread
+                this.thread.on('message', data => {
+                    if (data.message === 'job-complete') {
+                        const found = this.queue.filter(q => q.hash === data.job.hash)[0];
+                        found.emit('complete', data.job);
+                    }
+                });
 
-            this.thread.on('error', err => {
-                LOG(this.label, '>>> ERROR', err)
-            })
+                // error
+                this.thread.on('error', err => {
+                    LOG(this.label, '>>> ERROR', err)
+                });
 
-            this.thread.on('exit', code => {
-                if (code !== 0)
-                    LOG(this.label, `Worker stopped with exit code ${code}`);
-            })
+                // exit
+                this.thread.on('exit', code => {
+                    if (code !== 0)
+                        LOG(this.label, `Worker stopped with exit code ${code}`);
+                });
+            }
 
             resolve(this);
         });
@@ -57,11 +69,11 @@ export default class Generator extends NBBMODULECLASS {
                 file: image.aggregate()
             };
 
-            // this on the same machine
-            //this.thread.postMessage(postMessage);
-
-            // this on remote machines
-            this.websocketServer.sendAll(postMessage);
+            if (this.options.network === true) {
+                this.websocketServer.sendAll(postMessage);
+            } else {
+                this.thread.postMessage(postMessage);
+            }
 
             return image;
         }

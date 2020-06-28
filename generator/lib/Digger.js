@@ -1,7 +1,6 @@
 import Config from '../../shared/lib/Config.js';
 import Store from '../../shared/lib/Store/index.js';
 import got from "got";
-import fs from "fs-extra";
 
 export default class Digger extends NBBMODULECLASS {
     constructor(options) {
@@ -12,7 +11,6 @@ export default class Digger extends NBBMODULECLASS {
             LOG(this.label, 'INIT');
 
             this.app = this;
-            this.options = options;
 
             // this is the chain
             this.on('image-complete', index => this.trigger(index + 1));
@@ -21,6 +19,10 @@ export default class Digger extends NBBMODULECLASS {
             new Config(this)
                 .then(config => {
                     this.config = config;
+                    this.options = {
+                        ...this.app.config.digger,
+                        ...options
+                    };
                     this.includes = this.config.media.extensions.images;
                     // store
                     return new Store(this);
@@ -35,7 +37,7 @@ export default class Digger extends NBBMODULECLASS {
                 })
                 .then(() => {
                     LOG(this.label, 'IMAGES COLLECTED', this.flattenImageTree.length);
-                    this.trigger();
+                    this.trigger(this.options.startIndex);
                     resolve(this);
                 });
         });

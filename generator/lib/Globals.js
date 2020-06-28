@@ -1,3 +1,8 @@
+// register some global events
+process.on('uncaughtException', error => {
+    LOG('ERROR:', error);
+});
+
 import ModuleClass from '../../shared/lib/Module.js';
 global.NBBMODULECLASS = ModuleClass;
 

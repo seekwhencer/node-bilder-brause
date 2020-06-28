@@ -1,5 +1,5 @@
 import ImageItemTemplate from './Templates/ImageItem.html';
-import ImagesLoadingStatsTemplate from './Templates/ImagesLoadingStats.html';
+import ImageCountStatsTemplate from './Templates/ImageCountStats.html';
 import ThumbnailSizes from '../ThumbnailSizes/Images.js';
 
 export default class ImageItem extends NBBMODULECLASS {
@@ -34,7 +34,6 @@ export default class ImageItem extends NBBMODULECLASS {
         this.imageElement.onerror = e => {
             console.log('>>>>>>>>>>>>>> ERROR', e);
             this.nextImage();
-
             this.target.classList.remove('loading');
             this.target.classList.add('failed');
         }
@@ -57,7 +56,7 @@ export default class ImageItem extends NBBMODULECLASS {
 
     load() {
         this.findIndex();
-        this.updateLoadingStats();
+        this.drawCountStats();
         this.thumbnailIndex = this.thumbnails.length - 1 || 0;
         this.imageElement.src = this.thumbnails[this.thumbnailIndex].url;
         this.parent.concurrentImageRequests++;
@@ -93,14 +92,14 @@ export default class ImageItem extends NBBMODULECLASS {
         }
     }
 
-    updateLoadingStats() {
-        if (!this.loadingStatsElement) {
-            this.loadingStatsElement = toDOM(ImagesLoadingStatsTemplate({
+    drawCountStats() {
+        if (!this.coutStatsElement) {
+            this.coutStatsElement = toDOM(ImageCountStatsTemplate({
                 scope: {}
             }));
-            this.target.prepend(this.loadingStatsElement);
-            this.numberElement = this.loadingStatsElement.querySelector('[data-number]');
-            this.leftElement = this.loadingStatsElement.querySelector('[data-left]');
+            this.target.prepend(this.coutStatsElement);
+            this.numberElement = this.coutStatsElement.querySelector('[data-number]');
+            this.leftElement = this.coutStatsElement.querySelector('[data-left]');
             this.numberElement.innerText = `${this.imageIndex + 1} / ${this.parent.images.length}`;
             this.leftElement.innerText = this.parent.images.length - this.imageIndex - 1;
         }

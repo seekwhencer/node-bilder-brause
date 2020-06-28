@@ -31,14 +31,21 @@
         &__image {
             height: 100%;
             width: 100%;
+            opacity: 0;
+
+            transition-property: all;
+            transition-timing-function: ease-in-out;
+            transition-duration: 0.2s;
 
             img {
                 display: block;
                 height: 100%;
                 width: 100%;
                 object-fit: cover;
-                filter: grayscale(100%) blur(2px);
-                opacity: 0.3;
+            }
+
+            &.loaded {
+                opacity: 1;
             }
         }
 
@@ -60,9 +67,7 @@
             background-color: #333333;
             border-color: $color-cloud;
 
-
             img {
-                filter: grayscale(0%);
                 opacity: 1;
             }
 

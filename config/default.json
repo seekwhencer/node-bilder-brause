@@ -13,16 +13,32 @@
         "thumbnailPathSplitCount": 3
     },
     "generator": {
-        "protocol": "ws",
-        "host": "zentrale",
-        "port": 3055,
-        "reconnectIdle": 2000
+        "server": {
+            "network": true,
+            "protocol": "ws",
+            "host": "zentrale",
+            "port": 3055
+        },
+        "client": {
+            "protocol": "ws",
+            "host": "zentrale",
+            "port": 3055,
+            "reconnectIdle": 2000,
+            "maxThreads": 1,
+            "imageSourceBaseURL": "http://zentrale:3050/v1/media/original",
+            "uploadBaseUrl": "http://zentrale:3050/v1/upload"
+        }
     },
     "frontend": {
         "staticsPath": "../../public",
         "viewsPath": "./views",
         "urlRoot": "/.",
         "title": "Bilder"
+    },
+    "digger" : {
+        "thumbnailBaseURL": "http://zentrale:3050/v1/media",
+        "thumbnailSizeKey": "i",
+        "startIndex": 23000
     },
     "media": {
         "extensions": {
