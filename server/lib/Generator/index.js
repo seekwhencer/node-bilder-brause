@@ -11,9 +11,10 @@ export default class Generator extends NBBMODULECLASS {
             LOG(this.label, 'INIT');
 
             this.options = {
-                ...this.app.config.generator.server,
+                ...this.app.config.generator,
                 ...options
             };
+
             this.queue = [];
 
             if (this.options.network) {

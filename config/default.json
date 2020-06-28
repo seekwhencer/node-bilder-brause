@@ -13,8 +13,8 @@
         "thumbnailPathSplitCount": 3
     },
     "generator": {
+        "network": true,
         "server": {
-            "network": true,
             "protocol": "ws",
             "host": "zentrale",
             "port": 3055

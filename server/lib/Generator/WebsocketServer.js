@@ -4,7 +4,7 @@ export default class WebsocketServer extends NBBMODULECLASS {
     constructor(parent, options) {
         super(parent, options);
 
-        this.options = this.app.config.generator;
+        this.options = this.app.config.generator.server;
         this.label = 'WEBSOCKET SERVER';
         LOG(this.label, 'INIT');
 
