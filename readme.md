@@ -105,7 +105,7 @@ Runs after installation of the "cheese bell" and installs the server and the gen
 #### Your environment configuration
 ..is placed in `config/myconfig.json`? Then enter:
 
-```
+```bash
 export NODE_ENV=myconfig && npm run server
 export NODE_ENV=myconfig && npm run generator
 export NODE_ENV=myconfig && npm run digger
@@ -113,14 +113,8 @@ export NODE_ENV=myconfig && npm run digger
 
 
 ## Configuration
-Is located in `config/default.json`
-
-```json
-"start": "export NODE_DEBUG=true && export NODE_ENV=default && node --experimental-modules --experimental-json-modules index.js"
-```
-
-Change the `NODE_ENV` variable to use your customized configuration file.
-
+- Is located in `config/default.json`  
+- Change the `NODE_ENV` variable to use your customized configuration file.
 
 ## The configuration file
 
