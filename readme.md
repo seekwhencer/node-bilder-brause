@@ -31,12 +31,20 @@ git clone https://github.com/seekwhencer/node-bilder-brause.git
 cd node-bilder-brause
 npm install
 ```
-
+## Configure it!
+- Is located in `config/default.json`
+- Change: `store.rootPath` and `store.thumbnailPath` and replace all hosts to your hostname: localhost (or what ever)
 
 ## Run
 ```bash
 npm run server
 ```
+
+> if `config.generator.server.network` is `true`, then start:
+```bash
+npm run generator
+```
+Open now url: http://localhost:3050
 
 ## Architecture
 This is the cheese bell node project. there is something under the glass:  
@@ -48,12 +56,17 @@ This is the cheese bell node project. there is something under the glass:
 ## `npm run` commands:
 ... from the top folder
 
-
 - **`npm start`**  
 Show the run commands
 
 - **`npm run server`**  
 Start the server
+
+- **`npm run generator`**  
+Start the generator client
+
+- **`npm run digger`**  
+Start the digger, the trigger to generate over the whole store
 
 - **`npm run dev`**  
 Start the frontend dev pipeline
