@@ -343,7 +343,44 @@ const diggerOptions = {
     thumbnailSizeKey: 'i'
 };
 ```
-
 To request another thumbnail type for all (very all) images, change the `thumbnailSizeKey`.
 
+## Docker
+Jo.
 
+#### Configure
+- open the `docker-compose.yml`
+- change to your own paths:
+  ```
+  volumes:
+      - .:/app
+      - /mnt/c/Data/Fotos:/ext/wd4/storage/fotos
+      - /mnt/c/Data/FotosThumbnails:/ext/wd4/storage/gallery
+  ```
+
+#### Run
+- Both together: the server and the generator client (recommended at the moment)
+```bash
+docker-compose up -d bilderbrause_together
+```
+
+- The server
+```bash
+docker-compose up -d bilderbrause_server
+```
+
+- The generator client
+```bash
+docker-compose up -d bilderbrause_generator
+```
+
+
+#### Create your own config
+- duplicate `config/docker.json` to `config/myconfig.json`
+- make your changes
+- open the `docker-compose.yml`
+- change:
+  ```
+  environment:
+      NODE_ENV: myconfig
+  ```

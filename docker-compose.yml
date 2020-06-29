@@ -22,7 +22,6 @@ services:
             - local
         environment:
             NODE_ENV: docker
-            PYTHONUNBUFFERED: 1
 
     bilderbrause_server:
         container_name: bilderbrause_server
@@ -32,6 +31,8 @@ services:
             sh -c  "npm run server"
         volumes:
             - .:/app
+            - /mnt/c/Data/Fotos:/ext/wd4/storage/fotos
+            - /mnt/c/Data/FotosThumbnails:/ext/wd4/storage/gallery
         ports:
             - 3050:3050
             - 3055:3055
