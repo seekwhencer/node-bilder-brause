@@ -221,7 +221,12 @@ There are two, okay three apps to work on it. The Server, the Generator and the 
 
 #### Server
 - runnable on a raspberry pi 4b
-- 
+- more here
+
+#### Generator Client
+- with only one client (at the moment)
+- with multiple worker threads per client
+- more here
 
 ## Specs
 
@@ -253,7 +258,7 @@ There are two, okay three apps to work on it. The Server, the Generator and the 
 - manage a job queue
 - generates thumbnails with imagemagick (snap at next)
 - runs as worker, launched by the server app
-- runs stand alone over the network ***(is in progress)***
+- runs as standalone client app over the network
 
 
 ## The Network Generator Client
@@ -278,30 +283,35 @@ The server app opens a websocket server, the client connect to it. Then happens:
 - the event, to finish the image request from the browser, was set in the route controller: `server/lib/ImageServer/Routes/Media.js`
 
 #### Configure the generator server
-Open the file: `config/default.json`:
+Open `config/default.json` or `config/docker.json` or `config/myconfig.json` and change:
 
 ```json
 "generator": {
-    "protocol": "ws",
-    "host": "zentrale",
-    "port": 3055,
-    "reconnectIdle": 2000
+    "network": true,
+    "server": {
+        "protocol": "ws",
+        "host": "zentrale",
+        "port": 3055
+    }
 },
 ```
 
 #### Configure the generator client
-Open the file, at the moment, `generator/standalone.js` and change it at your needs:
+Open `config/default.json` or `config/docker.json` or `config/myconfig.json` and change:
 
-```javascript
-const generatorOptions = {
-    protocol: 'ws',
-    host: 'zentrale',
-    port: 3055,
-    reconnectIdle: 2000,
 
-    imageSourceBaseURL: 'http://zentrale:3050/v1/media/original',
-    uploadBaseUrl: 'http://zentrale:3050/v1/upload',
-};
+```json
+"generator": {
+    "client": {
+        "protocol": "ws",
+        "host": "localhost",
+        "port": 3055,
+        "reconnectIdle": 2000,
+        "maxThreads": 2,
+        "imageSourceBaseURL": "http://localhost:3050/v1/media/original",
+        "uploadBaseUrl": "http://localhost:3050/v1/upload"
+    }
+},
 ```
 
 - **imageSourceBaseURL**  
@@ -338,16 +348,18 @@ npm run digger
 ```
 
 #### Configure the digger
-Open `generator/digger.js` and change:
+Open `config/default.json` or `config/docker.json` or `config/myconfig.json` and change:
 
-```javascript
-const diggerOptions = {
-    thumbnailSizeKey: 'i'
-};
+```json
+"digger" : {
+    "thumbnailBaseURL": "http://zentrale:3050/v1/media",
+    "thumbnailSizeKey": "i",
+    "startIndex": 0
+},
 ```
 To request another thumbnail type for all (very all) images, change the `thumbnailSizeKey`.
 
-## Docker
+# Docker  
 Jo.
 
 #### Configure
