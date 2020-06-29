@@ -3,6 +3,8 @@
 Image gallery for browsing image folder. Developed on a Raspberry Pi 4b
 
 ![alt text](../master/docs/storage-interior.jpg?raw=true "Storage Interior #1")
+![alt text](../master/docs/screenshot_listing.jpg?raw=true "Screenshot Listing #2")
+![alt text](../master/docs/screenshot_detail_with_stripe.jpg?raw=true "Screenshot Detail Viewer with Stripe #3")
 
 
 ## Installation
