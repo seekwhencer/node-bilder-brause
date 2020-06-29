@@ -365,7 +365,7 @@ Jo.
 #### Configure
 - open the `docker-compose.yml`
 - change to your own paths:
-  ```
+  ```yaml
   volumes:
       - .:/app
       - /mnt/c/Data/Fotos:/ext/wd4/storage/fotos
@@ -394,7 +394,44 @@ docker-compose up -d bilderbrause_generator
 - make your changes
 - open the `docker-compose.yml`
 - change:
-  ```
+  ```yaml
   environment:
       NODE_ENV: myconfig
   ```
+
+# PM2 - bare metal autostart
+to let the app start with a systemboot, on a raspberry pi for example:
+
+- just install PM2: `npm install pm2 -g`
+- `pm2 startup`, follow instructions
+- `cd /somehwere/on/my/disk/node-bilder-brause`
+
+#### Set to start with system boot (with default config)
+```bash
+cd /somehwere/on/my/disk/node-bilder-brause
+
+# the server
+pm2 start "npm run server" --name "bilderbrause_server"
+
+# the generator client
+pm2 start "npm run generator" --name "bilderbrause_generator"
+```
+
+#### Set to start with system boot (with custom config)
+- install the app
+```bash
+cd /somehwere/on/my/disk/node-bilder-brause
+
+# the server
+pm2 start "export NODE_ENV=myconfig && npm run server" --name "bilderbrause_server"
+
+# the generator client
+pm2 start "export NODE_ENV=myconfig && npm run generator" --name "bilderbrause_generator"
+
+# then
+pm2 save
+```
+
+- check: `pm2 status` or `pm2 status 0` or `pm2 status 1`
+- check: `pm2 logs` or `pm2 logs 0` or `pm2 logs 1`
+- start, stop: `pm2 stop 0` or `pm2 stop 1` - `0` or `1` is the id
