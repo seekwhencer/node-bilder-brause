@@ -1,0 +1,56 @@
+version: '3.2'
+
+networks:
+    local:
+        driver: bridge
+
+services:
+    bilderbrause_together:
+        container_name: bilderbrause_together
+        image: bilderbrause_together:1.0
+        build: .
+        command: >
+            sh -c  "npm run server & npm run generator"
+        volumes:
+            - .:/app
+            - /mnt/c/Data/Fotos:/ext/wd4/storage/fotos
+            - /mnt/c/Data/FotosThumbnails:/ext/wd4/storage/gallery
+        ports:
+            - 3050:3050
+            - 3055:3055
+        networks:
+            - local
+        environment:
+            NODE_ENV: docker
+
+    bilderbrause_server:
+        container_name: bilderbrause_server
+        image: bilderbrause_server:1.0
+        build: server/
+        command: >
+            sh -c  "npm run server"
+        volumes:
+            - .:/app
+            - /mnt/c/Data/Fotos:/ext/wd4/storage/fotos
+            - /mnt/c/Data/FotosThumbnails:/ext/wd4/storage/gallery
+        ports:
+            - 3050:3050
+            - 3055:3055
+        networks:
+            - local
+        environment:
+            NODE_ENV: default
+
+    bilderbrause_generator:
+        container_name: bilderbrause_generator
+        image: bilderbrause_generator:1.0
+        build: generator/
+        command: >
+            sh -c  "npm run generator"
+        volumes:
+            - .:/app
+        networks:
+            - local
+        environment:
+            NODE_ENV: default
+

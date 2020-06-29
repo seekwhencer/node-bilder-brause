@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <title>NBB</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="preload" href="css/app.css?hash" as="style">
-    <link rel="preload" href="js/app.js?hash" as="script">
-    <link rel="stylesheet" href="css/app.css?hash">
+    <link rel="preload" href="css/app.min.css?hash" as="style">
+    <link rel="preload" href="js/app.min.js?hash" as="script">
+    <link rel="stylesheet" href="css/app.min.css?hash">
 </head>
 <body>
-<script src="js/app.js?hash"></script>
+<script src="js/app.min.js?hash"></script>
 <script type="module">
 
     // set the options to global, to enable debugging
@@ -17,11 +17,7 @@
     // or set the global window.NBBOPTIONS.debug to false
     window.NBBOPTIONS = {
         debug: true,
-        target: document.querySelector('body'),
-        urlBase: 'http://zentrale:3050/v1',
-        urlFolderBase : `http://zentrale:3050/v1/folder`,
-        urlImageBase : `http://zentrale:3050/v1/image`,
-        urlMediaBase : `http://zentrale:3050/v1/media`,
+        target: document.querySelector('body')
     };
 
     // create the brause and run it
