@@ -29,7 +29,7 @@ export default class Main extends NBBMODULECLASS {
             return new Browser(this).then(browser => {
                 this.browser = browser;
                 this.emit('ready');
-            })
+            });
 
         });
     }

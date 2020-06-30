@@ -4,6 +4,7 @@ import FolderImageItem from './FolderImage.js';
 export default class FolderItem extends NBBMODULECLASS {
     constructor(parent, options) {
         super(parent, options);
+        this.browser = this.parent.parent.parent;
         this.label = 'FOLDERITEM';
 
         this.options = options;
@@ -22,12 +23,12 @@ export default class FolderItem extends NBBMODULECLASS {
         }));
 
         this.target.onclick = e => this.select(e);
-        this.parent.foldersElement.append(this.target);
+        this.parent.target.append(this.target);
         this.exposeThumbnail();
     }
 
     select(e) {
-        this.parent.parent.setLocationHash(encodeURI(this.options.pathExtracted))
+        this.browser.setLocationHash(encodeURI(this.options.pathExtracted));
     }
 
     exposeThumbnail() {

@@ -1,7 +1,6 @@
 import FolderTemplate from './Templates/Folder.html';
-
-import FolderItem from './FolderItem.js';
-import ImageItem from './ImageItem.js';
+import FolderListing from './FolderListing.js';
+import ItemListing from './ItemListing.js';
 
 export default class Folder extends NBBMODULECLASS {
     constructor(parent, options) {
@@ -33,7 +32,6 @@ export default class Folder extends NBBMODULECLASS {
         }
     }
 
-
     drawFolder() {
         this.remove();
 
@@ -43,59 +41,15 @@ export default class Folder extends NBBMODULECLASS {
         this.parent.target.append(this.target);
 
         //
-        this.foldersElement = this.target.querySelector('[data-folders]');
-        this.filesElement = this.target.querySelector('[data-files]');
-
-        let folders = this.data.data.childs.filter(c => c.type === 'folder');
-        let images = this.data.data.childs.filter(c => c.type === 'image');
-
-        folders = ksortObjArray(folders, 'folderName');
-        images = ksortObjArray(images, 'btime');
-        images.reverse();
-
-        console.log(this.label, 'FOLDERS', folders.length);
-        console.log(this.label, 'FILES', images.length);
-
-        // first the folders
-        this.folders = [];
-        if (folders.length > 0) {
-            folders.forEach(folderData => {
-                const folderItem = new FolderItem(this, folderData);
-                //this.items.push(folderItem);
-                this.folders.push(folderItem);
-            });
-            const firstFolderWithImage = this.folders.filter(f => f.image ? f : null)[0];
-            firstFolderWithImage ? firstFolderWithImage.image.load() : null;
-        }
-        // second the files
-        this.images = [];
-        if (images.length > 0) {
-            images.forEach(fileData => {
-                const imageItem = new ImageItem(this, fileData);
-                //this.items.push(imageItem);
-                this.images.push(imageItem);
-            });
-
-            // start loading chain with the first image
-            // if the load is complete, the next image will be loaded...
-            // first image to load
-            this.images[0].load();
-        }
-
+        this.folderListing = new FolderListing(this);
+        this.itemListing = new ItemListing(this);
     }
 
     drawImage() {
         console.log('>>> DRAW IMAGE');
     }
 
-
     remove() {
         this.target ? this.target.remove() : null;
-    }
-
-    loadFolderImages() {
-        // find the first image
-        const firstImage = this.folders.filter(f => f.image)[0];
-
     }
 }

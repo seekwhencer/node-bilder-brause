@@ -69,43 +69,53 @@ This is the cheese bell node project. there is something under the glass:
 - the thumbnail generator in `generator/`
 
 ## `npm run` commands:
-... from the top folder
+... from the top folder  
 
-- **`npm start`**  
-Show the run commands
+---
 
-- **`npm run server`**  
-Start the server
+- ### **`npm start`**  
+  Show the run commands
+---
+- ### **`npm run server`**  
+  Start the server
 
-- **`npm run generator`**  
-Start the generator client
+- ### **`npm run generator`**  
+  Start the generator client
 
-- **`npm run digger`**  
-Start the digger, the trigger to generate over the whole store
+- ### **`npm run digger`**  
+  Start the digger, the trigger to generate over the whole store
 
-- **`npm run dev`**  
-Start the frontend dev pipeline
+---
 
-- **`npm run build`**  
-Build the frontend
+- ### **`npm run dev`**  
+  Start the frontend dev pipeline
 
-- **`npm run install:server`**  
-Install the server
+- ### **`npm run build`**  
+  Build the frontend
 
-- **`npm run install:generator`**  
-Install the generator
+---
 
-- **`npm run install:frontend`**  
-Install the frontend
+- ### **`npm run install:server`**  
+  Install the server
 
-- **`npm run fix`**  
-Fix versions
+- ### **`npm run install:generator`**  
+  Install the generator
 
-- **`npm run postinstall`**  
-Runs after installation of the "cheese bell" and installs the server and the generator.
+- ### **`npm run install:frontend`**  
+  Install the frontend
 
-#### Your environment configuration
-..is placed in `config/myconfig.json`? Then enter:
+---
+
+- ### **`npm run fix`**  
+  Fix versions
+
+---
+
+## Your environment configuration
+- ... is placed in `config/myconfig.json`?
+- Then enter:
+
+### **`export NODE_ENV=myconfig && npm run ...`** 
 
 ```bash
 export NODE_ENV=myconfig && npm run server

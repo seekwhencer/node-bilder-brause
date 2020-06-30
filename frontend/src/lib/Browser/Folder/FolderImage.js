@@ -6,7 +6,7 @@ export default class FolderImageItem extends NBBMODULECLASS {
         super(parent, options);
         this.options = options;
 
-        this.imageDataUrl = `${this.parent.parent.urlImageBase}/${this.options.pathExtracted}`;
+        this.imageDataUrl = `${this.app.urlImageBase}/${this.options.pathExtracted}`;
         this.exposeThumbnails();
         this.target = this.toDOM(FolderImageItemTemplate({
             scope: {
@@ -41,7 +41,7 @@ export default class FolderImageItem extends NBBMODULECLASS {
         this.thumbnails = [];
         ThumbnailSizes.forEach(s => {
             this.thumbnails.push({
-                url: encodeURI(`${this.parent.parent.urlMediaBase}/${s.name}/${this.options.pathExtracted}`),
+                url: encodeURI(`${this.app.urlMediaBase}/${s.name}/${this.options.pathExtracted}`),
                 media: s.media
             });
         });

@@ -5,9 +5,11 @@ import ThumbnailSizes from '../ThumbnailSizes/Images.js';
 export default class ImageItem extends NBBMODULECLASS {
     constructor(parent, options, silent) {
         super(parent, options);
+
+        this.browser = this.parent.parent.parent;
         this.options = options;
 
-        this.imageDataUrl = `${this.parent.urlImageBase}/${this.options.pathExtracted}`;
+        this.imageDataUrl = `${this.app.urlImageBase}/${this.options.pathExtracted}`;
         this.exposeThumbnails();
         this.target = this.toDOM(ImageItemTemplate({
             scope: {
@@ -16,7 +18,7 @@ export default class ImageItem extends NBBMODULECLASS {
             }
         }));
         this.target.onclick = e => this.select(e);
-        this.parent.filesElement.append(this.target);
+        this.parent.target.append(this.target);
         this.imageElement = this.target.querySelector('img');
 
         this.imageElement.addEventListener('loadstart', e => {
@@ -40,15 +42,14 @@ export default class ImageItem extends NBBMODULECLASS {
     }
 
     select(e) {
-        this.parent.parent.setLocationHash(this.options.pathExtracted);
+        this.browser.setLocationHash(this.options.pathExtracted);
     }
-
 
     exposeThumbnails() {
         this.thumbnails = [];
         ThumbnailSizes.forEach(s => {
             this.thumbnails.push({
-                url: encodeURI(`${this.parent.urlMediaBase}/${s.name}/${this.options.pathExtracted}`),
+                url: encodeURI(`${this.app.urlMediaBase}/${s.name}/${this.options.pathExtracted}`),
                 media: s.media
             });
         });
