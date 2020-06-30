@@ -6,17 +6,30 @@
     "type": "module",
     "scripts": {
         "start": "export NODE_DEBUG=true && node  --experimental-modules --experimental-json-modules client.js",
-        "digger": "export NODE_DEBUG=true && node  --experimental-modules --experimental-json-modules digger.js"
+        "digger": "export NODE_DEBUG=true && node  --experimental-modules --experimental-json-modules digger.js",
+        "build" : "npm run babelize && npm run build:linux",
+        "babelize": "node  --experimental-modules --experimental-json-modules config/webpack-app-pkg.config.js",
+        "build:linux": "node node_modules/pkg/lib-es5/bin.js dist/app.js --output dist/brause-generator-linux64 --targets node14-linux-x64",
+        "build:win": "node node_modules/pkg/lib-es5/bin.js dist/app.js --output dist/brause-generator-win64 --targets node14-win-x64"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@babel/core": "^7.5.5",
+        "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+        "@babel/plugin-transform-regenerator": "^7.4.5",
+        "@babel/plugin-transform-runtime": "^7.5.5",
+        "@babel/preset-env": "^7.5.5",
+        "babel-loader": "^8.1.0",
         "dateformat": "^3.0.3",
         "exif": "^0.6.0",
         "form-data": "^3.0.0",
         "fs-extra": "^9.0.1",
         "got": "^11.3.0",
         "imagemagick-stream": "^4.1.1",
+        "pkg": "^4.4.9",
+        "webpack": "^4.36.1",
+        "webpack-cli": "^3.3.6",
         "ws": "^7.3.0"
     }
 }
