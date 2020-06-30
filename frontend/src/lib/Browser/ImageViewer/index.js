@@ -13,7 +13,6 @@ export default class ImageViewer extends NBBMODULECLASS {
         this.urlImageBase = this.app.urlImageBase;
         this.urlMediaBase = this.app.urlMediaBase;
 
-
     }
 
     set(data) {
@@ -47,7 +46,7 @@ export default class ImageViewer extends NBBMODULECLASS {
             this.parent.target.prepend(this.target);
 
             // short link to the ordered images
-            this.images = this.parent.folder.images;
+            this.images = this.parent.folder.itemListing.images;
 
             // create the controls
             this.controls = new Controls(this);

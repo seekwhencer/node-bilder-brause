@@ -25,7 +25,7 @@ export default class Stripe extends NBBMODULECLASS {
 
     draw() {
         this.images = [];
-        this.parent.parent.folder.images.forEach(i => {
+        this.parent.parent.folder.itemListing.images.forEach(i => {
             const imageItem = new StripeItem(this, i.options);
             this.images.push(imageItem);
         });
