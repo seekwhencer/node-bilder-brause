@@ -15,7 +15,7 @@ export default class Item extends NBBMODULECLASS {
     generateHash() {
         let toHash;
         if (this.type === 'image') {
-            toHash = `${this.ctime}${this.size}${this.options.fileName}${this.options.extension}`;
+            toHash = `${this.ctime}${this.options.fileName}${this.options.extension}`;
         } else {
             toHash = `${this.ctime}${this.id}`;
         }

@@ -24,7 +24,7 @@
             "host": "zentrale",
             "port": 3055,
             "reconnectIdle": 2000,
-            "maxThreads": 2,
+            "maxThreads": 3,
             "imageSourceBaseURL": "http://zentrale:3050/v1/media/original",
             "uploadBaseUrl": "http://zentrale:3050/v1/upload"
         }
@@ -38,7 +38,8 @@
     "digger" : {
         "thumbnailBaseURL": "http://zentrale:3050/v1/media",
         "thumbnailSizeKey": "i",
-        "startIndex": 0
+        "startIndex": 0,
+        "maxConcurrentJobs" : 3
     },
     "media": {
         "extensions": {

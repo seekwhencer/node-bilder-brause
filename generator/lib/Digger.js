@@ -12,8 +12,15 @@ export default class Digger extends NBBMODULECLASS {
 
             this.app = this;
 
+            this.concurrentJobs = 0;
+            this.index = 0;
+
             // this is the chain
-            this.on('image-complete', index => this.trigger(index + 1));
+            this.on('image-complete', index => {
+                this.concurrentJobs--;
+                this.index++;
+                this.trigger();
+            });
 
             // config
             new Config(this)
@@ -84,22 +91,36 @@ export default class Digger extends NBBMODULECLASS {
     }
 
     trigger(index) {
-        !index ? index = 0 : null;
-        if (index >= this.flattenImageTree.length) {
+        index ? this.index = index : null;
+
+        if (this.index >= this.flattenImageTree.length) {
             return;
         }
 
-        const image = this.flattenImageTree[index];
+        if (this.concurrentJobs >= this.options.maxConcurrentJobs) {
+            return;
+        }
+
+        const image = this.flattenImageTree[this.index];
         if (!image) {
-            this.emit('image-complete', index);
+            this.emit('image-complete');
             return;
         }
 
-        LOG(this.label, 'IMAGE URL', index, image.diggerMediaURL);
+        LOG(this.label, 'IMAGE URL', this.index, image.diggerMediaURL);
+        this.concurrentJobs++;
         got(image.diggerMediaURL)
             .then(image => {
-                this.emit('image-complete', index);
+                this.emit('image-complete', this.index);
+            })
+            .catch(error => {
+                LOG(this.label, '>>> ERROR', error);
+                this.emit('image-complete', this.index);
             });
-    }
 
+        if (this.concurrentJobs < this.options.maxConcurrentJobs) {
+            this.index++;
+            this.trigger();
+        }
+    }
 }
