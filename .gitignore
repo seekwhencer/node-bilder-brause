@@ -4,5 +4,6 @@ node_modules
 npm-debug.log
 temp
 config/
+generator/dist/**/*
 !config/default.json
 !config/app.json
