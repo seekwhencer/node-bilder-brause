@@ -20,6 +20,8 @@ export default class ItemListing extends NBBMODULECLASS {
             this.data = this.parent.data.data.childs.filter(c => c.type === 'image');
         }
 
+        this.order();
+
         this.images = [];
         if (this.data.length > 0) {
             this.data.forEach(fileData => {
@@ -30,7 +32,7 @@ export default class ItemListing extends NBBMODULECLASS {
             // start loading chain with the first image
             // if the load is complete, the next image will be loaded...
             // first image to load
-            this.order();
+
             this.images[0].load();
         }
     }
@@ -38,8 +40,12 @@ export default class ItemListing extends NBBMODULECLASS {
     order(byKey, direction) {
         !byKey ? byKey = 'btime' : null;
         !direction ? direction = 'DESC' : null;
-        this.images = ksortObjArray(this.images, byKey);
+        this.data = ksortObjArray(this.data, byKey);
+        direction === 'DESC' ? this.data.reverse() : null;
+    }
 
-        direction === 'DESC' ? this.images.reverse() : null;
+    remove() {
+        this.data ? delete this.data : null;
+        this.images ? delete this.images : null;
     }
 }

@@ -51,5 +51,7 @@ export default class Folder extends NBBMODULECLASS {
 
     remove() {
         this.target ? this.target.remove() : null;
+        this.folderListing ? this.folderListing.remove() : null;
+        this.itemListing ? this.itemListing.remove() : null;
     }
 }

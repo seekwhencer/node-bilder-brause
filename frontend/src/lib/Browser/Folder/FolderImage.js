@@ -54,6 +54,9 @@ export default class FolderImageItem extends NBBMODULECLASS {
     }
 
     nextImage() {
+        if(!this.parent.parent.folders)
+            return false;
+
         if (this.imageIndex >= this.parent.parent.folders.length)
             return false;
 

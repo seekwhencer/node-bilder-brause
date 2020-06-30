@@ -16,6 +16,8 @@ export default class FolderListing extends NBBMODULECLASS {
             this.data = this.parent.data.data.childs.filter(c => c.type === 'folder');
         }
 
+        this.order();
+
         this.folders = [];
         if (this.data.length > 0) {
             this.data.forEach(folderData => {
@@ -31,6 +33,11 @@ export default class FolderListing extends NBBMODULECLASS {
 
     order(byKey) {
         !byKey ? byKey = 'folderName' : null;
-        this.folders = ksortObjArray(this.folders, byKey);
+        this.data = ksortObjArray(this.data, byKey);
+    }
+
+    remove() {
+        this.data ? delete this.data : null;
+        this.folders ? delete this.folders : null;
     }
 }
