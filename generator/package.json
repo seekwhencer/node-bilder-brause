@@ -9,8 +9,8 @@
         "digger": "export NODE_DEBUG=true && node  --experimental-modules --experimental-json-modules digger.js",
         "build" : "npm run babelize && npm run build:linux",
         "babelize": "node  --experimental-modules --experimental-json-modules config/webpack-app-pkg.config.js",
-        "build:linux": "node node_modules/pkg/lib-es5/bin.js dist/app.js --output dist/brause-generator-linux64 --targets node14-linux-x64",
-        "build:win": "node node_modules/pkg/lib-es5/bin.js dist/app.js --output dist/brause-generator-win64 --targets node14-win-x64"
+        "build:linux": "node node_modules/pkg/lib-es5/bin.js dist/app.js --output brause-generator-linux64 --targets node14-linux-x64",
+        "build:win": "node node_modules/pkg/lib-es5/bin.js dist/app.js --output brause-generator-win64 --targets node14-win-x64"
     },
     "author": "",
     "license": "ISC",

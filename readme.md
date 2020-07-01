@@ -340,6 +340,23 @@ npm run generator
 #from the generator folder
 npm start
 ```
+
+#### As Network Multi Instance Client
+Yes. You can run the generator multiple times - on multiple machines. The generator(s) will be breakfasted from the server.
+There is a round robin mechanism to find a free client. Free means, that a client can be "full".
+Full means, the client queue length reaches the maxThreads parameter. The server app is cycling thru the clients every 50 milliseconds.
+At this point, the app can break on the "to much recursion limit". I hope, the server finds a free generator client before. If not, maybe...
+@TODO - timeout before recursion limit.
+
+#### The Generator Client as Executable Binary
+Yes. Holy. You can bake a linux-64 binary from the generator client app.
+```bash
+cd generator
+npm run build
+```
+This creates a `bilderbrause_generator-linu64` executable. Just use it.
+
+
 ## The Digger
 This standalone app as part of the generator package:
 - runs on the raspberry pi
