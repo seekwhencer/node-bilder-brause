@@ -9,7 +9,7 @@ export default class Generator extends NBBMODULECLASS {
         this.workerData = workerData;
         this.parentPort = parentPort;
 
-        this.label = 'GENERATOR WORKER';
+        this.label = 'GENERATOR WORKER |';
         LOG(this.label, 'INIT');
 
         // elevating events

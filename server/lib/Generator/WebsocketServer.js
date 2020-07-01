@@ -8,6 +8,9 @@ export default class WebsocketServer extends NBBMODULECLASS {
         this.label = 'WEBSOCKET SERVER';
         LOG(this.label, 'INIT');
 
+        this.clients = [];
+        this.clientsIndex = 0;
+
         this.engine = new WebSocket.Server({
             port: this.options.port,
             perMessageDeflate: {
@@ -31,21 +34,31 @@ export default class WebsocketServer extends NBBMODULECLASS {
             }
         });
 
-        this.engine.on('connection', ws => {
-            // here comes something from the server
-            ws.on('message', message => this.onMessage(message));
+        this.engine.on('connection', client => {
+            // its a secret, but it works perfectly
+            client.id = client._socket._handle.fd;
+            client.busy = false;
 
-            ws.on('close', () => {
+            // do things on a message
+            client.on('message', message => this.onMessage(client, message));
+
+            // do things when this one connection was closed
+            client.on('close', () => {
                 LOG(this.label, 'CLIENT DISCONNECTED');
+                this.removeClient(client);
             });
 
-            // welcome message to the client
-            this.send(ws, {
+            // add the client
+            this.clients.push(client);
+
+            // send a welcome message to the client
+            this.send(client, {
                 message: 'hi',
                 data: {
                     pow: 'peng'
                 }
             });
+            LOG(this.label, 'CLIENT CONNECTED:', client.id);
         });
     }
 
@@ -58,9 +71,46 @@ export default class WebsocketServer extends NBBMODULECLASS {
         });
     }
 
-    send(clientConnection, data) {
+    send(client, data) {
         const message = JSON.stringify(data);
-        clientConnection.send(message);
+        client.send(message);
+    }
+
+    findFreeClient() {
+        return new Promise(resolve => {
+            setTimeout(() => resolve(), 50); // i hope it's done before recursion limit reached, @TODO - break it before.
+        }).then(() => {
+            return new Promise((resolve, reject) => {
+                this.clientsIndex === this.clients.length ? this.clientsIndex = 0 : null;
+                LOG(this.label, 'FIND CLIENTS INDEX', this.clientsIndex);
+
+                const client = this.clients[this.clientsIndex];
+                if (client) {
+                    if (client.busy === false) {
+                        this.clientsIndex++;
+                        resolve(client);
+                    } else {
+                        this.clientsIndex++;
+                        return this.findFreeClient();
+                    }
+                } else {
+                    this.clientsIndex++;
+                    return this.findFreeClient();
+                }
+            });
+        });
+    }
+
+    rotate(message) {
+        this
+            .findFreeClient()
+            .then(client => {
+                LOG(this.label, '>>> FOUND NEXT FREE CLIENT', client.id);
+                this.send(client, message);
+            })
+            .catch(error => {
+                LOG(this.label, '>>> TIMEOUT FINDING FREE CLIENT', error);
+            });
     }
 
 
@@ -69,9 +119,9 @@ export default class WebsocketServer extends NBBMODULECLASS {
     //   "message": "text",
     //   "data": {}
     // }
-    onMessage(message) {
+    onMessage(client, message) {
         const data = JSON.parse(message);
-        //LOG(this.label, 'GOT MESSAGE FROM CLIENT', data);
+        //LOG(this.label, 'GOT MESSAGE FROM CLIENT', client.id);
         //LOG(this.label, 'THE QUEUE', this.parent.queue);
 
         if (data.message === 'job-complete') {
@@ -79,5 +129,18 @@ export default class WebsocketServer extends NBBMODULECLASS {
             //const image = this.parent.queue.filter(q => q.hash === data.data.hash)[0];
             //image.emit('complete'); // await from media server route controller
         }
+
+        if (data.message === 'ok') {
+            LOG(this.label, 'CLIENT:', client.id, 'IS FREE');
+            client.busy = false;
+        }
+        if (data.message === 'busy') {
+            LOG(this.label, 'CLIENT:', client.id, 'IS BUSY');
+            client.busy = true;
+        }
+    }
+
+    removeClient(client) {
+        this.clients = this.clients.filter(c => c.id !== client.id);
     }
 }

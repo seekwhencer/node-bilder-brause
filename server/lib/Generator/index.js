@@ -34,6 +34,7 @@ export default class Generator extends NBBMODULECLASS {
                     if (data.message === 'job-complete') {
                         const found = this.queue.filter(q => q.hash === data.job.hash)[0];
                         found.emit('complete', data.job);
+                        this.removeFromQueue(found);
                     }
                 });
 
@@ -71,7 +72,8 @@ export default class Generator extends NBBMODULECLASS {
             };
 
             if (this.options.network === true) {
-                this.websocketServer.sendAll(postMessage);
+                //this.websocketServer.sendAll(postMessage);
+                this.websocketServer.rotate(postMessage);
             } else {
                 this.thread.postMessage(postMessage);
             }
@@ -80,6 +82,7 @@ export default class Generator extends NBBMODULECLASS {
         }
     }
 
+    removeFromQueue(image) {
+        this.queue = this.queue.filter(q => q.hash !== image.hash);
+    }
 }
-
-

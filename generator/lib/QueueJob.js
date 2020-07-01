@@ -5,7 +5,7 @@ import MediaSizes from '../../shared/MediaSizes.js';
 export default class QueueJob extends NBBMODULECLASS {
     constructor(parent, options) {
         super(parent, options);
-        this.label = 'JOB';
+        this.label = 'QUEUE JOB |';
         this.options = options;
         this.hash = this.options.hash;
 

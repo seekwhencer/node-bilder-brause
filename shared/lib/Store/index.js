@@ -8,7 +8,7 @@ export default class Store extends NBBMODULECLASS {
         super(parent);
 
         return new Promise((resolve, reject) => {
-            this.label = 'STORE';
+            this.label = 'STORE |';
             this.options = this.app.config.store;
             this.rootPath = P(`${this.options.rootPath}`);
             this.thumbnailPath = P(`${this.options.thumbnailPath}`);
@@ -171,7 +171,7 @@ export default class Store extends NBBMODULECLASS {
                                     });
 
                                     if (recursive === true || level < depth) {
-                                        console.log('>>>>>>>>>LEVEL', level, itemPath);
+                                        LOG(this.label, 'DEPTH', level, itemPath);
                                         item.childs = walk(itemPath, recursive, level + 1);
                                     }
 

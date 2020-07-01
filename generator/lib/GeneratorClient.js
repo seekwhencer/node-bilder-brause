@@ -23,9 +23,9 @@ export default class GeneratorClient extends NBBMODULECLASS {
             });
     }
 
-    init(options){
+    init(options) {
         return new Promise((resolve, reject) => {
-            this.label = 'CLIENT';
+            this.label = 'GENERATOR CLIENT |';
             LOG(this.label, 'INIT');
 
             this.app = this;
@@ -50,11 +50,12 @@ export default class GeneratorClient extends NBBMODULECLASS {
             });
 
             this.on('upload-complete', job => {
-                LOG(this.label, 'UPLOAD COMPLETE', job.hash, job.options.pathExtracted);
-                this.send({
+                LOG(this.label, 'UPLOAD COMPLETE', job.hash, '| QUEUE:', this.queue.length);
+                //this.publishState();
+                /*this.send({
                     message: 'job-complete',
                     data: job
-                });
+                });*/
                 this.clear(job);
             });
 
@@ -99,8 +100,8 @@ export default class GeneratorClient extends NBBMODULECLASS {
         if (found) {
             return found;
         } else {
-            LOG(this.label, 'ADD JOB', 'THREAD INDEX:', this.threadIndex, file.filePath);
             this.queue.push(file);
+            LOG(this.label, 'ADDED JOB TO THREAD INDEX', this.threadIndex, '| QUEUE:', this.queue.length, file.filePath);
             this.postMessage({
                 message: 'add-file',
                 file: file
@@ -110,9 +111,8 @@ export default class GeneratorClient extends NBBMODULECLASS {
     }
 
     postMessage(data) {
-        // @TODO round robin durch alle threads
         this.threads[this.threadIndex].postMessage(data);
-        this.threadIndex === this.options.maxThreads - 1 ? this.threadIndex = 0 : this.threadIndex = this.threadIndex + 1;
+        this.threadIndex === this.options.maxThreads - 1 ? this.threadIndex = 0 : this.threadIndex++;
     }
 
     connect() {
@@ -126,14 +126,7 @@ export default class GeneratorClient extends NBBMODULECLASS {
 
         this.websocketClient.on('open', data => {
             LOG(this.label, 'CONNECTED TO', this.serverSocketUrl);
-
-            // send hi the first time
-            this.send({
-                message: 'hi',
-                data: {
-                    cow: 'bell'
-                }
-            });
+            this.publishState();
         });
 
         this.websocketClient.on('close', data => {
@@ -181,15 +174,14 @@ export default class GeneratorClient extends NBBMODULECLASS {
         }
 
         const url = `${this.options.imageSourceBaseURL}/${file.pathExtracted}`;
-        LOG(this.label, 'IMAGE URL', url, file.pathExtracted);
+        LOG(this.label, 'DOWNLOADING IMAGE URL', url, file.pathExtracted);
 
         got(url)
             .then(image => {
-                LOG(this.label, 'IMAGE REQUESTED');
                 return fs.writeFile(file.filePath, image.rawBody);
             })
             .then(() => {
-                this.addJob(file)
+                this.addJob(file);
             });
     }
 
@@ -205,6 +197,7 @@ export default class GeneratorClient extends NBBMODULECLASS {
             form.submit(url, (err, res) => {
                 if (err) {
                     LOG(this.label, 'UPLOAD ERROR', err);
+                    this.emit('upload-complete', job.job);
                     resolve(job);
                 } else {
                     res.resume();
@@ -216,9 +209,16 @@ export default class GeneratorClient extends NBBMODULECLASS {
     }
 
     clear(job) {
-        LOG(this.label, 'CLEAR JOB', 'REMOVING:', job.options.filePath, job.thumbnail);
+        LOG(this.label, 'CLEAR JOB', 'REMOVING:', job.hash, 'FROM GENERATOR QUEUE');
         fs.remove(job.options.filePath);
         fs.remove(job.thumbnail);
+        this.queue = this.queue.filter(j => j.hash !== job.hash);
+        this.publishState();
+    }
+
+    publishState() {
+        LOG(this.label, 'PUBLISH STATE | MAX THREADS:', this.options.maxThreads, '| QUEUE:', this.queue.length);
+        this.queue.length < this.options.maxThreads ? this.send({message: 'ok'}) : this.send({message: 'busy'});
     }
 }
 

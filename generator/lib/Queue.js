@@ -3,7 +3,7 @@ import Job from './QueueJob.js';
 export default class Queue extends NBBMODULECLASS {
     constructor(parent, options) {
         super(parent, options);
-        this.label = 'QUEUE'
+        this.label = 'QUEUE |'
         this.jobs = [];
 
         this.on('job-added', job => {

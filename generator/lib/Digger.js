@@ -8,7 +8,7 @@ export default class Digger extends NBBMODULECLASS {
         super(options);
 
         return new Promise((resolve, reject) => {
-            this.label = 'DIGGER';
+            this.label = 'DIGGER |';
             LOG(this.label, 'INIT');
 
             this.app = this;
@@ -48,6 +48,7 @@ export default class Digger extends NBBMODULECLASS {
                 })
                 .then(() => {
                     LOG(this.label, 'IMAGES COLLECTED', this.flattenImageTree.length);
+                    LOG('');
                     this.trigger(this.options.startIndex);
                     resolve(this);
                 });
@@ -111,7 +112,7 @@ export default class Digger extends NBBMODULECLASS {
             return;
         }
 
-        if (this.concurrentJobs >= this.options.maxConcurrentJobs) {
+        if (this.concurrentJobs > this.options.maxConcurrentJobs) {
             return;
         }
 
@@ -121,18 +122,18 @@ export default class Digger extends NBBMODULECLASS {
             return;
         }
 
-        LOG(this.label, 'IMAGE URL', this.index, image.diggerMediaURL);
+        LOG(this.label, 'IMAGE URL', 'CONCURRENT JOBS:', this.concurrentJobs, 'IMAGE INDEX:', this.index, image.diggerMediaURL);
         this.concurrentJobs++;
         got(image.diggerMediaURL)
             .then(image => {
                 this.emit('image-complete', this.index);
             })
             .catch(error => {
-                LOG(this.label, '>>> ERROR', error);
+                LOG(this.label, '>>> UPLOAD ERROR. IMAGE INDEX:', this.index, image.diggerMediaURL);
                 this.emit('image-complete', this.index);
             });
 
-        if (this.concurrentJobs < this.options.maxConcurrentJobs) {
+        if (this.concurrentJobs <= this.options.maxConcurrentJobs) {
             this.index++;
             this.trigger();
         }
