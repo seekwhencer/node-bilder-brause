@@ -399,6 +399,16 @@ Jo.
       - /mnt/c/Data/FotosThumbnails:/ext/wd4/storage/gallery
   ```
 
+#### Create your own config
+- duplicate `config/default.json` to `config/docker.json`
+- make your changes
+- open the `docker-compose.yml`
+- change:
+  ```yaml
+  environment:
+      NODE_ENV: docker
+  ```
+
 #### Run
 - Both together: the server and the generator client (recommended at the moment)
 ```bash
@@ -414,17 +424,6 @@ docker-compose up -d bilderbrause_server
 ```bash
 docker-compose up -d bilderbrause_generator
 ```
-
-
-#### Create your own config
-- duplicate `config/docker.json` to `config/myconfig.json`
-- make your changes
-- open the `docker-compose.yml`
-- change:
-  ```yaml
-  environment:
-      NODE_ENV: myconfig
-  ```
 
 # PM2 - bare metal autostart
 to let the app start with a systemboot, on a raspberry pi for example:
