@@ -6,5 +6,5 @@ const diggerOptions = {
 };
 
 new Digger(diggerOptions).then(digger => {
-    LOG('>>> DIGGER IS UP AND WAITING...')
+    LOG('DIGGER FEDDICH ...')
 });

@@ -1,5 +1,6 @@
 import Config from '../../shared/lib/Config.js';
 import Store from '../../shared/lib/Store/index.js';
+import fs from 'fs-extra';
 import got from "got";
 
 export default class Digger extends NBBMODULECLASS {
@@ -40,6 +41,9 @@ export default class Digger extends NBBMODULECLASS {
                     return this.collectAll();
                 })
                 .then(() => {
+                    LOG('');
+                    LOG(this.label, 'FLATTEN AND CHECK EXISTING THUMBNAILS');
+                    LOG('');
                     return this.flattenFolder(this.data);
                 })
                 .then(() => {
@@ -51,6 +55,9 @@ export default class Digger extends NBBMODULECLASS {
     }
 
     collectAll() {
+        LOG('');
+        LOG(this.label, 'COLLECTING');
+        LOG('');
         this.flattenImageTree = [];
 
         return this.store
@@ -66,8 +73,15 @@ export default class Digger extends NBBMODULECLASS {
             data.childs ? data.childs.forEach(child => {
                 if (child.type === 'image') {
                     child.diggerMediaURL = `${this.options.thumbnailBaseURL}/${this.options.thumbnailSizeKey}/${child.pathExtracted}`;
-                    this.flattenImageTree.push(child);
-                    LOG(this.label, 'IMAGE ADDED', child.diggerMediaURL);
+                    child.thumbnail = `${child.thumbnailPath}/${child.hash}_${this.options.thumbnailSizeKey}.jpg`;
+
+                    if (!fs.existsSync(child.thumbnail)) {
+                        this.flattenImageTree.push(child);
+                        LOG(this.label, 'IMAGE ADDED', child.thumbnail, child.diggerMediaURL);
+                    } else {
+                        //LOG(this.label, 'THUMBNAIL EXISTS:', child.thumbnail, child.diggerMediaURL);
+                    }
+
                 }
                 if (child.type === 'folder') {
                     this.flattenFolder(child);
