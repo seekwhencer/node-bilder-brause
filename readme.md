@@ -461,3 +461,57 @@ pm2 save
 - check: `pm2 status` or `pm2 status 0` or `pm2 status 1`
 - check: `pm2 logs` or `pm2 logs 0` or `pm2 logs 1`
 - start, stop: `pm2 stop 0` or `pm2 stop 1` - `0` or `1` is the id
+
+## Development with webpack - faster than light
+
+If your are using windows subsystem for linux 2 like me, then it could be better to speed up the webpack dev process faster than light with a ramdisk.
+What? A Ramdisk? Jo. A Ramdisk.  
+  
+The only thing what you need is an IDE with a sftp upload on file change. the sftp sync. All jetbrain IDE's has this feature.
+Just install the project normally on your system. 
+
+- just install `openssh-server`
+```
+sudo apt-get install openssh-server
+```
+
+- configure it to run on port `2222` with `password authentication`
+```bash
+nano /etc/ssh/sshd_config
+```
+
+- change
+```bash
+Port 2222
+PasswordAuthentication yes
+```
+
+- run the ssh-server
+```bash
+ sudo /etc/init.d/ssh restart
+```
+
+- create the mount folder, persistent
+```bash
+sudo mkdir /mnt/ramdisk
+```
+- mount a ramdisk with 500 MB space, not persistent
+```bash
+sudo mkdir /mnt/ramdisk
+sudo mount -t tmpfs -o rw,size=500M tmpfs /mnt/ramdisk
+```
+- copy the whole project into the ramdisk
+```bash
+cd /mnt/c/somewhere/on/my/disk/node-bilder-brause
+cp -R * /mnt/ramdisk/
+``` 
+- now set up your IDE: configure a sftp sync on port `2222` with the ramdisk and activate automatic upload
+- start the webpack dev server
+```bash
+cd /mnt/ramdisk
+npm run dev
+```
+
+### `... FASTER THAN LIGHT!`
+> from over 30 seconds to 2 seconds.... holy...
+
