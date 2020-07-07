@@ -462,7 +462,7 @@ pm2 save
 - check: `pm2 logs` or `pm2 logs 0` or `pm2 logs 1`
 - start, stop: `pm2 stop 0` or `pm2 stop 1` - `0` or `1` is the id
 
-## Development with webpack - faster than light
+# Development with webpack - faster than light
 
 If your are using windows subsystem for linux 2 like me, then it could be better to speed up the webpack dev process faster than light with a ramdisk.
 What? A Ramdisk? Jo. A Ramdisk.  
@@ -470,7 +470,10 @@ What? A Ramdisk? Jo. A Ramdisk.
 The only thing what you need is an IDE with a sftp upload on file change. the sftp sync. All jetbrain IDE's has this feature.
 Just install the project normally on your system. 
 
-- just install `openssh-server`
+#### Windows only
+- bring the **`windows subsystem for linux 2`** on your window 10 system
+- install **`Ubuntu 20`** via the windows store and open the ubuntu terminal, then:
+- just install **`openssh-server`**
 ```
 sudo apt-get install openssh-server
 ```
@@ -491,6 +494,8 @@ PasswordAuthentication yes
  sudo /etc/init.d/ssh restart
 ```
 
+#### wsl, linux, mac
+
 - create the mount folder, persistent
 ```bash
 sudo mkdir /mnt/ramdisk
@@ -505,13 +510,23 @@ sudo mount -t tmpfs -o rw,size=500M tmpfs /mnt/ramdisk
 cd /mnt/c/somewhere/on/my/disk/node-bilder-brause
 cp -R * /mnt/ramdisk/
 ``` 
-- now set up your IDE: configure a sftp sync on port `2222` with the ramdisk and activate automatic upload
+#### wsl only
+- now set up your IDE: configure a **sftp** sync on port **`2222`** with the ramdisk and activate automatic upload
+
+#### linux or mac only
+- now set up your IDE: configure a **file** sync between the project folder **`/somewhere/on/my/disk/node-bilder-brause`** and the ramdisk location: **`/mnt/ramdisk`**
+
+
+#### wsl + linux + mac
 - start the webpack dev server
 ```bash
 cd /mnt/ramdisk
 npm run dev
 ```
 
-### `... FASTER THAN LIGHT!`
-> from over 30 seconds to 2 seconds.... holy...
+***
+
+## `... THIS IS FASTER THAN LIGHT!`
+> This is the Jakobs Krönung of developer experience for a frontend developer. From over 30 seconds to 2 seconds.... holy...
+> This is the hottest reloading ever...
 
