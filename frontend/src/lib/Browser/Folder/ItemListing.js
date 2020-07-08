@@ -18,6 +18,8 @@ export default class ItemListing extends NBBMODULECLASS {
     }
 
     set(childs) {
+        this.remove();
+
         if (childs) {
             this.data = childs.filter(c => c.type === 'image');
         } else {
@@ -50,6 +52,7 @@ export default class ItemListing extends NBBMODULECLASS {
 
     remove() {
         this.data ? delete this.data : null;
+        this.images ? this.images.forEach(i => i.target.remove()) : null;
         this.images ? delete this.images : null;
     }
 }

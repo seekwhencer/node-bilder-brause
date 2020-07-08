@@ -224,9 +224,11 @@ export default class Store extends NBBMODULECLASS {
     flat(data, type, flattenTree) {
         LOG(this.label, 'FLATTEN DATA');
         return new Promise((resolve, reject) => {
-            let listing = this.flattenFolder(data, type, flattenTree);
-            listing = listing.map(item => item.aggregate());
-            resolve(listing);
+            const flatten = data.aggregate();
+            flatten.childs = this.flattenFolder(flatten, type, flattenTree);
+            //let listing = this.flattenFolder(data, type, flattenTree);
+            //listing = listing.map(item => item.aggregate());
+            resolve(flatten);
         });
     }
 
@@ -249,10 +251,11 @@ export default class Store extends NBBMODULECLASS {
         return flattenTree;
     }
 
-    filterLatest(data, num) {
-        data = ksortObjArray(data, 'ctime');
-        data.reverse();
-        return data.slice(0, num);
+    filterLatest(objArr, num) {
+        objArr = ksortObjArray(objArr, 'ctime');
+        objArr.reverse();
+        objArr = objArr.slice(0, num)
+        return objArr;
     }
 
     filterTime(data, ageDays) {

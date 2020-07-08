@@ -52,7 +52,7 @@ export default class Folder extends NBBMODULECLASS {
         //
         this.folderListing = new FolderListing(this);
         this.itemListing = new ItemListing(this);
-        //this.latestListing = new LatestListing(this); //@TODO
+        this.latestListing = new LatestListing(this); //@TODO
     }
 
     drawImage() {
@@ -62,6 +62,10 @@ export default class Folder extends NBBMODULECLASS {
     remove() {
         this.target ? this.target.remove() : null;
         this.folderListing ? this.folderListing.remove() : null;
-        //this.itemListing ? this.itemListing.remove() : null;
+        this.itemListing ? this.itemListing.remove() : null;
+    }
+
+    getLatest(){
+        this.latestListing.get();
     }
 }

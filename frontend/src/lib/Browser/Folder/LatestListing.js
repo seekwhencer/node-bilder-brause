@@ -6,46 +6,32 @@ export default class LatestListing extends NBBMODULECLASS {
         this.label = 'LATEST LISTING';
         this.options = options;
 
-        this.maxConcurrentImageRequests = this.parent.maxConcurrentImageRequests || 3;
-        this.concurrentImageRequests = this.parent.concurrentImageRequests || 0;
+        this.folder = this.parent;
+        this.browser = this.folder.parent;
+        this.itemListingOptions = this.folder.itemListing.optionsElement;
 
         this.target = this.parent.target.querySelector('[data-latest]');
-        this.set();
+
+        this.on('loading', url => {
+            this.isLoading = true;
+            this.itemListingOptions.emit('loading');
+        });
+
+        this.on('data', data => {
+            this.isLoading = false;
+            this.itemListingOptions.emit('data');
+            //this.set(data.data.childs);
+            this.folder.itemListing.set(data.data.childs);
+        });
     }
 
-    set(childs) {
-        if (childs) {
-            this.data = childs.filter(c => c.type === 'image');
-        } else {
-            this.data = this.parent.data.data.childs.filter(c => c.type === 'image');
-        }
+    get() {
+        if (this.isLoading)
+            return;
 
-        this.order();
-
-        this.images = [];
-        if (this.data.length > 0) {
-            this.data.forEach(fileData => {
-                const imageItem = new ImageItem(this, fileData);
-                this.images.push(imageItem);
-            });
-
-            // start loading chain with the first image
-            // if the load is complete, the next image will be loaded...
-            // first image to load
-
-            this.images[0].load();
-        }
-    }
-
-    order(byKey, direction) {
-        !byKey ? byKey = 'btime' : null;
-        !direction ? direction = 'DESC' : null;
-        this.data = ksortObjArray(this.data, byKey);
-        direction === 'DESC' ? this.data.reverse() : null;
-    }
-
-    remove() {
-        this.data ? delete this.data : null;
-        this.images ? delete this.images : null;
+        let urlPath = this.browser.locationExtracted.join('/');
+        let url = `${this.browser.urlBase}/latest/${urlPath}`;
+        this.emit('loading', url);
+        this.fetch(url).then(data => this.emit('data', data));
     }
 }

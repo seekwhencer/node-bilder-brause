@@ -18,11 +18,16 @@ export default class FolderRoutes extends Route {
 
             this.store
                 .collect(fromFolder, true, this.includes, true)
-                .then(data => this.store.flat(data))
+                .then(data =>  this.store.flat(data))
                 .then(data => {
                     if (data) {
-                        data = this.store.filterLatest(data, num);
-                        res.json(data);
+                        data.childs = this.store.filterLatest(data.childs, num);
+                        data.type = 'latest'; // override from type "folder" to type "latest"
+                        res.json({
+                            nicePath: nicePath,
+                            extractedPath: extractedPath,
+                            data: data
+                        });
                     } else {
                         res.json({
                             nicePath: nicePath,

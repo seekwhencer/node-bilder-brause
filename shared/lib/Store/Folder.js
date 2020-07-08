@@ -15,6 +15,8 @@ export default class Folder extends Item {
         this.pathCrumped = this.pathExtracted.split('/');
         this.uri = encodeURI(this.pathCrumped.join('/')).replace(/^\//, '').replace(/\/$/, '');
 
+        this.generateHash();
+
     }
 
     aggregate() {

@@ -17,7 +17,7 @@ export default class Item extends NBBMODULECLASS {
         if (this.type === 'image') {
             toHash = `${this.ctime}${this.options.fileName}${this.options.extension}`;
         } else {
-            toHash = `${this.ctime}${this.id}`;
+            toHash = `${this.ctime}${this.options.folderName}`;
         }
         this.hash = Crypto.createHash('md5').update(toHash).digest("hex");
     }
