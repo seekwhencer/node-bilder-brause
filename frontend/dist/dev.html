@@ -17,7 +17,14 @@
     // or set the global window.NBBOPTIONS.debug to false
     window.NBBOPTIONS = {
         debug: true,
-        target: document.querySelector('body')
+        target: document.querySelector('body'),
+
+        // Using apiBaseUrl to override the window.location.origin for the api calls
+        // If apiBaseUri is undefined or false, then die api goes thru the webpack-dev-server proxy
+        // This is the slowest way while developing.
+        // Don't use the proxy. Use the apiBaseUrl here to bypass the proxy.
+        apiBaseUrl : 'http://zentrale:3050',
+
     };
 
     // create the brause and run it
