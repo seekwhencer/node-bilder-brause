@@ -1,6 +1,7 @@
 import FolderTemplate from './Templates/Folder.html';
 import FolderListing from './FolderListing.js';
 import ItemListing from './ItemListing.js';
+import LatestListing from "./LatestListing.js";
 
 export default class Folder extends NBBMODULECLASS {
     constructor(parent, options) {
@@ -8,6 +9,7 @@ export default class Folder extends NBBMODULECLASS {
 
         this.label = 'FOLDER';
         this.options = options;
+        this.browser = this.parent;
 
         this.urlBase = this.app.urlBase;
         this.urlFolderBase = this.app.urlFolderBase;
@@ -16,11 +18,17 @@ export default class Folder extends NBBMODULECLASS {
 
         this.maxConcurrentImageRequests = 3;
         this.concurrentImageRequests = 0;
+
+        this.location = ''; // the clear path
     }
 
     set(data) {
         this.data = data;
-        // @TODO hier ne Weiche ob's nen folder ist oder daten kamen. ansonsten eins zurück
+
+        // suppress redraw if drew before
+        if (this.location === this.data.data.pathExtracted)
+            return;
+
         this.draw();
     }
 
@@ -33,16 +41,18 @@ export default class Folder extends NBBMODULECLASS {
     }
 
     drawFolder() {
+        this.location = this.data.data.pathExtracted;
         this.remove();
 
         this.target = this.toDOM(FolderTemplate({
             scope: {}
         }));
-        this.parent.target.append(this.target);
+        this.browser.target.append(this.target);
 
         //
         this.folderListing = new FolderListing(this);
         this.itemListing = new ItemListing(this);
+        //this.latestListing = new LatestListing(this); //@TODO
     }
 
     drawImage() {
@@ -52,6 +62,6 @@ export default class Folder extends NBBMODULECLASS {
     remove() {
         this.target ? this.target.remove() : null;
         this.folderListing ? this.folderListing.remove() : null;
-        this.itemListing ? this.itemListing.remove() : null;
+        //this.itemListing ? this.itemListing.remove() : null;
     }
 }

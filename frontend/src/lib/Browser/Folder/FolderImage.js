@@ -22,7 +22,7 @@ export default class FolderImageItem extends NBBMODULECLASS {
         }, {once: true});
 
         this.imageElement.addEventListener('load', () => {
-            console.log('>>>>>>>>>>>>>> FOLDER IMAGE LOADED');
+            //console.log('>>>>>>>>>>>>>> FOLDER IMAGE LOADED');
             this.target.classList.remove('loading');
             this.target.classList.add('loaded');
             this.nextImage();

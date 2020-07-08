@@ -23,7 +23,7 @@ export default class ImageItem extends NBBMODULECLASS {
 
         this.imageElement.addEventListener('loadstart', e => {
             this.target.classList.add('loading');
-            console.log('>>> CONCURRENT IMAGE REQUESTS', this.parent.concurrentImageRequests);
+            //console.log('>>> CONCURRENT IMAGE REQUESTS', this.parent.concurrentImageRequests);
         }, {once: true});
 
         this.imageElement.addEventListener('load', () => {
@@ -68,7 +68,10 @@ export default class ImageItem extends NBBMODULECLASS {
     }
 
     nextImage() {
-        console.log('>>> NEXT IMAGE >>>', this.parent.images.length, this.imageIndex);
+        //console.log('>>> NEXT IMAGE >>>', this.parent.images.length, this.imageIndex);
+        if (!this.parent.images)
+            return false;
+
         if (this.imageIndex >= this.parent.images.length) {
             return false;
         }

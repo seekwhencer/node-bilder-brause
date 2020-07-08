@@ -1,5 +1,8 @@
 import StyleLintPlugin from 'stylelint-webpack-plugin';
+import StatsPlugin from 'webpack-stats-plugin';
 import path from 'path';
+
+const StatsWriterPlugin = StatsPlugin.StatsWriterPlugin;
 
 export default class {
     constructor() {
@@ -21,12 +24,19 @@ export default class {
                 hotUpdateMainFilename: `../../.hot/hot-update.json`
             },
 
+            optimization: {
+                removeAvailableModules: false,
+                removeEmptyChunks: false,
+                splitChunks: false,
+            },
+
             module: {
                 rules: [
                     {
                         enforce: 'pre',
                         test: /\.js$/,
                         exclude: /node_modules/,
+                        //include: `${this.appPath}/src`,
                         loader: 'eslint-loader',
                     },
                     {
@@ -75,7 +85,10 @@ export default class {
             },
 
             plugins: [
-                new StyleLintPlugin()
+                new StyleLintPlugin(),
+                new StatsWriterPlugin({
+                    filename: '../stats.json'
+                })
             ],
 
             devServer: {

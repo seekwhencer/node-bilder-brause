@@ -1,0 +1,16 @@
+.nbb-folder {
+    .nbb-folder-files {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-gap: 15px;
+        width: calc(100% - 2px);
+
+        @include media-tablet {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        @include media-smartphone {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+}

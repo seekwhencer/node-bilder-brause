@@ -1,0 +1,30 @@
+.nbb-folder {
+    .nbb-folder-files-options {
+        background: $color-gray-b;
+        margin-bottom: 2px;
+        margin-top: 15px;
+        display: block;
+        overflow: hidden;
+        padding: 5px;
+
+        &__selection {
+            display: inline;
+
+            button {
+                float: left;
+                background-color: $color-gray-a;
+                color: white;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: white;
+                    color: black;
+                }
+            }
+        }
+
+        &__selection-group {
+            background-color: black;
+        }
+    }
+}

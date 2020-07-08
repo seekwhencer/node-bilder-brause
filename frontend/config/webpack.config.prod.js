@@ -3,6 +3,8 @@ import Crypto from 'crypto';
 import {spawn} from 'child_process';
 import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
+import StatsPlugin from "webpack-stats-plugin";
+const StatsWriterPlugin = StatsPlugin.StatsWriterPlugin;
 
 export default class {
     constructor() {
@@ -46,6 +48,13 @@ export default class {
 
             module: {
                 rules: [
+                    {
+                        enforce: 'pre',
+                        test: /\.js$/,
+                        //exclude: /node_modules/,
+                        include: `${this.appPath}/src`,
+                        loader: 'eslint-loader',
+                    },
                     {
                         test: /\.html?$/,
                         loader: "template-literals-loader"
@@ -103,7 +112,10 @@ export default class {
                             //sedReplace('debug: true', 'debug: false', `${this.appPath}/dist/index.html`);
                         });
                     }
-                }
+                },
+                new StatsWriterPlugin({
+                    filename: `../stats.json`
+                })
             ]
         };
 

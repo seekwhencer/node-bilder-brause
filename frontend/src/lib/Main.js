@@ -13,7 +13,7 @@ export default class Main extends NBBMODULECLASS {
             this.app = this;
             this.options = options;
 
-            this.apiBaseUrl = `${window.location.origin}`;
+            this.apiBaseUrl = this.options.apiBaseUrl || `${window.location.origin}`;
             this.urlBase = `${this.apiBaseUrl}/v1`;
             this.urlFolderBase = `${this.urlBase}/folder`;
             this.urlImageBase = `${this.urlBase}/image`;

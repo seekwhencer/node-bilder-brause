@@ -7,6 +7,7 @@ export default class ImageViewer extends NBBMODULECLASS {
     constructor(parent, options) {
         super(parent, options);
         this.options = options;
+        this.browser = this.parent;
 
         this.urlBase = this.app.urlBase;
         this.urlFolderBase = this.app.urlFolderBase;
@@ -32,7 +33,6 @@ export default class ImageViewer extends NBBMODULECLASS {
             return;
 
         this.open();
-
     }
 
     open() {
@@ -43,10 +43,10 @@ export default class ImageViewer extends NBBMODULECLASS {
                     data: this.data
                 }
             }));
-            this.parent.target.prepend(this.target);
+            this.browser.target.prepend(this.target);
 
             // short link to the ordered images
-            this.images = this.parent.folder.itemListing.images;
+            this.images = this.browser.folder.itemListing.images;
 
             // create the controls
             this.controls = new Controls(this);
@@ -71,7 +71,7 @@ export default class ImageViewer extends NBBMODULECLASS {
             let hashUpper = hash.split('/');
             hashUpper.pop();
             hashUpper = hashUpper.join('/');
-            this.parent.setLocationHash(hashUpper);
+            this.browser.setLocationHash(hashUpper);
         }
 
         document.querySelector('body').style.overflow = 'auto';

@@ -24,7 +24,7 @@
             "host": "zentrale",
             "port": 3055,
             "reconnectIdle": 2000,
-            "maxThreads": 1,
+            "maxThreads": 4,
             "imageSourceBaseURL": "http://zentrale:3050/v1/media/original",
             "uploadBaseUrl": "http://zentrale:3050/v1/upload"
         }

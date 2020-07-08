@@ -33,7 +33,11 @@ export default class Browser extends NBBMODULECLASS {
                 this.pageTitle.set(data.data.folderName);
                 this.breadcrump.set(data.data);
 
+                // on ANY data, the folder will be feeded with the data
                 this.folder.set(data);
+
+                // on ANY data, the viewer will be feeded with the data
+                // and decides to open, if the data contains the "file" field
                 this.imageViewer.set(data);
             });
 
@@ -66,14 +70,17 @@ export default class Browser extends NBBMODULECLASS {
         let url = `${this.urlBase}/funnel/${urlPath}`;
         let followingRequestUrl = false;
 
+        // if nothing is there before
+        // override the url without the last item of it
         if (!this.folder.target) {
+            console.log('>>> NOTHING HERE');
             followingRequestUrl = url;
             this.locationExtracted.pop();
             const urlPathWithoutFile = this.locationExtracted.join('/');
             url = `${this.urlBase}/funnel/${urlPathWithoutFile}`;
         }
 
-        // on a deeplink to a file, the upper folder must be requestet
+        // on a deeplink to a file, the upper folder must be requested.
         // this happens here. if no folder contend exists, the folder will
         // be requested at first. then, after the request is done,
         // the image viewer request happens.
@@ -81,6 +88,8 @@ export default class Browser extends NBBMODULECLASS {
             .fetch(url)
             .then(data => {
                 this.emit('data', data);
+
+                // if it is an first request
                 if (followingRequestUrl) {
                     this
                         .fetch(followingRequestUrl)

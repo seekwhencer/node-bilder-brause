@@ -8,3 +8,4 @@ generator/dist/**/*
 generator/*-linux64
 !config/default.json
 !config/app.json
+**/stats.json

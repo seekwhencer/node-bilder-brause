@@ -1,19 +1,15 @@
 import ImageItem from "./ImageItem.js";
-import ItemListingOptions from './ItemListingOptions.js';
 
-export default class ItemListing extends NBBMODULECLASS {
+export default class LatestListing extends NBBMODULECLASS {
     constructor(parent, options) {
         super(parent, options);
-        this.label = 'ITEM LISTING';
+        this.label = 'LATEST LISTING';
         this.options = options;
-        this.folder = this.parent;
 
-        this.maxConcurrentImageRequests = this.folder.maxConcurrentImageRequests || 3;
-        this.concurrentImageRequests = this.folder.concurrentImageRequests || 0;
+        this.maxConcurrentImageRequests = this.parent.maxConcurrentImageRequests || 3;
+        this.concurrentImageRequests = this.parent.concurrentImageRequests || 0;
 
-        this.target = this.folder.target.querySelector('[data-files]');
-        this.optionsElement = new ItemListingOptions(this);
-
+        this.target = this.parent.target.querySelector('[data-latest]');
         this.set();
     }
 
@@ -21,7 +17,7 @@ export default class ItemListing extends NBBMODULECLASS {
         if (childs) {
             this.data = childs.filter(c => c.type === 'image');
         } else {
-            this.data = this.folder.data.data.childs.filter(c => c.type === 'image');
+            this.data = this.parent.data.data.childs.filter(c => c.type === 'image');
         }
 
         this.order();

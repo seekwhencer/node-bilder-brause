@@ -1,0 +1,16 @@
+.nbb-folder {
+    .nbb-folder-folders {
+        columns: 4;
+        column-gap: 15px;
+        overflow: hidden;
+
+        @include media-tablet {
+            columns: 2;
+        }
+
+        @include media-smartphone {
+            columns: 1;
+            column-gap: 2px;
+        }
+    }
+}
