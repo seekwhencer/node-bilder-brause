@@ -29,7 +29,7 @@ export default class Exif extends NBBMODULECLASS {
                 new ExifImage({
                     image: staticPath
                 }, (error, data) => {
-                    LOG(this.label, 'EXIF DATA:', data);
+                    LOG('EXIF DATA:', data);
                     if (error) {
                         resolve(this.exifMap);
                     } else {

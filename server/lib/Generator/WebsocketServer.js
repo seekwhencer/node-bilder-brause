@@ -60,6 +60,14 @@ export default class WebsocketServer extends NBBMODULECLASS {
             });
             LOG(this.label, 'CLIENT CONNECTED:', client.id);
         });
+
+        this.on('client-found', client => {
+
+        });
+
+        this.on('client-not-found', () => {
+
+        });
     }
 
     sendAll(data) {
@@ -78,11 +86,13 @@ export default class WebsocketServer extends NBBMODULECLASS {
 
     findFreeClient() {
         return new Promise(resolve => {
-            setTimeout(() => resolve(), 50); // i hope it's done before recursion limit reached, @TODO - break it before.
+            // @TODO reject with tries timeout, count the tries
+            // @TODO catch reject in rotate()
+            setTimeout(() => resolve(), 100);
         }).then(() => {
             return new Promise((resolve, reject) => {
                 this.clientsIndex === this.clients.length ? this.clientsIndex = 0 : null;
-                LOG(this.label, 'FIND CLIENTS INDEX', this.clientsIndex);
+                LOG(this.label, 'FIND CLIENTS INDEX', this.clientsIndex, 'CLIENTS', this.clients.length);
 
                 const client = this.clients[this.clientsIndex];
                 if (client) {
@@ -101,15 +111,34 @@ export default class WebsocketServer extends NBBMODULECLASS {
         });
     }
 
+    // trying to eventise the client search. but...
+    /*
+        findFreeClient() {
+            this.clientsIndex === this.clients.length ? this.clientsIndex = 0 : null;
+            LOG(this.label, 'FIND CLIENTS INDEX', this.clientsIndex);
+
+            const client = this.clients[this.clientsIndex];
+            this.clientsIndex++;
+            if (client) {
+                if (client.busy === false) {
+                    this.emit('client-found', client);
+                } else {
+                    this.emit('client-not-found');
+                }
+            } else {
+                this.emit('client-not-found');
+            }
+        }
+    */
     rotate(message) {
         this
             .findFreeClient()
             .then(client => {
-                LOG(this.label, '>>> FOUND NEXT FREE CLIENT', client.id);
+                LOG(this.label, '>>> FOUND NEXT FREE WS CLIENT', client.id);
                 this.send(client, message);
             })
             .catch(error => {
-                LOG(this.label, '>>> TIMEOUT FINDING FREE CLIENT', error);
+                LOG(this.label, '>>> FAILED TO FIND A WS CLIENT', error);
             });
     }
 

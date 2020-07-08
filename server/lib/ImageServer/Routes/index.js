@@ -4,6 +4,7 @@ import ImageRoute from './Image.js';
 import MediaRoute from './Media.js';
 import FunnelRoute from './Funnel.js';
 import UploadRoute from './Upload.js';
+import LatestRoute from './Latest.js';
 
 export {
     HomeRoutes,
@@ -11,5 +12,6 @@ export {
     ImageRoute,
     MediaRoute,
     FunnelRoute,
-    UploadRoute
+    UploadRoute,
+    LatestRoute
 };

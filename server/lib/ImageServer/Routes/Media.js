@@ -42,12 +42,6 @@ export default class MediaRoutes extends Route {
             const niceMedia = `${extractedPath}/${fileName}`;
             const filePath = `${folder}/${fileName}`;
 
-            LOG('');
-            LOG('');
-            LOG('>>>>>>>>> NEW IMAGE REQUEST:');
-            LOG('');
-
-
             this.store
                 .grab(filePath)
                 .then(image => {
@@ -55,7 +49,7 @@ export default class MediaRoutes extends Route {
                     const thumbnail = `${image.thumbnailPath}/${image.hash}_${image.size}.jpg`;
                     res.set('Content-Type', 'image/jpeg');
                     if (fs.existsSync(thumbnail)) {
-                        LOG('>>> IMAGE EXISTS:', thumbnail);
+                        //LOG('>>> IMAGE EXISTS:', thumbnail);
                         res.sendFile(thumbnail);
                     } else {
                         LOG('>>> IMAGE NOT EXISTS:', thumbnail);

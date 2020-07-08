@@ -14,6 +14,15 @@ export default class ImageServer extends NBBMODULECLASS {
         this.engine = APP;
         this.server = false;
 
+        // CORS
+        this.engine.use((req, res, next) => {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+            res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+            res.setHeader('Access-Control-Allow-Credentials', true);
+            next();
+        });
+
         this.registerRoutes();
         this.registerFrontend();
 
@@ -23,7 +32,7 @@ export default class ImageServer extends NBBMODULECLASS {
 
     start() {
         return new Promise((resolve, reject) => {
-            this.server = http.Server(APP);
+            this.server = http.Server(this.engine);
             this.server.listen(this.options.port, () => {
                 resolve(this);
                 this.emit('listen');

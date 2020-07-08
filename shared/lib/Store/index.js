@@ -40,7 +40,8 @@ export default class Store extends NBBMODULECLASS {
     }
 
     // fetch folder and files tree from disk
-    collect(folder, recursive, includes, withDirs, depth) {
+    // @TODO - with cache !
+    collect(folder, recursive, includes, withDirs, depth,) {
         return new Promise((resolve, reject) => {
             let rootFolderOptions = {
                 id: 'rootfolder',
@@ -219,6 +220,49 @@ export default class Store extends NBBMODULECLASS {
 
         return walk(folder, recursive, 0);
     };
+
+    flat(data, type, flattenTree) {
+        LOG(this.label, 'FLATTEN DATA');
+        return new Promise((resolve, reject) => {
+            let listing = this.flattenFolder(data, type, flattenTree);
+            listing = listing.map(item => item.aggregate());
+            resolve(listing);
+        });
+    }
+
+    flattenFolder(data, type, flattenTree) {
+        !flattenTree ? flattenTree = [] : null;
+        !type ? type = 'image' : null;
+
+        data.childs ? data.childs.forEach(child => {
+            if (child.type === type) {
+                if (!fs.existsSync(child.thumbnail)) {
+                    flattenTree.push(child);
+                }
+            }
+            if (child.type === 'folder') {
+                const childs = this.flattenFolder(child, type);
+                childs.length > 0 ? flattenTree = flattenTree.concat(childs) : null;
+            }
+        }) : null;
+
+        return flattenTree;
+    }
+
+    filterLatest(data, num) {
+        data = ksortObjArray(data, 'ctime');
+        data.reverse();
+        return data.slice(0, num);
+    }
+
+    filterTime(data, ageDays) {
+        const threshold = ageDays * 24 * 60 * 60 * 1000;
+        return data.filter(i => {
+            const time = parseInt(i.ctime.replace('ct', ''));
+            if (time >= threshold)
+                return i;
+        });
+    }
 
     aggregateIncludes() {
         LOG('>>> AGREGATE INCLUDES', this.options);

@@ -32,3 +32,16 @@ global.FOLDERSYNC = function (folder) {
         return dir;
     }
 };
+
+global.ksortObjArray = (array, key) => {
+    const compare = (a, b) => {
+        let comparison = 0;
+        if (a[key] > b[key]) {
+            comparison = 1;
+        } else if (a[key] < b[key]) {
+            comparison = -1;
+        }
+        return comparison;
+    };
+    return array.sort(compare);
+};

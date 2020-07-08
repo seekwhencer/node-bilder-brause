@@ -23,7 +23,7 @@ export default class FunnelRoute extends Route {
             const itemPath = path.resolve(this.store.rootPath, extractedPath);
             let endpoint = '';
 
-            LOG('>>> ITEM PATH', itemPath);
+            LOG('FUNNEL GET ITEM PATH:', itemPath);
 
             this.store
                 .stat(itemPath)
