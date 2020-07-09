@@ -1,7 +1,7 @@
 import BreadcrumpTemplate from './Templates/Breadcrump.html';
 import BreadcrumpItemTemplate from './Templates/BreadcrumpItem.html';
 
-export default class Breadcrump extends NBBMODULECLASS {
+export default class Breadcrumb extends NBBMODULECLASS {
     constructor(parent, options) {
         super(parent, options);
 

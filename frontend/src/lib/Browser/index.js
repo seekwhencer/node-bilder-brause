@@ -1,7 +1,7 @@
 import BrowserTemplate from './Templates/Browser.html';
 import Folder from './Folder/index.js';
 import PageTitle from './PageTitle.js';
-import Breadcrump from './Breadcrump.js';
+import Breadcrumb from './Breadcrumb.js';
 import ImageViewer from './ImageViewer/index.js';
 
 export default class Browser extends NBBMODULECLASS {
@@ -31,7 +31,7 @@ export default class Browser extends NBBMODULECLASS {
                 console.log('>>> GOT DATA', data.data.type, data.data.id);
 
                 this.pageTitle.set(data.data.folderName);
-                this.breadcrump.set(data.data);
+                this.breadcrumb.set(data.data);
 
                 // on ANY data, the folder will be feeded with the data
                 this.folder.set(data);
@@ -51,7 +51,7 @@ export default class Browser extends NBBMODULECLASS {
             this.pageTitle = new PageTitle(this);
 
             // breadcrump
-            this.breadcrump = new Breadcrump(this);
+            this.breadcrumb = new Breadcrumb(this);
 
             // create the folder class
             this.folder = new Folder(this);

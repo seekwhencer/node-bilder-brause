@@ -15498,7 +15498,7 @@ class Browser extends NBBMODULECLASS {
                 console.log('>>> GOT DATA', data.data.type, data.data.id);
 
                 this.pageTitle.set(data.data.folderName);
-                this.breadcrump.set(data.data);
+                this.breadcrumb.set(data.data);
 
                 this.folder.set(data);
                 this.imageViewer.set(data);
@@ -15514,7 +15514,7 @@ class Browser extends NBBMODULECLASS {
             this.pageTitle = new _PageTitle_js__WEBPACK_IMPORTED_MODULE_2__["default"](this);
 
             // breadcrump
-            this.breadcrump = new _Breadcrump_js__WEBPACK_IMPORTED_MODULE_3__["default"](this);
+            this.breadcrumb = new _Breadcrump_js__WEBPACK_IMPORTED_MODULE_3__["default"](this);
 
             // create the folder class
             this.folder = new _Folder_index_js__WEBPACK_IMPORTED_MODULE_1__["default"](this);
