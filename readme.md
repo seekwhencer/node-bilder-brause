@@ -524,9 +524,17 @@ cd /mnt/ramdisk
 npm run dev
 ```
 
+#### automate the mount, the copy process and the dev run:
+- sudo password will be asked
+```
+npm run ramdisk
+```
+
 ***
 
 ## `... THIS IS FASTER THAN LIGHT!`
 > This is the Jakobs Krönung of developer experience for a frontend developer. From over 30 seconds to 2 seconds.... holy...
 > This is the hottest reloading ever...
+>
+
 
