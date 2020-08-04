@@ -7,7 +7,7 @@
     "scripts": {
         "start": "export NODE_DEBUG=true && node  --experimental-modules --experimental-json-modules client.js",
         "digger": "export NODE_DEBUG=true && node  --experimental-modules --experimental-json-modules digger.js",
-        "build" : "npm run babelize && npm run build:linux",
+        "build": "npm run babelize && npm run build:linux",
         "babelize": "node  --experimental-modules --experimental-json-modules config/webpack-app-pkg.config.js",
         "build:linux": "node node_modules/pkg/lib-es5/bin.js dist/app.js --output brause-generator-linux64 --targets node14-linux-x64",
         "build:win": "node node_modules/pkg/lib-es5/bin.js dist/app.js --output brause-generator-win64 --targets node14-win-x64"
@@ -28,6 +28,7 @@
         "got": "^11.3.0",
         "imagemagick-stream": "^4.1.1",
         "pkg": "^4.4.9",
+        "sharp": "^0.25.4",
         "webpack": "^4.36.1",
         "webpack-cli": "^3.3.6",
         "ws": "^7.3.0"

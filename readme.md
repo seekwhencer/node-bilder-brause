@@ -6,6 +6,7 @@ Image gallery for browsing image folder. Developed on a Raspberry Pi 4b
 ![alt text](../master/docs/screenshot_listing.jpg?raw=true "Screenshot Listing #2")
 ![alt text](../master/docs/screenshot_detail_with_stripe.jpg?raw=true "Screenshot Detail Viewer with Stripe #3")
 
+> not for production / public
 
 ## Installation
 > prerequisites
@@ -532,9 +533,9 @@ npm run ramdisk
 
 ***
 
-## `... THIS IS FASTER THAN LIGHT!`
+## `... WEBPACK FROM A RAMDISK IS FASTER THAN LIGHT!`
 > This is the Jakobs Krönung of developer experience for a frontend developer. From over 30 seconds to 2 seconds.... holy...
 > This is the hottest reloading ever...
->
+
 
 
